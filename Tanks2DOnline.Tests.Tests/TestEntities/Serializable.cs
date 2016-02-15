@@ -20,7 +20,7 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
         [Mark] public int Fint;
         [Mark] private int _fint;
 
-        [Mark] private SubSer _inner = new SubSer();
+        [Mark] public SubSer Inner = new SubSer();
 
         public void Init()
         {
@@ -31,7 +31,7 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
             Fint = 103;
             _fint = 52;
 
-            _inner.Init();
+            Inner.Init();
         }
 
         public void SerializeToFile(string path)

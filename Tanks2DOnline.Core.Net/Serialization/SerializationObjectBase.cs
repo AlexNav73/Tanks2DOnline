@@ -21,7 +21,7 @@ namespace Tanks2DOnline.Core.Net.Serialization
 
         private readonly Type _self = typeof (SerializableObjectBase);
 
-        protected virtual byte[] Serialize()
+        public virtual byte[] Serialize()
         {
             using (var stream = new MemoryStream())
             {
@@ -35,7 +35,7 @@ namespace Tanks2DOnline.Core.Net.Serialization
             }
         }
 
-        protected virtual void Desirialize(byte[] bytes)
+        public virtual void Desirialize(byte[] bytes)
         {
             using (var stream = new MemoryStream(bytes))
             {
@@ -79,6 +79,7 @@ namespace Tanks2DOnline.Core.Net.Serialization
                 .ForEach(f => fieldPredicate(f, objState));
         }
 
+        #region Process Fields and Property
         private void GetFieldState(FieldInfo field, ObjectState objState)
         {
             if (field.FieldType.IsSubclassOf(_self))
@@ -118,6 +119,7 @@ namespace Tanks2DOnline.Core.Net.Serialization
             }
             else field.SetValue(this, objState.GetField(field.Name));
         }
+#endregion 
 
         protected virtual void BeforeSerialization() { }
         protected virtual void AfterSerialization() { }

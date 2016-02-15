@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53C9C613-365F-4A75-AD41-76B0A09FB51A}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{7DC714A3-CD63-4C36-B933-B4D03AAC460A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tanks2DOnline.Core.Net</RootNamespace>
-    <AssemblyName>Tanks2DOnline.Core.Net</AssemblyName>
+    <RootNamespace>Tanks2DOnline.Server.ServerApp</RootNamespace>
+    <AssemblyName>Tanks2DOnline.Server.ServerApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,17 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonData\ClientInfo.cs" />
-    <Compile Include="CommonData\Packet.cs" />
-    <Compile Include="CommonData\PacketType.cs" />
-    <Compile Include="Extensions\EnumerableExtension.cs" />
+    <Compile Include="MainProcessor.cs" />
+    <Compile Include="Match\MatchMaker.cs" />
+    <Compile Include="Match\Session.cs" />
+    <Compile Include="PacketProcessors\IProcessor.cs" />
+    <Compile Include="PacketProcessors\ProcessorContext.cs" />
+    <Compile Include="PacketProcessors\RegistrationProcessor.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
-    <Compile Include="Serialization\ObjectState.cs" />
-    <Compile Include="Serialization\SerializationObjectBase.cs" />
-    <Compile Include="UdpSocket.cs" />
+    <Compile Include="Server.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tanks2DOnline.Core.Net\Tanks2DOnline.Core.Net.csproj">
+      <Project>{53c9c613-365f-4a75-ad41-76b0a09fb51a}</Project>
+      <Name>Tanks2DOnline.Core.Net</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
