@@ -13,7 +13,10 @@ namespace Tanks2DOnline.Core.Net.CommonData
         [Mark] public PacketType Type { get; set; }
         [Mark] public ClientInfo Client { get; set; }
 
-        public Packet() { }
+        public Packet()
+        {
+            Client = new ClientInfo();
+        }
 
         public Packet(PacketType type)
         {

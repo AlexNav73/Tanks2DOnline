@@ -26,8 +26,7 @@ namespace Tanks2DOnline.Server.ServerApp
             _processor = new MainProcessor();
             _matchMaker = new MatchMaker();
             
-            IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, _socket.Port);
-            _socket.Bind(endpoint);
+            _socket.Bind(IPAddress.Any);
         }
 
         public void Start()

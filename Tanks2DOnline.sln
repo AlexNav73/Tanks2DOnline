@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanks2DOnline.Tests.Console
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanks2DOnline.Server.ServerApp", "Tanks2DOnline.Server.ServerApp\Tanks2DOnline.Server.ServerApp.csproj", "{7DC714A3-CD63-4C36-B933-B4D03AAC460A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanks2DOnline.Client.ConsoleClient", "Tanks2DOnline.Client.ConsoleClient\Tanks2DOnline.Client.ConsoleClient.csproj", "{45C87D37-E33F-4AE4-961A-7CF0C2B90BC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tanks2DOnline.Server.ConsoleServer", "Tanks2DOnline.Server.ConsoleServer\Tanks2DOnline.Server.ConsoleServer.csproj", "{98A6D310-4D13-4FBE-B0A9-CBEC6CD85554}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,12 +45,22 @@ Global
 		{7DC714A3-CD63-4C36-B933-B4D03AAC460A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DC714A3-CD63-4C36-B933-B4D03AAC460A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DC714A3-CD63-4C36-B933-B4D03AAC460A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C87D37-E33F-4AE4-961A-7CF0C2B90BC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C87D37-E33F-4AE4-961A-7CF0C2B90BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C87D37-E33F-4AE4-961A-7CF0C2B90BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C87D37-E33F-4AE4-961A-7CF0C2B90BC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A6D310-4D13-4FBE-B0A9-CBEC6CD85554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A6D310-4D13-4FBE-B0A9-CBEC6CD85554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A6D310-4D13-4FBE-B0A9-CBEC6CD85554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A6D310-4D13-4FBE-B0A9-CBEC6CD85554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{45C87D37-E33F-4AE4-961A-7CF0C2B90BC3} = {331443C6-E590-47E4-9714-97B144BC271D}
 		{7DC714A3-CD63-4C36-B933-B4D03AAC460A} = {7DC3C570-BFDC-4569-86C3-9540DF50500F}
+		{98A6D310-4D13-4FBE-B0A9-CBEC6CD85554} = {7DC3C570-BFDC-4569-86C3-9540DF50500F}
 		{53C9C613-365F-4A75-AD41-76B0A09FB51A} = {64C89E37-E381-4E75-A64C-5B1D39868A72}
 		{9199C2C7-C477-482A-9245-1DF28DB6AE91} = {C8921D4C-0C82-465A-A40A-4F54BC709A3F}
 		{522A8AC8-ABE2-4AB3-9A0C-0F82A7248E4C} = {C8921D4C-0C82-465A-A40A-4F54BC709A3F}

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Policy;
 using System.Text;
@@ -40,9 +41,8 @@ namespace Tanks2DOnline.Core.Net.Serialization
             using (var stream = new MemoryStream(bytes))
             {
                 var formatter = new BinaryFormatter();
-
-                BeforeDeserialization();
                 var obj = (ObjectState)formatter.Deserialize(stream);
+                BeforeDeserialization();
                 this.SetState(obj);
                 AfterDeserialization();
             }
@@ -105,7 +105,7 @@ namespace Tanks2DOnline.Core.Net.Serialization
             if (prop.PropertyType.IsSubclassOf(_self))
             {
                 var value = prop.GetValue(this);
-                value.GetType().GetMethod("SetState").Invoke(value, new object[]{ objState.GetState(prop.Name) });
+                prop.PropertyType.GetMethod("SetState").Invoke(value, new object[]{ objState.GetState(prop.Name) });
             }
             else prop.SetValue(this, objState.GetProp(prop.Name));
         }
