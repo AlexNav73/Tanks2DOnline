@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.CommonData;
+using Tanks2DOnline.Tests.Tests.TestEntities;
 
 namespace Tanks2DOnline.Server.ConsoleServer
 {
@@ -13,17 +14,15 @@ namespace Tanks2DOnline.Server.ConsoleServer
     {
         static void Main(string[] args)
         {
-            using (UdpSocket socket = new UdpSocket())
+            using (UdpClient socket = new UdpClient(IPAddress.Any))
             {
-                socket.Bind(IPAddress.Any);
+                socket.SetRemote(IPAddress.Any);
 
-                IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 4242);
-                EndPoint rmEndPoint = (EndPoint)remoteEndPoint;
+                var packet = socket.Recv<Serializable>();
 
-                var packet = socket.RecvPacket(ref rmEndPoint);
-
-                Console.WriteLine(packet.Client.Name);
+                Console.WriteLine(packet.PropString);
             }
         }
+
     }
 }

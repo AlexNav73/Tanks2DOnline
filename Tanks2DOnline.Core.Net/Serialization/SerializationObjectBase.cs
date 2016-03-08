@@ -19,7 +19,6 @@ namespace Tanks2DOnline.Core.Net.Serialization
     [Serializable]
     public class SerializableObjectBase
     {
-
         private readonly Type _self = typeof (SerializableObjectBase);
 
         public virtual byte[] Serialize()

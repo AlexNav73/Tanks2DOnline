@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.CommonData;
+using Tanks2DOnline.Tests.Tests.TestEntities;
 
 namespace Tanks2DOnline.Client.ConsoleClient
 {
@@ -15,21 +16,15 @@ namespace Tanks2DOnline.Client.ConsoleClient
     {
         static void Main(string[] args)
         {
-            using (UdpSocket socket = new UdpSocket())
+            using (Tanks2DOnline.Core.Net.UdpClient socket = new Tanks2DOnline.Core.Net.UdpClient(null))
             {
-                Packet packet = new Packet
-                {
-                    Type = PacketType.HoldsData,
-                    Client = new ClientInfo()
-                    {
-                        Data = Enumerable.Repeat<byte>(255, 1323).ToArray(),
-                        Name = "Hello"
-                    }
-                };
+                socket.SetRemote(IPAddress.Parse("127.0.0.1"));
+                Serializable obj = new Serializable();
+                obj.Init();
 
-                var ipAddress = IPAddress.Parse("127.0.0.1");
-                EndPoint to = new IPEndPoint(ipAddress, 4242);
-                Console.WriteLine("Packet sended: {0}", socket.SendPacket(packet, ref to));
+                socket.Send(obj, PacketType.HoldsData);
+
+                Console.WriteLine("Object is sended");
             }
         }
     }

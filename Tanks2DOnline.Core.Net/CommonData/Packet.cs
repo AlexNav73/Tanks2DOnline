@@ -8,8 +8,10 @@ using Tanks2DOnline.Core.Net.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Net.CommonData
 {
-    public class Packet : SerializableObjectBase
+    public class Packet : SerializableObjectBase, IComparable
     {
+        [Mark] public int Id { get; set; }
+        [Mark] public int Count { get; set; }
         [Mark] public PacketType Type { get; set; }
         [Mark] public ClientInfo Client { get; set; }
 
@@ -21,6 +23,12 @@ namespace Tanks2DOnline.Core.Net.CommonData
         public Packet(PacketType type)
         {
             Type = type;
+        }
+
+        public int CompareTo(object obj)
+        {
+            Packet lhs = obj as Packet;
+            return lhs != null ? Id.CompareTo(lhs.Id) : -1;
         }
     }
 }

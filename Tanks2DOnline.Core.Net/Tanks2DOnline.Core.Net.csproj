@@ -47,6 +47,7 @@
     <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
     <Compile Include="Serialization\ObjectState.cs" />
     <Compile Include="Serialization\SerializationObjectBase.cs" />
+    <Compile Include="UdpClient.cs" />
     <Compile Include="UdpSocket.cs" />
   </ItemGroup>
   <ItemGroup />

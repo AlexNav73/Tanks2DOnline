@@ -11,7 +11,7 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
 {
     public class SubSer : SerializableObjectBase
     {
-        public string PropString { get; set; }
+        [Mark] public string PropString { get; set; }
 
         [Mark] public double Double { get; set; }
         [Mark] private float _float;

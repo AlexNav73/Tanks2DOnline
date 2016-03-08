@@ -12,16 +12,5 @@ namespace Tanks2DOnline.Core.Net.CommonData
     {
         [Mark] public string Name { get; set; }
         [Mark] public byte[] Data { get; set; }
-
-        public void Box<T>(T item) where T: SerializableObjectBase
-        {
-            Data = item.Serialize();
-        }
-
-        public T Unbox<T>(T item) where T : SerializableObjectBase
-        {
-            item.Desirialize(Data);
-            return item;
-        }
     }
 }
