@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.CommonData;
+using Tanks2DOnline.Core.Net.DataTransfer;
+using Tanks2DOnline.Core.Net.DataTransfer.Base;
 using Tanks2DOnline.Server.ServerApp.Match;
 using Tanks2DOnline.Server.ServerApp.PacketProcessors;
 

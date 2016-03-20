@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Tanks2DOnline.Core.Net.CommonData
 {
-    public enum PacketType
+    public class ObjectInfo<T>
     {
-        HoldsData,
-        Registration,
-        PacketAcceptRequest
+        public T Object { get; set; }
+        public PacketType PacketType { get; set; }
     }
 }

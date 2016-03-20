@@ -25,6 +25,14 @@ namespace Tanks2DOnline.Core.Net.CommonData
             Type = type;
         }
 
+        public Packet(int id, int count, PacketType type)
+        {
+            Id = id;
+            Count = count;
+            Type = type;
+            Client = new ClientInfo();
+        }
+
         public int CompareTo(object obj)
         {
             Packet lhs = obj as Packet;

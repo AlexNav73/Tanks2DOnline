@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53C9C613-365F-4A75-AD41-76B0A09FB51A}</ProjectGuid>
+    <ProjectGuid>{60B03A8B-900A-4FFB-BE5F-62C299650F9A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tanks2DOnline.Core.Net</RootNamespace>
-    <AssemblyName>Tanks2DOnline.Core.Net</AssemblyName>
+    <RootNamespace>Tanks2DOnline.Core</RootNamespace>
+    <AssemblyName>Tanks2DOnline.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,27 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonData\BigTestObject.cs" />
-    <Compile Include="CommonData\ClientInfo.cs" />
-    <Compile Include="CommonData\ObjectInfo.cs" />
-    <Compile Include="CommonData\Packet.cs" />
-    <Compile Include="CommonData\PacketType.cs" />
-    <Compile Include="DataTransfer\Base\PacketTransferBase.cs" />
-    <Compile Include="DataTransfer\Base\PacketTransferWithApproval.cs" />
-    <Compile Include="DataTransfer\DataHelper.cs" />
-    <Compile Include="Extensions\EnumerableExtension.cs" />
+    <Compile Include="Logging\LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
-    <Compile Include="Serialization\ObjectState.cs" />
-    <Compile Include="Serialization\SerializationObjectBase.cs" />
-    <Compile Include="DataTransfer\UdpClient.cs" />
-    <Compile Include="DataTransfer\Base\UdpSocket.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tanks2DOnline.Core\Tanks2DOnline.Core.csproj">
-      <Project>{60b03a8b-900a-4ffb-be5f-62c299650f9a}</Project>
-      <Name>Tanks2DOnline.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

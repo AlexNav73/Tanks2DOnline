@@ -19,7 +19,7 @@ namespace Tanks2DOnline.Tests.Tests
             obj.SerializeToFile("object.dat");
 
             obj.PropString = "New String";
-            obj.Inner.Type = PacketType.Custom;
+            obj.Inner.Type = PacketType.Registration;
 
             Serializable obj2 = obj.DesirealizeFromFile("object.dat");
 

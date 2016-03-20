@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.CommonData;
+using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Tests.Tests.TestEntities;
 
 namespace Tanks2DOnline.Server.ConsoleServer
@@ -18,9 +19,12 @@ namespace Tanks2DOnline.Server.ConsoleServer
             {
                 socket.SetRemote(IPAddress.Any);
 
-                var packet = socket.Recv<Serializable>();
+                var packet = socket.Recv<BigTestObject>();
+//                var packet = socket.Recv<Serializable>();
 
-                Console.WriteLine(packet.PropString);
+                Console.WriteLine(packet.Message);
+//                Console.WriteLine(packet.Inner.PropString);
+                Console.ReadKey();
             }
         }
 

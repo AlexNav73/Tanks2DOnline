@@ -20,7 +20,7 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
 
         public SubSer()
         {
-            Type = PacketType.Custom;
+            Type = PacketType.Registration;
         }
 
         public void Init()
