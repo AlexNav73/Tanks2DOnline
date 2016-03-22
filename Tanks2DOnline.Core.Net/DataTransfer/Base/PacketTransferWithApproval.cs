@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         private readonly TimeSpan _timeout = new TimeSpan(0, 0, 0, 0, 50);
         private const int RetryCount = 10;
 
-        protected PacketTransferWithApproval(IPAddress ipAddress) : base(ipAddress)
+        protected PacketTransferWithApproval(Socket socket, IPAddress ipAddress) : base(socket, ipAddress)
         {
         }
 
@@ -25,12 +26,11 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             while (i-- > 0)
             {
                 base.Send(packet);
-                LogManager.Debug("Send: Packet with id {0} sended!", packet.Id);
 
                 var task = Task.Factory.StartNew(() =>
                 {
                     var responce = base.Recv();
-                    LogManager.Debug("Send: Packet with id {0} and type {1} recved", responce.Id, responce.Type);
+                    LogManager.Debug("Send: Packet with id {0} and type {1} received", responce.Id, responce.Type);
                     return responce.Type == PacketType.PacketAcceptRequest;
                 });
 

@@ -24,19 +24,19 @@ namespace Tanks2DOnline.Server.ServerApp
 
         public Server()
         {
-            _socket = new UdpSocket();
+//            _socket = new UdpSocket();
             _processor = new MainProcessor();
             _matchMaker = new MatchMaker();
             
-            _socket.Bind(IPAddress.Any);
+//            _socket.Bind(IPAddress.Any);
         }
 
         public void Start()
         {
             while (true)
             {
-                IPEndPoint client = new IPEndPoint(IPAddress.Any, _socket.Port);
-                ThreadPool.QueueUserWorkItem(ProcessClient, client);
+//                IPEndPoint client = new IPEndPoint(IPAddress.Any, _socket.Port);
+//                ThreadPool.QueueUserWorkItem(ProcessClient, client);
             }
         }
 

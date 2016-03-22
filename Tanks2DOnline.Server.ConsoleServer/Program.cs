@@ -15,15 +15,14 @@ namespace Tanks2DOnline.Server.ConsoleServer
     {
         static void Main(string[] args)
         {
-            using (UdpClient socket = new UdpClient(IPAddress.Any))
+            using (var manager = new DataTransferManager(IPAddress.Any, IPAddress.Any))
             {
-                socket.SetRemote(IPAddress.Any);
+                var small = manager.RecvData<Serializable>(DataSize.Small);
+                var big = manager.RecvData<BigTestObject>(DataSize.Big);
 
-                var packet = socket.Recv<BigTestObject>();
-//                var packet = socket.Recv<Serializable>();
-
-                Console.WriteLine(packet.Message);
-//                Console.WriteLine(packet.Inner.PropString);
+                Console.WriteLine("======================== Data ============================");
+                Console.WriteLine(big.Message);
+                Console.WriteLine(small.Inner.PropString);
                 Console.ReadKey();
             }
         }

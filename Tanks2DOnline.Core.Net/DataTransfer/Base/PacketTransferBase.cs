@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.Serialization;
 
@@ -17,12 +19,10 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         private readonly UdpSocket _socket;
         private EndPoint _remoteIp;
 
-        protected PacketTransferBase(IPAddress ipAddress)
+        protected PacketTransferBase(Socket socket, IPAddress ipAddress)
         {
-            _socket = new UdpSocket();
+            _socket = new UdpSocket(socket);
             Port = 4242;
-
-            if (ipAddress != null) _socket.Bind(ipAddress);
         }
 
         public void SetRemote(IPAddress remote)
@@ -39,6 +39,9 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         {
             return _socket.RecvPacket(ref _remoteIp);
         }
+
+        public abstract void Send<T>(T item, PacketType type) where T : SerializableObjectBase;
+        public abstract T Recv<T>() where T : SerializableObjectBase;
 
         public void Dispose()
         {

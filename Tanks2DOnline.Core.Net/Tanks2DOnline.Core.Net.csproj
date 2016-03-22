@@ -47,12 +47,14 @@
     <Compile Include="DataTransfer\Base\PacketTransferBase.cs" />
     <Compile Include="DataTransfer\Base\PacketTransferWithApproval.cs" />
     <Compile Include="DataTransfer\DataHelper.cs" />
+    <Compile Include="DataTransfer\DataTransferManager.cs" />
+    <Compile Include="DataTransfer\UdpDatagrams.cs" />
     <Compile Include="Extensions\EnumerableExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
     <Compile Include="Serialization\ObjectState.cs" />
     <Compile Include="Serialization\SerializationObjectBase.cs" />
-    <Compile Include="DataTransfer\UdpClient.cs" />
+    <Compile Include="DataTransfer\UdpStream.cs" />
     <Compile Include="DataTransfer\Base\UdpSocket.cs" />
   </ItemGroup>
   <ItemGroup>

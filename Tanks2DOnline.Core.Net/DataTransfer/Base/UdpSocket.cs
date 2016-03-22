@@ -10,18 +10,12 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         private readonly Socket _socket;
         private bool _isDisposed;
 
-        public readonly int Port = 4242;
 
         public Socket Socket { get { return _socket; }}
 
-        public UdpSocket()
+        public UdpSocket(Socket socket)
         {
-            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-        }
-
-        public void Bind(IPAddress ipAddress)
-        {
-            _socket.Bind(new IPEndPoint(ipAddress, Port));
+            _socket = socket;
         }
 
         public Packet RecvPacket(ref EndPoint point)
