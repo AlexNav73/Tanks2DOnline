@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\FileData.cs" />
     <Compile Include="Extensions\EnumerableExtension.cs" />
     <Compile Include="Logging\LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
+    <Compile Include="Serialization\Attributes\SizableAttribute.cs" />
     <Compile Include="Serialization\DataSize.cs" />
     <Compile Include="Serialization\ObjectState.cs" />
     <Compile Include="Serialization\SerializationObjectBase.cs" />

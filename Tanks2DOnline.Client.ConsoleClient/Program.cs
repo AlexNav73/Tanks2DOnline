@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Tanks2DOnline.Core.Data;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer;
@@ -25,8 +26,9 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 obj.Init();
                 BigTestObject test = new BigTestObject();
 
-                manager.SendData(obj, PacketType.HoldsData);
-                manager.SendData(test, PacketType.HoldsData);
+//                manager.SendData(obj, PacketType.HoldsData);
+//                manager.SendData(test, PacketType.HoldsData);
+                manager.SendData(new FileData("123.txt"), PacketType.HoldsData);
 
                 Console.ReadKey();
                 Console.WriteLine("Object is sended");

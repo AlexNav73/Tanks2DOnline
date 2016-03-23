@@ -53,10 +53,5 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
                 return this;
             }
         }
-
-        public override DataSize GetSize()
-        {
-            return DataSize.Small;
-        }
     }
 }

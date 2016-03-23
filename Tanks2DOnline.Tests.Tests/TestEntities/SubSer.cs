@@ -32,10 +32,5 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
 
             Type = PacketType.HoldsData;
         }
-
-        public override DataSize GetSize()
-        {
-            return DataSize.Small;
-        }
     }
 }

@@ -12,10 +12,5 @@ namespace Tanks2DOnline.Core.Net.CommonData
     {
         [Mark] public string Name { get; set; }
         [Mark] public byte[] Data { get; set; }
-
-        public override DataSize GetSize()
-        {
-            return DataSize.Small;
-        }
     }
 }

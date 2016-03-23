@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Tanks2DOnline.Core.Data;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer;
@@ -18,12 +19,13 @@ namespace Tanks2DOnline.Server.ConsoleServer
         {
             using (var manager = new DataTransferManager(IPAddress.Any, IPAddress.Any))
             {
-                var small = manager.RecvData<Serializable>(DataSize.Small);
-                var big = manager.RecvData<BigTestObject>(DataSize.Big);
+//                var small = manager.RecvData<Serializable>();
+//                var big = manager.RecvData<BigTestObject>();
+                var file = manager.RecvData<FileData>();
 
                 Console.WriteLine("======================== Data ============================");
-                Console.WriteLine(small.Inner.PropString);
-                Console.WriteLine(big.Message);
+//                Console.WriteLine(small.Inner.PropString);
+//                Console.WriteLine(big.Message);
                 Console.ReadKey();
             }
         }

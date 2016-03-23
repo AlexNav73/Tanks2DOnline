@@ -38,10 +38,5 @@ namespace Tanks2DOnline.Core.Net.CommonData
             Packet lhs = obj as Packet;
             return lhs != null ? Id.CompareTo(lhs.Id) : -1;
         }
-
-        public override DataSize GetSize()
-        {
-            return DataSize.Small;
-        }
     }
 }

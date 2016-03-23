@@ -20,8 +20,6 @@ namespace Tanks2DOnline.Core.Serialization
     {
         private readonly Type _self = typeof (SerializableObjectBase);
 
-        public abstract DataSize GetSize();
-
         public virtual byte[] Serialize()
         {
             using (var stream = new MemoryStream())

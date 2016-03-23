@@ -8,6 +8,7 @@ using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Net.CommonData
 {
+    [Sizable(DataSize.Big)]
     public class BigTestObject : SerializableObjectBase
     {
         [Mark] public byte[] Bytes { get; set; }
@@ -26,11 +27,6 @@ namespace Tanks2DOnline.Core.Net.CommonData
             }
 
             Message = "Recived";
-        }
-
-        public override DataSize GetSize()
-        {
-            return DataSize.Big;
         }
     }
 }

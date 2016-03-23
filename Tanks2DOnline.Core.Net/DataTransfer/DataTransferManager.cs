@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
 using Tanks2DOnline.Core.Net.DataTransfer.Scenario;
 using Tanks2DOnline.Core.Serialization;
+using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer
 {
@@ -39,7 +41,8 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
         public void SendData<T>(T data, PacketType type) where T : SerializableObjectBase
         {
-            var size = data.GetSize();
+            var attr = typeof (T).GetCustomAttribute<SizableAttribute>();
+            var size = attr != null ? attr.Size : DataSize.Small;
 
             if (_protocols.ContainsKey(size))
             {
@@ -47,8 +50,11 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             }
         }
 
-        public T RecvData<T>(DataSize size) where T : SerializableObjectBase
+        public T RecvData<T>() where T : SerializableObjectBase
         {
+            var attr = typeof (T).GetCustomAttribute<SizableAttribute>();
+            var size = attr != null ? attr.Size : DataSize.Small;
+
             if (_protocols.ContainsKey(size))
             {
                 return _protocols[size].Recv<T>();
