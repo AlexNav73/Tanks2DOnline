@@ -39,9 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\EnumerableExtension.cs" />
     <Compile Include="Logging\LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
+    <Compile Include="Serialization\DataSize.cs" />
+    <Compile Include="Serialization\ObjectState.cs" />
+    <Compile Include="Serialization\SerializationObjectBase.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

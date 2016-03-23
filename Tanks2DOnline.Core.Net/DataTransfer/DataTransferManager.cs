@@ -7,16 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
-using Tanks2DOnline.Core.Net.Serialization;
+using Tanks2DOnline.Core.Net.DataTransfer.Scenario;
+using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer
 {
-    public enum DataSize
-    {
-        Big,
-        Small
-    }
-
     public class DataTransferManager : IDisposable
     {
         private bool _isDisposed = false;
@@ -32,18 +27,20 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             if (selfIp != null) 
                 socket.Bind(new IPEndPoint(selfIp, Port));
 
-            var dgramm = new UdpDatagrams(socket, selfIp);
+            var dgramm = new UdpDatagrams(socket);
             dgramm.SetRemote(remoteIp);
 
-            var stream = new UdpStream(socket, selfIp);
+            var stream = new UdpStream(socket);
             stream.SetRemote(remoteIp);
 
             _protocols.Add(DataSize.Small, dgramm);
             _protocols.Add(DataSize.Big, stream);
         }
 
-        public void SendData<T>(DataSize size, T data, PacketType type) where T : SerializableObjectBase
+        public void SendData<T>(T data, PacketType type) where T : SerializableObjectBase
         {
+            var size = data.GetSize();
+
             if (_protocols.ContainsKey(size))
             {
                 _protocols[size].Send(data, type);

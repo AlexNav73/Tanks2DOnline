@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tanks2DOnline.Core.Net.CommonData;
-using Tanks2DOnline.Core.Net.Serialization.Attributes;
+using Tanks2DOnline.Core.Serialization.Attributes;
 using Tanks2DOnline.Tests.Tests.TestEntities;
 
 namespace Tanks2DOnline.Tests.Tests

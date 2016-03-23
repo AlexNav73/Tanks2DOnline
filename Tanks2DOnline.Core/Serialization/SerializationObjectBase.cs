@@ -11,15 +11,16 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-using Tanks2DOnline.Core.Net.Extensions;
-using Tanks2DOnline.Core.Net.Serialization.Attributes;
+using Tanks2DOnline.Core.Extensions;
+using Tanks2DOnline.Core.Serialization.Attributes;
 
-namespace Tanks2DOnline.Core.Net.Serialization
+namespace Tanks2DOnline.Core.Serialization
 {
-    [Serializable]
-    public class SerializableObjectBase
+    public abstract class SerializableObjectBase
     {
         private readonly Type _self = typeof (SerializableObjectBase);
+
+        public abstract DataSize GetSize();
 
         public virtual byte[] Serialize()
         {

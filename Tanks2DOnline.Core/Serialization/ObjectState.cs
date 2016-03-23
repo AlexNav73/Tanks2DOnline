@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tanks2DOnline.Core.Net.Serialization
+namespace Tanks2DOnline.Core.Serialization
 {
     [Serializable]
     public class ObjectState

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tanks2DOnline.Core.Net.Extensions
+namespace Tanks2DOnline.Core.Extensions
 {
     public static class EnumerableExtension
     {

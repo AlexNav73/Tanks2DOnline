@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tanks2DOnline.Core.Net.Serialization;
-using Tanks2DOnline.Core.Net.Serialization.Attributes;
+using Tanks2DOnline.Core.Serialization;
+using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Net.CommonData
 {
@@ -37,6 +37,11 @@ namespace Tanks2DOnline.Core.Net.CommonData
         {
             Packet lhs = obj as Packet;
             return lhs != null ? Id.CompareTo(lhs.Id) : -1;
+        }
+
+        public override DataSize GetSize()
+        {
+            return DataSize.Small;
         }
     }
 }

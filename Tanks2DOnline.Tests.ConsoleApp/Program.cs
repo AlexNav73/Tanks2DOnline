@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Tanks2DOnline.Core.Net.Serialization;
+using Tanks2DOnline.Core.Serialization;
 using Tanks2DOnline.Tests.Tests.TestEntities;
 
 namespace Tanks2DOnline.Tests.ConsoleApp

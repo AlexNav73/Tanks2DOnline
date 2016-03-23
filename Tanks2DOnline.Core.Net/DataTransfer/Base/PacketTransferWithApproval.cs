@@ -16,7 +16,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         private readonly TimeSpan _timeout = new TimeSpan(0, 0, 0, 0, 50);
         private const int RetryCount = 10;
 
-        protected PacketTransferWithApproval(Socket socket, IPAddress ipAddress) : base(socket, ipAddress)
+        protected PacketTransferWithApproval(Socket socket) : base(socket)
         {
         }
 

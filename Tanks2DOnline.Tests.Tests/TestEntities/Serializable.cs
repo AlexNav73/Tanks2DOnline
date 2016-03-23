@@ -6,8 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
-using Tanks2DOnline.Core.Net.Serialization;
-using Tanks2DOnline.Core.Net.Serialization.Attributes;
+using Tanks2DOnline.Core.Serialization;
+using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Tests.Tests.TestEntities
 {
@@ -54,5 +54,9 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
             }
         }
 
+        public override DataSize GetSize()
+        {
+            return DataSize.Small;
+        }
     }
 }

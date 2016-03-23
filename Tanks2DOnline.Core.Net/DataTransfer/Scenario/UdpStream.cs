@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -7,13 +6,12 @@ using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
-using Tanks2DOnline.Core.Net.Serialization;
 
-namespace Tanks2DOnline.Core.Net.DataTransfer
+namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
     public class UdpStream : PacketTransferWithApproval
     {
-        public UdpStream(Socket socket, IPAddress ipAddress) : base(socket, ipAddress) { }
+        public UdpStream(Socket socket) : base(socket) { }
 
         public override void Send<T>(T item, PacketType type)
         {

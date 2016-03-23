@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer;
+using Tanks2DOnline.Core.Serialization;
 using Tanks2DOnline.Tests.Tests.TestEntities;
 
 namespace Tanks2DOnline.Server.ConsoleServer
@@ -21,8 +22,8 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 var big = manager.RecvData<BigTestObject>(DataSize.Big);
 
                 Console.WriteLine("======================== Data ============================");
-                Console.WriteLine(big.Message);
                 Console.WriteLine(small.Inner.PropString);
+                Console.WriteLine(big.Message);
                 Console.ReadKey();
             }
         }

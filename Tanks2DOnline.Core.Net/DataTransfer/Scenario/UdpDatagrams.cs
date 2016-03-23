@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.CommonData;
 
-namespace Tanks2DOnline.Core.Net.DataTransfer
+namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
-    public class UdpDatagrams : DataTransfer.Base.PacketTransferBase
+    public class UdpDatagrams : Base.PacketTransferBase
     {
-        public UdpDatagrams(Socket socket, IPAddress ipAddress) : base(socket, ipAddress) { }
+        public UdpDatagrams(Socket socket) : base(socket) { }
 
         public override void Send<T>(T item, PacketType type)
         {

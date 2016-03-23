@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net.CommonData;
-using Tanks2DOnline.Core.Net.Serialization;
+using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer
 {
@@ -43,6 +43,9 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             if (!ValidatePacketSeq(packets)) return null;
 
             int total = packets.First().Count;
+
+            if (total != packets.Count) return null;
+
             byte[] data = new byte[total * UdpPacketMaxSize];
 
             for (int i = 0; i < total; i++)

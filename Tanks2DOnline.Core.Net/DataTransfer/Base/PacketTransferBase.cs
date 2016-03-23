@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.CommonData;
-using Tanks2DOnline.Core.Net.Serialization;
+using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
@@ -19,7 +19,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         private readonly UdpSocket _socket;
         private EndPoint _remoteIp;
 
-        protected PacketTransferBase(Socket socket, IPAddress ipAddress)
+        protected PacketTransferBase(Socket socket)
         {
             _socket = new UdpSocket(socket);
             Port = 4242;
