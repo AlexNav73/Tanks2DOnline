@@ -32,7 +32,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 
         protected virtual void Send(Packet packet)
         {
-            _socket.SendPacket(packet, ref _remoteIp);
+            _socket.SendPacket(packet, _remoteIp);
         }
 
         protected virtual Packet Recv()

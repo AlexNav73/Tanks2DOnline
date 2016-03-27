@@ -49,7 +49,7 @@ namespace Tanks2DOnline.Tests.Tests.TestEntities
             {
                 byte[] bytes = new byte[file.Length];
                 file.Read(bytes, 0, (int)file.Length);
-                Desirialize(bytes);
+                Desirialize(bytes, bytes.Length);
                 return this;
             }
         }

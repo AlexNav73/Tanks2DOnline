@@ -55,7 +55,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             }
 
             var res = Activator.CreateInstance<T>();
-            res.Desirialize(data);
+            res.Desirialize(data, data.Length);
             return res;
         }
 

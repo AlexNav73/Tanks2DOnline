@@ -34,9 +34,9 @@ namespace Tanks2DOnline.Core.Serialization
             }
         }
 
-        public virtual void Desirialize(byte[] bytes)
+        public virtual void Desirialize(byte[] bytes, int count)
         {
-            using (var stream = new MemoryStream(bytes))
+            using (var stream = new MemoryStream(bytes, 0, count))
             {
                 var formatter = new BinaryFormatter();
                 var obj = (ObjectState)formatter.Deserialize(stream);

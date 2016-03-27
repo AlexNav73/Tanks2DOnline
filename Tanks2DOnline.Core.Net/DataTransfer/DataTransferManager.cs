@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
 using Tanks2DOnline.Core.Net.DataTransfer.Scenario;
@@ -41,25 +42,41 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
         public void SendData<T>(T data, PacketType type) where T : SerializableObjectBase
         {
-            var attr = typeof (T).GetCustomAttribute<SizableAttribute>();
-            var size = attr != null ? attr.Size : DataSize.Small;
-
-            if (_protocols.ContainsKey(size))
+            try
             {
-                _protocols[size].Send(data, type);
+                var attr = typeof(T).GetCustomAttribute<SizableAttribute>();
+                var size = attr != null ? attr.Size : DataSize.Small;
+
+                if (_protocols.ContainsKey(size))
+                {
+                    _protocols[size].Send(data, type);
+                }
+            }
+            catch (Exception e)
+            {
+                LogManager.Error("DataTransferManager Send: {0}", e.Message);
+                throw;
             }
         }
 
         public T RecvData<T>() where T : SerializableObjectBase
         {
-            var attr = typeof (T).GetCustomAttribute<SizableAttribute>();
-            var size = attr != null ? attr.Size : DataSize.Small;
-
-            if (_protocols.ContainsKey(size))
+            try
             {
-                return _protocols[size].Recv<T>();
+                var attr = typeof(T).GetCustomAttribute<SizableAttribute>();
+                var size = attr != null ? attr.Size : DataSize.Small;
+
+                if (_protocols.ContainsKey(size))
+                {
+                    return _protocols[size].Recv<T>();
+                }
+                return null;
             }
-            return null;
+            catch (Exception e)
+            {
+                LogManager.Error("DataTransferManager Recv: {0}", e.Message);
+                throw;
+            }
         }
 
         public void Dispose()

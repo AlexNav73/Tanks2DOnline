@@ -9,6 +9,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
     public class UdpSocket : IDisposable
     {
         private const int MaxBuffSize = 65536;
+        private readonly byte[] _buffer = new byte[MaxBuffSize];
 
         private readonly Socket _socket;
         private bool _isDisposed;
@@ -24,18 +25,12 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         {
             try
             {
-                byte[] buf = new byte[MaxBuffSize];
-                int recv = _socket.ReceiveFrom(buf, ref point);
+                int recv = _socket.ReceiveFrom(_buffer, ref point);
 
                 if (recv != 0)
                 {
                     Packet packet = new Packet();
-
-                    byte[] response = new byte[recv];
-                    Array.Copy(buf, response, recv);
-
-                    packet.Desirialize(response);
-
+                    packet.Desirialize(_buffer, recv);
                     return packet;
                 }
             }
@@ -47,7 +42,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             return null;
         }
 
-        public int SendPacket(Packet packet, ref EndPoint dest)
+        public int SendPacket(Packet packet, EndPoint dest)
         {
             return _socket.SendTo(packet.Serialize(), dest);
         }
