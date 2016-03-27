@@ -19,6 +19,8 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         private readonly UdpSocket _socket;
         private EndPoint _remoteIp;
 
+        public delegate void OnTransmitionComplete<in T>(string userName, T item);
+
         protected PacketTransferBase(Socket socket)
         {
             _socket = new UdpSocket(socket);
@@ -40,8 +42,8 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             return _socket.RecvPacket(ref _remoteIp);
         }
 
-        public abstract void Send<T>(T item, PacketType type) where T : SerializableObjectBase;
-        public abstract T Recv<T>() where T : SerializableObjectBase;
+        public abstract void Send<T>(string userName, T item, PacketType type) where T : SerializableObjectBase;
+        public abstract void Recv<T>(OnTransmitionComplete<T> callback) where T : SerializableObjectBase;
 
         public void Dispose()
         {

@@ -47,7 +47,8 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         {
             var packet = base.Recv();
             LogManager.Debug("Recv: Packet with id {0} and type {1} received", packet.Id, packet.Type);
-            base.Send(new Packet.Packet(packet.Id, 0, PacketType.PacketAcceptRequest));
+            var responce = new Packet.Packet(packet.Id, 0, PacketType.PacketAcceptRequest) {UserName = "Server"};
+            base.Send(responce);
             LogManager.Debug("Recv: Packet approval sended");
             return packet;
         }

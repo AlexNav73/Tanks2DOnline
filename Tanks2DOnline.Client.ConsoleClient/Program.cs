@@ -20,15 +20,21 @@ namespace Tanks2DOnline.Client.ConsoleClient
     {
         static void Main(string[] args)
         {
+            string userName = Console.ReadLine();
             using (var manager = new DataTransferManager(null, IPAddress.Loopback))
             {
-                BigTestObject test = new BigTestObject();
+                var big = new BigTestObject();
+                var small = SmallTestObject.Create();
 
-                manager.SendData(test, PacketType.HoldsData);
-//                manager.SendData(new FileData("123.txt"), PacketType.HoldsData);
+                while (true)
+                {
+                    manager.SendData(userName, big, PacketType.HoldsData);
+//                    manager.SendData(userName, small, PacketType.HoldsData);
+//                    manager.SendData(userName, new FileData(userName + ".txt"), PacketType.HoldsData);
 
-                Console.ReadKey();
-                Console.WriteLine("Object is sended");
+                    Console.ReadKey();
+                    Console.WriteLine("Object is sended");
+                }
             }
         }
     }

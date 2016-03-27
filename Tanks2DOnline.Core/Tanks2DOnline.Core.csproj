@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Argument.cs" />
     <Compile Include="Data\FileData.cs" />
     <Compile Include="Extensions\EnumerableExtension.cs" />
     <Compile Include="Logging\LogManager.cs" />

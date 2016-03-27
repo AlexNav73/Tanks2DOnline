@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
@@ -12,32 +11,32 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
     {
         public UdpDatagrams(Socket socket) : base(socket) { }
 
-        public override void Send<T>(T item, PacketType type)
+        public override void Send<T>(string userName, T item, PacketType type)
         {
             Task.Factory.StartNew(() =>
             {
                 var packets = DataHelper.SplitToPackets(item, type).ToArray();
                 if (packets.Length == 1)
                 {
-                    Send(packets[0]);
+                    var packet = packets[0];
+                    packet.UserName = userName;
+                    Send(packet);
                     LogManager.Debug("Packet sended");
                 }
                 else LogManager.Debug("Object size was to big to be send it with 1 packet");
             });
         }
 
-        public override T Recv<T>()
+        public override void Recv<T>(OnTransmitionComplete<T> callback)
         {
-            var task = Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(() =>
             {
                 var packet = Recv();
                 LogManager.Debug("Packet with type {0} received", packet.Type);
-                return packet.Type == PacketType.HoldsData
-                    ? DataHelper.ExtractData<T>(new List<Packet.Packet>() {packet})
-                    : null;
+                callback(packet.UserName, packet.Type == PacketType.HoldsData
+                    ? DataHelper.ExtractData<T>(new List<Packet.Packet>() { packet })
+                    : null);
             });
-
-            return task.Result;
         }
     }
 }

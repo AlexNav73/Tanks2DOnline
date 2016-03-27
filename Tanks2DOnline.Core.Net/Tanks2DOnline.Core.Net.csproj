@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\EndPointExt.cs" />
     <Compile Include="TestObjects\BigTestObject.cs" />
     <Compile Include="Packet\Packet.cs" />
     <Compile Include="Packet\PacketType.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataTransfer\Scenario\UdpStream.cs" />
     <Compile Include="DataTransfer\Base\UdpSocket.cs" />
+    <Compile Include="TestObjects\SmallTestObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tanks2DOnline.Core\Tanks2DOnline.Core.csproj">

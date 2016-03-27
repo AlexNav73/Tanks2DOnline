@@ -40,7 +40,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             _protocols.Add(DataSize.Big, stream);
         }
 
-        public void SendData<T>(T data, PacketType type) where T : SerializableObjectBase
+        public void SendData<T>(string userName, T data, PacketType type) where T : SerializableObjectBase
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
                 if (_protocols.ContainsKey(size))
                 {
-                    _protocols[size].Send(data, type);
+                    _protocols[size].Send(userName, data, type);
                 }
             }
             catch (Exception e)
@@ -59,7 +59,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             }
         }
 
-        public T RecvData<T>() where T : SerializableObjectBase
+        public void RecvData<T>(PacketTransferBase.OnTransmitionComplete<T> callback) where T : SerializableObjectBase
         {
             try
             {
@@ -68,9 +68,8 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
                 if (_protocols.ContainsKey(size))
                 {
-                    return _protocols[size].Recv<T>();
+                    _protocols[size].Recv(callback);
                 }
-                return null;
             }
             catch (Exception e)
             {

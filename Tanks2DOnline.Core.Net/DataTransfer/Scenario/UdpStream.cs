@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Xml;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
 using Tanks2DOnline.Core.Net.Packet;
@@ -11,40 +12,94 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
     public class UdpStream : PacketTransferWithApproval
     {
-        public UdpStream(Socket socket) : base(socket) { }
+        private readonly Dictionary<string, List<Packet.Packet>> _packets = 
+            new Dictionary<string, List<Packet.Packet>>();
 
-        public override void Send<T>(T item, PacketType type)
+        public UdpStream(Socket socket) : base(socket)
+        {
+        }
+
+        public override void Send<T>(string userName, T item, PacketType type)
         {
             Task.Factory.StartNew(() =>
             {
                 foreach (var packet in DataHelper.SplitToPackets(item, type))
                 {
+                    packet.UserName = userName;
                     Send(packet);
                     LogManager.Debug("Send: Packet with id {0} sended!", packet.Id);
                 }
             });
         }
 
-        public override T Recv<T>()
+        public override void Recv<T>(OnTransmitionComplete<T> callback)
         {
-            var task = Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(() =>
             {
-                var packets = new List<Packet.Packet>();
-
                 var first = Recv();
-                packets.Add(first);
-                LogManager.Debug("Packet {0} received", packets.Last().Id);
+                AddPacketToUser(first);
 
-                for(int i = 0; i < first.Count - 1; i++)
+                while (!IsAllPacketsReceived())
                 {
-                    packets.Add(Recv());
-                    LogManager.Debug("Packet {0} received", packets.Last().Id);
+                    AddPacketToUser(Recv());
                 }
 
-                return first.Count == packets.Count ? DataHelper.ExtractData<T>(packets) : null;
+                string userName;
+                if (IsPacketSeriaComplete(out userName))
+                {
+                    callback(userName, DataHelper.ExtractData<T>(_packets[userName]));
+                    _packets[userName].Clear();
+                }
+            });
+        }
+
+        private bool IsAllPacketsReceived()
+        {
+            return _packets.All(v =>
+            {
+                var packet = v.Value.FirstOrDefault();
+                if (packet != null)
+                    return packet.Count == v.Value.Count;
+                return false;
+            });
+        }
+
+        private bool IsPacketSeriaComplete(out string userName)
+        {
+            string user = null;
+
+            bool res = _packets.Any(v =>
+            {
+                var packet = v.Value.FirstOrDefault();
+                if (packet != null)
+                {
+                    var count = packet.Count;
+                    if (v.Value.Count == count)
+                    {
+                        user = v.Key;
+                        return true;
+                    }
+                }
+                return false;
             });
 
-            return task.Result;
+            userName = user;
+            return res;
+        }
+
+        private Packet.Packet AddPacketToUser(Packet.Packet packet)
+        {
+            if (_packets.ContainsKey(packet.UserName))
+            {
+                _packets[packet.UserName].Add(packet);
+            }
+            else
+            {
+                var packets = new List<Packet.Packet> {packet};
+                _packets.Add(packet.UserName, packets);
+            }
+
+            return packet;
         }
     }
 }

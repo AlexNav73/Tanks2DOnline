@@ -40,11 +40,10 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             packets.Sort();
             packets = packets.Distinct().ToList();
 
-            if (!ValidatePacketSeq(packets)) return null;
-
             int total = packets.First().Count;
 
             if (total != packets.Count) return null;
+            if (!ValidatePacketSeq(packets)) return null;
 
             byte[] data = new byte[total * UdpPacketMaxSize];
 

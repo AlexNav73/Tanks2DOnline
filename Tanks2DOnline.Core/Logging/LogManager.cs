@@ -72,14 +72,16 @@ namespace Tanks2DOnline.Core.Logging
         public static void Debug(string text)
         {
 #if (DEBUG)
-            PrintToConsole(ConsoleColor.White, FormatMessage(LogSeverity.Debug, text));
+            var log = FormatMessage(LogSeverity.Debug, text);
+            PrintToConsole(ConsoleColor.White, log);
+            WriteToFile(log);
 #endif
         }
 
         public static void Debug(string templ, params object[] args)
         {
 #if (DEBUG)
-            PrintToConsole(ConsoleColor.White, FormatMessage(LogSeverity.Debug, string.Format(templ, args)));
+            Debug(string.Format(templ, args));
 #endif
         }
 

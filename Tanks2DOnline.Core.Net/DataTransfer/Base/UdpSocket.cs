@@ -28,7 +28,11 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
                 int recv = _socket.ReceiveFrom(_buffer, ref point);
 
                 if (recv != 0)
-                    return Packet.Packet.FromBytes(_buffer, recv);
+                {
+                    var packet = Packet.Packet.FromBytes(_buffer, recv);
+                    packet.UserEndPoint = point.ToString();
+                    return packet;
+                }
             }
             catch (Exception e)
             {
