@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.CommonData;
+using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
@@ -33,7 +33,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
                 var packet = Recv();
                 LogManager.Debug("Packet with type {0} received", packet.Type);
                 return packet.Type == PacketType.HoldsData
-                    ? DataHelper.ExtractData<T>(new List<Packet>() {packet})
+                    ? DataHelper.ExtractData<T>(new List<Packet.Packet>() {packet})
                     : null;
             });
 

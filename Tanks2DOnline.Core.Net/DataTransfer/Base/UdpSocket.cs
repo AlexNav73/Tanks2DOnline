@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.CommonData;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
@@ -21,28 +21,24 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             _socket = socket;
         }
 
-        public Packet RecvPacket(ref EndPoint point)
+        public Packet.Packet RecvPacket(ref EndPoint point)
         {
             try
             {
                 int recv = _socket.ReceiveFrom(_buffer, ref point);
 
                 if (recv != 0)
-                {
-                    Packet packet = new Packet();
-                    packet.Desirialize(_buffer, recv);
-                    return packet;
-                }
+                    return Packet.Packet.FromBytes(_buffer, recv);
             }
             catch (Exception e)
             {
-                LogManager.Error("UdpSocket: {0}", e.Message);
+                LogManager.Error("UdpSocket: {0}\n\nStack Trace: {1}", e.Message, e.StackTrace);
                 throw;
             }
             return null;
         }
 
-        public int SendPacket(Packet packet, EndPoint dest)
+        public int SendPacket(Packet.Packet packet, EndPoint dest)
         {
             return _socket.SendTo(packet.Serialize(), dest);
         }

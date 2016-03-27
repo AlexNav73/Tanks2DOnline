@@ -4,8 +4,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
+using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
@@ -29,7 +29,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
         {
             var task = Task.Factory.StartNew(() =>
             {
-                var packets = new List<Packet>();
+                var packets = new List<Packet.Packet>();
 
                 var first = Recv();
                 packets.Add(first);

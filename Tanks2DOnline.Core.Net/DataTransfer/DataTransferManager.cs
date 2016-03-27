@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
 using Tanks2DOnline.Core.Net.DataTransfer.Scenario;
+using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
 using Tanks2DOnline.Core.Serialization.Attributes;
 

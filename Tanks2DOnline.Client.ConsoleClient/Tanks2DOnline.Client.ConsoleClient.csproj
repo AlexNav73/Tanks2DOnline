@@ -56,10 +56,6 @@
       <Project>{60b03a8b-900a-4ffb-be5f-62c299650f9a}</Project>
       <Name>Tanks2DOnline.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tanks2DOnline.Tests.Tests\Tanks2DOnline.Tests.Tests.csproj">
-      <Project>{9199c2c7-c477-482a-9245-1df28db6ae91}</Project>
-      <Name>Tanks2DOnline.Tests.Tests</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

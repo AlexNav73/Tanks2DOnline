@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.CommonData;
+using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
@@ -30,12 +30,12 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             _remoteIp = new IPEndPoint(remote, Port);
         }
 
-        protected virtual void Send(Packet packet)
+        protected virtual void Send(Packet.Packet packet)
         {
             _socket.SendPacket(packet, _remoteIp);
         }
 
-        protected virtual Packet Recv()
+        protected virtual Packet.Packet Recv()
         {
             return _socket.RecvPacket(ref _remoteIp);
         }

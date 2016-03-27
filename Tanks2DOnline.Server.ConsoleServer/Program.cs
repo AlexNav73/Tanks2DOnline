@@ -6,10 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Data;
 using Tanks2DOnline.Core.Net;
-using Tanks2DOnline.Core.Net.CommonData;
 using Tanks2DOnline.Core.Net.DataTransfer;
+using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Serialization;
-using Tanks2DOnline.Tests.Tests.TestEntities;
 
 namespace Tanks2DOnline.Server.ConsoleServer
 {
@@ -19,14 +18,15 @@ namespace Tanks2DOnline.Server.ConsoleServer
         {
             using (var manager = new DataTransferManager(IPAddress.Any, IPAddress.Any))
             {
-//                var small = manager.RecvData<Serializable>();
-//                var big = manager.RecvData<BigTestObject>();
-                var file = manager.RecvData<FileData>();
+                while (true)
+                {
+                    var big = manager.RecvData<BigTestObject>();
+                    //                var file = manager.RecvData<FileData>();
 
-                Console.WriteLine("======================== Data ============================");
-//                Console.WriteLine(big.Message);
-//                Console.WriteLine(small.Inner.PropString);
-                Console.ReadKey();
+                    Console.WriteLine("======================== Data ============================");
+                    Console.WriteLine(big.Message);
+                }
+//                Console.ReadKey();
             }
         }
 

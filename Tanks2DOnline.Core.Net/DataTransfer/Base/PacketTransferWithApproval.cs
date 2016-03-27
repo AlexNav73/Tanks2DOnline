@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.CommonData;
+using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
@@ -20,7 +20,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         {
         }
 
-        protected override void Send(Packet packet)
+        protected override void Send(Packet.Packet packet)
         {
             int i = RetryCount;
             while (i-- > 0)
@@ -43,11 +43,11 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             }
         }
 
-        protected override Packet Recv()
+        protected override Packet.Packet Recv()
         {
             var packet = base.Recv();
             LogManager.Debug("Recv: Packet with id {0} and type {1} received", packet.Id, packet.Type);
-            base.Send(new Packet(packet.Id, 0, PacketType.PacketAcceptRequest));
+            base.Send(new Packet.Packet(packet.Id, 0, PacketType.PacketAcceptRequest));
             LogManager.Debug("Recv: Packet approval sended");
             return packet;
         }

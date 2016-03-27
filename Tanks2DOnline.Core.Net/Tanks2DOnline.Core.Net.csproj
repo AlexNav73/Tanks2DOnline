@@ -39,11 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonData\BigTestObject.cs" />
-    <Compile Include="CommonData\ClientInfo.cs" />
-    <Compile Include="CommonData\ObjectInfo.cs" />
-    <Compile Include="CommonData\Packet.cs" />
-    <Compile Include="CommonData\PacketType.cs" />
+    <Compile Include="TestObjects\BigTestObject.cs" />
+    <Compile Include="Packet\Packet.cs" />
+    <Compile Include="Packet\PacketType.cs" />
     <Compile Include="DataTransfer\Base\PacketTransferBase.cs" />
     <Compile Include="DataTransfer\Base\PacketTransferWithApproval.cs" />
     <Compile Include="DataTransfer\DataHelper.cs" />
