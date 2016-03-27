@@ -19,13 +19,13 @@ namespace Tanks2DOnline.Server.ConsoleServer
         {
             using (var manager = new DataTransferManager(IPAddress.Any, IPAddress.Any))
             {
-//                var small = manager.RecvData<Serializable>();
-//                var big = manager.RecvData<BigTestObject>();
-                var file = manager.RecvData<FileData>();
+                var small = manager.RecvData<Serializable>();
+                var big = manager.RecvData<BigTestObject>();
+//                var file = manager.RecvData<FileData>();
 
                 Console.WriteLine("======================== Data ============================");
-//                Console.WriteLine(small.Inner.PropString);
-//                Console.WriteLine(big.Message);
+                Console.WriteLine(big.Message);
+                Console.WriteLine(small.Inner.PropString);
                 Console.ReadKey();
             }
         }

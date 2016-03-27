@@ -26,9 +26,9 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 obj.Init();
                 BigTestObject test = new BigTestObject();
 
-//                manager.SendData(obj, PacketType.HoldsData);
-//                manager.SendData(test, PacketType.HoldsData);
-                manager.SendData(new FileData("123.txt"), PacketType.HoldsData);
+                manager.SendData(obj, PacketType.HoldsData);
+                manager.SendData(test, PacketType.HoldsData);
+//                manager.SendData(new FileData("123.txt"), PacketType.HoldsData);
 
                 Console.ReadKey();
                 Console.WriteLine("Object is sended");
