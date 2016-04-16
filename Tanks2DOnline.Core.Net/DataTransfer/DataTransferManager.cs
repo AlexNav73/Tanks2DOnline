@@ -31,11 +31,9 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             if (selfIp != null) 
                 socket.Bind(new IPEndPoint(selfIp, Port));
 
-            var dgramm = new UdpDatagrams(socket);
-            var stream = new UdpStream(socket);
-
-            _protocols.Add(DataSize.Small, dgramm);
-            _protocols.Add(DataSize.Big, stream);
+            _protocols.Add(DataSize.Packet, new BlockingDatagrams(socket));
+            _protocols.Add(DataSize.Small, new UdpDatagrams(socket));
+            _protocols.Add(DataSize.Big, new UdpStream(socket));
         }
 
         public void SendData<T>(EndPoint remote, T data, PacketType type) where T : SerializableObjectBase
@@ -81,7 +79,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             if (!_isDisposed)
             {
                 _isDisposed = true;
-                ((PacketTransferBase)_protocols.First().Value).Dispose();
+                ((SimplePasketTransfer)_protocols.First().Value).Dispose();
             }
         }
     }

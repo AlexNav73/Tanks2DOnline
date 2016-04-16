@@ -20,20 +20,22 @@ namespace Tanks2DOnline.Client.ConsoleClient
     {
         static void Main(string[] args)
         {
-//            string userName = Console.ReadLine();
             using (var manager = new DataTransferManager(null))
             {
                 var big = new BigTestObject();
                 var small = SmallTestObject.Create();
+                var packet = new Packet() {Type = PacketType.Registration, Data = Encoding.ASCII.GetBytes(Console.ReadLine())};
 
                 Console.WriteLine("Press Enter to send object ...");
                 Console.ReadKey();
                 
                 var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
+
+                manager.SendData(remote, packet, PacketType.Registration);
                 while (true)
                 {
-                    manager.SendData(remote, big, PacketType.SmallData);
-//                    manager.SendData(remote, small, PacketType.SmallData);
+//                    manager.SendData(remote, big, PacketType.SmallData);
+                    manager.SendData(remote, small, PacketType.SmallData);
 //                    manager.RecvData(ref remote, (SmallTestObject v) => Console.WriteLine(v.Message));
 //                    manager.SendData(userName, new FileData(userName + ".txt"), PacketType.HoldsData);
                 }

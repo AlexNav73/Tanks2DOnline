@@ -9,6 +9,7 @@ namespace Tanks2DOnline.Core.Serialization
     public enum DataSize
     {
         Big,
-        Small
+        Small,
+        Packet
     }
 }

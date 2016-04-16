@@ -20,6 +20,12 @@ namespace Tanks2DOnline.Server.ConsoleServer
     {
         static void Main(string[] args)
         {
+            var server = new Server();
+            server.Listen();
+        }
+
+        private static void DoWork()
+        {
             using (var manager = new DataTransferManager(IPAddress.Any))
             {
                 Console.WriteLine("Press Enter to start server ...");

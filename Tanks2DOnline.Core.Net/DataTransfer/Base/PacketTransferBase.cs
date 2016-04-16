@@ -11,11 +11,11 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
-    public abstract class PacketTransferBase : UdpSocket
+    public class SimplePasketTransfer : UdpSocket
     {
         public int Port { get; set; }
 
-        protected PacketTransferBase(Socket socket) : base(socket)
+        protected SimplePasketTransfer(Socket socket) : base(socket)
         {
             Port = 4242;
         }

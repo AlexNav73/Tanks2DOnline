@@ -6,6 +6,7 @@ using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Net.Packet
 {
+    [Sizable(DataSize.Packet)]
     public class Packet : SerializableObjectBase, IComparable
     {
         [Mark] public int Id { get; set; }
@@ -14,6 +15,7 @@ namespace Tanks2DOnline.Core.Net.Packet
         [Mark] public byte[] Data { get; set; }
 
         public string UserName { get; set; }
+        public EndPoint Address { get; set; }
 
         public Packet() { }
 
@@ -35,6 +37,14 @@ namespace Tanks2DOnline.Core.Net.Packet
         {
             Packet lhs = obj as Packet;
             return lhs != null ? Id.CompareTo(lhs.Id) : -1;
+        }
+
+        protected override void AfterDeserialization()
+        {
+            if (Type == PacketType.Registration)
+            {
+                UserName = Encoding.ASCII.GetString(Data);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
-    public class UdpDatagrams : Base.PacketTransferBase, IDataTransferer
+    public class UdpDatagrams : Base.SimplePasketTransfer, IDataTransferer
     {
         public UdpDatagrams(Socket socket) : base(socket) { }
 

@@ -11,7 +11,7 @@ using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
-    public abstract class PacketTransferWithApproval : PacketTransferBase
+    public abstract class PacketTransferWithApproval : SimplePasketTransfer
     {
         private readonly TimeSpan _timeout = new TimeSpan(0, 0, 0, 0, 50);
         private const int RetryCount = 10;
