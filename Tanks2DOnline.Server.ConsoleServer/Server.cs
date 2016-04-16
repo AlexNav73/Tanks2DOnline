@@ -25,7 +25,8 @@ namespace Tanks2DOnline.Server.ConsoleServer
             {PacketType.SmallData, new ProcessSmallDataAction()}
         };
 
-        private readonly DataTransferManager _manager = new DataTransferManager(IPAddress.Any);
+        private const int Port = 4242;
+        private readonly DataTransferManager _manager = new DataTransferManager(IPAddress.Any, Port);
         private bool _isDisposed = false;
 
         public Server(int tasksCount = 10)

@@ -26,7 +26,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
 
         private static void DoWork()
         {
-            using (var manager = new DataTransferManager(IPAddress.Any))
+            using (var manager = new DataTransferManager(IPAddress.Any, 4242))
             {
                 Console.WriteLine("Press Enter to start server ...");
                 Console.ReadKey();
@@ -36,8 +36,8 @@ namespace Tanks2DOnline.Server.ConsoleServer
 
                 while (true)
                 {
-                    manager.RecvData<BigTestObject>(ref remote, OnBigRecved);
-//                    manager.RecvData<SmallTestObject>(ref remote, OnSmallRecved);
+//                    manager.RecvData<BigTestObject>(ref remote, OnBigRecved);
+                    manager.RecvData<SmallTestObject>(ref remote, OnSmallRecved);
                     LogManager.Debug("Remote {0}", remote);
 //                    manager.SendData(remote, small, PacketType.SmallData);
 //                    manager.RecvData<FileData>(OnFileRecved);

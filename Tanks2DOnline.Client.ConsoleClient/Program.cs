@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Data;
+using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.Packet;
@@ -20,7 +21,8 @@ namespace Tanks2DOnline.Client.ConsoleClient
     {
         static void Main(string[] args)
         {
-            using (var manager = new DataTransferManager(null))
+            var rand = new Random();
+            using (var manager = new DataTransferManager(IPAddress.Loopback, rand.Next() % 1000 + 25000))
             {
                 var big = new BigTestObject();
                 var small = SmallTestObject.Create();
@@ -30,14 +32,13 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 Console.ReadKey();
                 
                 var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
+                var remote2 = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
 
                 manager.SendData(remote, packet, PacketType.Registration);
                 while (true)
                 {
-//                    manager.SendData(remote, big, PacketType.SmallData);
                     manager.SendData(remote, small, PacketType.SmallData);
-//                    manager.RecvData(ref remote, (SmallTestObject v) => Console.WriteLine(v.Message));
-//                    manager.SendData(userName, new FileData(userName + ".txt"), PacketType.HoldsData);
+                    manager.RecvData(ref remote2, (SmallTestObject o) => LogManager.Info(o.Message));
                 }
             }
         }

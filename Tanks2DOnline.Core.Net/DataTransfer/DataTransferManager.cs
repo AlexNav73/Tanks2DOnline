@@ -19,17 +19,16 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
     public class DataTransferManager : IDisposable
     {
         private bool _isDisposed = false;
-        public readonly int Port = 4242;
 
         private readonly Dictionary<DataSize, IDataTransferer> _protocols
             = new Dictionary<DataSize, IDataTransferer>();
 
-        public DataTransferManager(IPAddress selfIp)
+        public DataTransferManager(IPAddress selfIp, int port)
         {
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
             if (selfIp != null) 
-                socket.Bind(new IPEndPoint(selfIp, Port));
+                socket.Bind(new IPEndPoint(selfIp, port));
 
             _protocols.Add(DataSize.Packet, new BlockingDatagrams(socket));
             _protocols.Add(DataSize.Small, new UdpDatagrams(socket));
