@@ -10,6 +10,7 @@ using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
+using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Serialization;
 
@@ -19,12 +20,20 @@ namespace Tanks2DOnline.Server.ConsoleServer
     {
         static void Main(string[] args)
         {
-            using (var manager = new DataTransferManager(IPAddress.Any, IPAddress.Any))
+            using (var manager = new DataTransferManager(IPAddress.Any))
             {
+                Console.WriteLine("Press Enter to start server ...");
+                Console.ReadKey();
+
+                var small = SmallTestObject.Create();
+                var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
+
                 while (true)
                 {
-                manager.RecvData<BigTestObject>(OnRecved);
-//                manager.RecvData<SmallTestObject>(OnSmallRecved);
+                    manager.RecvData<BigTestObject>(ref remote, OnBigRecved);
+//                    manager.RecvData<SmallTestObject>(ref remote, OnSmallRecved);
+                    LogManager.Debug("Remote {0}", remote);
+//                    manager.SendData(remote, small, PacketType.SmallData);
 //                    manager.RecvData<FileData>(OnFileRecved);
                 }
                 Console.WriteLine("======================== Data ============================");
@@ -32,7 +41,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             }
         }
 
-        private static void OnSmallRecved<T>(string userName, T item)
+        private static void OnSmallRecved<T>(T item)
         {
             var data = item as SmallTestObject;
             if (data != null)
@@ -41,7 +50,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 LogManager.Error("Object not transfered");
         }
 
-        private static void OnRecved<T>(string userName, T item)
+        private static void OnBigRecved<T>(T item)
         {
             var data = item as BigTestObject;
             if (data != null)
@@ -50,7 +59,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 LogManager.Error("Object not transfered");
         }
 
-        private static void OnFileRecved<T>(string userName, T item)
+        private static void OnFileRecved<T>(T item)
         {
             var data = item as FileData;
             if (data != null)

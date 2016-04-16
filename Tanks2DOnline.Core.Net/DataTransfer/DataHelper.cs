@@ -58,6 +58,13 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             return res;
         }
 
+        public static T ExtractData<T>(Packet.Packet packet) where T : SerializableObjectBase
+        {
+            var res = Activator.CreateInstance<T>();
+            res.Desirialize(packet.Data, packet.Data.Length);
+            return res;
+        }
+
         private static bool ValidatePacketSeq(List<Packet.Packet> packets)
         {
             var id = 0;

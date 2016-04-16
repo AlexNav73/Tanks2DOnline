@@ -20,16 +20,16 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         {
         }
 
-        protected override void Send(Packet.Packet packet)
+        public override void Send(Packet.Packet packet, EndPoint remote)
         {
             int i = RetryCount;
             while (i-- > 0)
             {
-                base.Send(packet);
+                base.Send(packet, remote);
 
                 var task = Task.Factory.StartNew(() =>
                 {
-                    var responce = base.Recv();
+                    var responce = Recv(ref remote);
                     LogManager.Debug("Send: Packet with id {0} and type {1} received", responce.Id, responce.Type);
                     return responce.Type == PacketType.PacketAcceptRequest;
                 });
@@ -43,12 +43,12 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             }
         }
 
-        protected override Packet.Packet Recv()
+        public override Packet.Packet Recv(ref EndPoint remote)
         {
-            var packet = base.Recv();
+            var packet = base.Recv(ref remote);
             LogManager.Debug("Recv: Packet with id {0} and type {1} received", packet.Id, packet.Type);
             var responce = new Packet.Packet(packet.Id, 0, PacketType.PacketAcceptRequest) {UserName = "Server"};
-            base.Send(responce);
+            base.Send(responce, remote);
             LogManager.Debug("Recv: Packet approval sended");
             return packet;
         }

@@ -1,40 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
+using Tanks2DOnline.Core.Net.DataTransfer.Interfaces;
 using Tanks2DOnline.Core.Net.Packet;
+using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
-    public class UdpDatagrams : Base.PacketTransferBase
+    public class UdpDatagrams : Base.PacketTransferBase, IDataTransferer
     {
         public UdpDatagrams(Socket socket) : base(socket) { }
 
-        public override void Send<T>(string userName, T item, PacketType type)
+        public void Send<T>(EndPoint remote, T obj, PacketType type) where T : SerializableObjectBase
         {
             Task.Factory.StartNew(() =>
             {
-                var packets = DataHelper.SplitToPackets(item, type).ToArray();
+                var packets = DataHelper.SplitToPackets(obj, type).ToArray();
                 if (packets.Length == 1)
                 {
                     var packet = packets[0];
-                    packet.UserName = userName;
-                    Send(packet);
-                    LogManager.Debug("Packet sended");
+                    Send(packet, remote);
+                    LogManager.Debug("Packet with id {0} sended", packet.Id);
                 }
                 else LogManager.Debug("Object size was to big to be send it with 1 packet");
             });
         }
 
-        public override void Recv<T>(OnTransmitionComplete<T> callback)
+        public void Recv<T>(ref EndPoint remote, Action<T> callback) where T : SerializableObjectBase
         {
+            var packet = Recv(ref remote);
+            LogManager.Debug("Packet with type {0} received", packet.Type);
+
             Task.Factory.StartNew(() =>
             {
-                var packet = Recv();
-                LogManager.Debug("Packet with type {0} received", packet.Type);
-                callback(packet.UserName, packet.Type == PacketType.HoldsData
-                    ? DataHelper.ExtractData<T>(new List<Packet.Packet>() { packet })
+                callback(packet.Type == PacketType.SmallData
+                    ? DataHelper.ExtractData<T>(packet)
                     : null);
             });
         }

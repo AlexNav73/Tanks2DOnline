@@ -11,48 +11,31 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
-    public abstract class PacketTransferBase : IDisposable
+    public abstract class PacketTransferBase : UdpSocket
     {
         public int Port { get; set; }
 
-        private bool _isDisposed = false;
-        private readonly UdpSocket _socket;
-        private EndPoint _remoteIp;
-
-        public delegate void OnTransmitionComplete<in T>(string userName, T item);
-
-        protected PacketTransferBase(Socket socket)
+        protected PacketTransferBase(Socket socket) : base(socket)
         {
-            _socket = new UdpSocket(socket);
             Port = 4242;
         }
 
-        public void SetRemote(IPAddress remote)
+        /// <summary>
+        /// Synchronously send packet to remote ip
+        /// </summary>
+        /// <returns></returns>
+        public virtual void Send(Packet.Packet packet, EndPoint remote)
         {
-            _remoteIp = new IPEndPoint(remote, Port);
+            SendPacket(packet, remote);
         }
 
-        protected virtual void Send(Packet.Packet packet)
+        /// <summary>
+        /// Synchronously receive packet from remote ip
+        /// </summary>
+        /// <returns></returns>
+        public virtual Packet.Packet Recv(ref EndPoint remote)
         {
-            _socket.SendPacket(packet, _remoteIp);
+            return RecvPacket(ref remote);
         }
-
-        protected virtual Packet.Packet Recv()
-        {
-            return _socket.RecvPacket(ref _remoteIp);
-        }
-
-        public abstract void Send<T>(string userName, T item, PacketType type) where T : SerializableObjectBase;
-        public abstract void Recv<T>(OnTransmitionComplete<T> callback) where T : SerializableObjectBase;
-
-        public void Dispose()
-        {
-            if (!_isDisposed)
-            {
-                _isDisposed = true;
-                _socket.Dispose();
-            }
-        }
-
     }
 }

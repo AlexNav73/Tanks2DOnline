@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTransfer\Interfaces\IDataReceiver.cs" />
+    <Compile Include="DataTransfer\Interfaces\IDataSender.cs" />
+    <Compile Include="DataTransfer\Interfaces\IDataTransferer.cs" />
     <Compile Include="Extensions\EndPointExt.cs" />
     <Compile Include="TestObjects\BigTestObject.cs" />
     <Compile Include="Packet\Packet.cs" />

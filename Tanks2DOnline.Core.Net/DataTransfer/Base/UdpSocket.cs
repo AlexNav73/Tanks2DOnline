@@ -6,17 +6,16 @@ using Tanks2DOnline.Core.Logging;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
-    public class UdpSocket : IDisposable
+    public abstract class UdpSocket : IDisposable
     {
         private const int MaxBuffSize = 65536;
         private readonly byte[] _buffer = new byte[MaxBuffSize];
-
         private readonly Socket _socket;
-        private bool _isDisposed;
+        private readonly object _mutex = new object();
 
         public Socket Socket { get { return _socket; }}
 
-        public UdpSocket(Socket socket)
+        protected UdpSocket(Socket socket)
         {
             _socket = socket;
         }
@@ -25,28 +24,41 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
         {
             try
             {
-                int recv = _socket.ReceiveFrom(_buffer, ref point);
+                Packet.Packet packet = null;
 
-                if (recv != 0)
+                lock (_mutex)
                 {
-                    var packet = Packet.Packet.FromBytes(_buffer, recv);
-                    packet.UserEndPoint = point.ToString();
-                    return packet;
+                    var recv = _socket.ReceiveFrom(_buffer, ref point);
+                    if (recv != 0)
+                    {
+                        packet = Packet.Packet.FromBytes(_buffer, recv);
+                    }
                 }
+
+                return packet;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                LogManager.Error("UdpSocket: {0}\n\nStack Trace: {1}", e.Message, e.StackTrace);
+                LogManager.Error("UdpSocket: {0}\n\nStack Trace: {1}", ex.Message, ex.StackTrace);
                 throw;
             }
-            return null;
         }
 
         public int SendPacket(Packet.Packet packet, EndPoint dest)
         {
-            return _socket.SendTo(packet.Serialize(), dest);
+            try
+            {
+                return _socket.SendTo(packet.Serialize(), dest);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error("UdpSocket: {0}\n\nStack Trace: {1}", ex.Message, ex.StackTrace);
+                throw;
+            }
         }
 
+        #region IDisposable
+        private bool _isDisposed;
         public void Dispose()
         {
             if (!_isDisposed)
@@ -55,5 +67,6 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
                 _socket.Close();
             }
         }
+        #endregion
     }
 }

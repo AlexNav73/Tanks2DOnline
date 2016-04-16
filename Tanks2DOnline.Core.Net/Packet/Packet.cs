@@ -13,10 +13,7 @@ namespace Tanks2DOnline.Core.Net.Packet
         [Mark] public PacketType Type { get; set; }
         [Mark] public byte[] Data { get; set; }
 
-        [Mark] private byte[] _userName = null;
-
         public string UserName { get; set; }
-        public string UserEndPoint { get; set; }
 
         public Packet() { }
 
@@ -32,17 +29,6 @@ namespace Tanks2DOnline.Core.Net.Packet
             var packet = new Packet();
             packet.Desirialize(data, count);
             return packet;
-        }
-
-        protected override void BeforeSerialization()
-        {
-            if (_userName == null)
-                _userName = Encoding.ASCII.GetBytes(UserName);
-        }
-
-        protected override void AfterDeserialization()
-        {
-            UserName = Encoding.ASCII.GetString(_userName);
         }
 
         public int CompareTo(object obj)
