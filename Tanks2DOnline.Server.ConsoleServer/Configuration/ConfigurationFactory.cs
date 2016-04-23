@@ -7,13 +7,14 @@ using Tanks2DOnline.Server.ConsoleServer.Configuration.Creators;
 
 namespace Tanks2DOnline.Server.ConsoleServer.Configuration
 {
-    public class ConfigurationFactory : Flyweight<Type, ICreator>
+    public sealed class ConfigurationFactory : Flyweight<Type, ICreator>
     {
         private readonly Params _prms = null;
 
         public ConfigurationFactory(IProvider<string, object> provider)
         {
             _prms = new Params(provider);
+            LoadValues(null);
         }
 
         public T Create<T>()

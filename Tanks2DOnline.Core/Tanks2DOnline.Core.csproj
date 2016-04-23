@@ -35,6 +35,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,8 +47,13 @@
     <Compile Include="Argument.cs" />
     <Compile Include="Data\FileData.cs" />
     <Compile Include="Extensions\EnumerableExtension.cs" />
+    <Compile Include="Factory\Base\Flyweight.cs" />
+    <Compile Include="Factory\Interfaces\ICreator.cs" />
+    <Compile Include="Factory\ParamsFactory.cs" />
     <Compile Include="Logging\LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\Implementations\AppConfigProvider.cs" />
+    <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
     <Compile Include="Serialization\Attributes\SizableAttribute.cs" />
     <Compile Include="Serialization\DataSize.cs" />
