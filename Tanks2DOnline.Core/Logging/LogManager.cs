@@ -16,6 +16,8 @@ namespace Tanks2DOnline.Core.Logging
         public static void Debug(string text)
         {
 #if (DEBUG)
+            Argument.IsNull(text, "text");
+
             _logger.Debug(text);
 #endif
         }
@@ -23,27 +25,37 @@ namespace Tanks2DOnline.Core.Logging
         public static void Debug(string templ, params object[] args)
         {
 #if (DEBUG)
+            Argument.IsNull(templ, "template");
+
             Debug(string.Format(templ, args));
 #endif
         }
 
         public static void Error(string text)
         {
+            Argument.IsNull(text, "text");
+
             _logger.Error(text);
         }
 
         public static void Error(string templ, params object[] args)
         {
+            Argument.IsNull(templ, "template");
+
             Error(string.Format(templ, args));
         }
 
         public static void Info(string templ, params object[] args)
         {
+            Argument.IsNull(templ, "template");
+
             Info(string.Format(templ, args));
         }
 
         public static void Info(string text)
         {
+            Argument.IsNull(text, "text");
+
             _logger.Info(text);
         }
     }

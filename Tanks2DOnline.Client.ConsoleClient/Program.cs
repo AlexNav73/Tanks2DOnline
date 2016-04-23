@@ -24,22 +24,31 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var rand = new Random();
             using (var manager = new DataTransferManager(IPAddress.Loopback, rand.Next() % 1000 + 25000))
             {
-                var big = new BigTestObject();
                 var small = SmallTestObject.Create();
                 var packet = new Packet() {Type = PacketType.Registration, Data = Encoding.ASCII.GetBytes(Console.ReadLine())};
-
-                Console.WriteLine("Press Enter to send object ...");
-                Console.ReadKey();
                 
+                var serverSocket = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
                 var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
-                var remote2 = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
 
-                manager.SendData(remote, packet, PacketType.Registration);
-                while (true)
+                manager.SendData(serverSocket, packet, PacketType.Registration);
+                var task = Task.Factory.StartNew(() =>
                 {
-                    manager.SendData(remote, small, PacketType.SmallData);
-                    manager.RecvData(ref remote2, (SmallTestObject o) => LogManager.Info(o.Message));
-                }
+                    while (true)
+                    {
+                        small.Message = Console.ReadKey().KeyChar + "";
+                        Console.WriteLine();
+                        manager.SendData(serverSocket, small, PacketType.SmallData);
+                    }
+                });
+                Task.Factory.StartNew(() =>
+                {
+                    while (true)
+                    {
+                        manager.RecvData(ref remote, (SmallTestObject o) => LogManager.Info(o.Message));
+                    }
+                });
+
+                task.Wait();
             }
         }
     }

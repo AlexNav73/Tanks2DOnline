@@ -11,6 +11,7 @@ using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Server.ConsoleServer.Actions;
 using Tanks2DOnline.Server.ConsoleServer.Actions.Implementations;
+using Tanks2DOnline.Server.ConsoleServer.Configuration;
 
 namespace Tanks2DOnline.Server.ConsoleServer
 {
@@ -25,12 +26,13 @@ namespace Tanks2DOnline.Server.ConsoleServer
             {PacketType.SmallData, new ProcessSmallDataAction()}
         };
 
-        private const int Port = 4242;
-        private readonly DataTransferManager _manager = new DataTransferManager(IPAddress.Any, Port);
+        private readonly DataTransferManager _manager;
         private bool _isDisposed = false;
 
-        public Server(int tasksCount = 10)
+        public Server(ServerConfiguration config, int tasksCount = 10)
         {
+            _manager = new DataTransferManager(IPAddress.Any, config.Port);
+
             for (int i = 0; i < tasksCount; i++)
             {
                 Task.Factory.StartNew(ProcessCollection);

@@ -14,7 +14,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
     public class BlockingDatagrams : SimplePasketTransfer, IDataTransferer
     {
-        private readonly char[] _separator = new[] {':'};
+        private readonly char[] _separator = {':'};
         public BlockingDatagrams(Socket socket) : base(socket) { }
 
         public void Send<T>(EndPoint remote, T obj, PacketType type) where T : SerializableObjectBase

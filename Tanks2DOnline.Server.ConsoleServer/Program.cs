@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,9 @@ using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
+using Tanks2DOnline.Core.Providers.Implementations;
 using Tanks2DOnline.Core.Serialization;
+using Tanks2DOnline.Server.ConsoleServer.Configuration;
 
 namespace Tanks2DOnline.Server.ConsoleServer
 {
@@ -20,58 +23,10 @@ namespace Tanks2DOnline.Server.ConsoleServer
     {
         static void Main(string[] args)
         {
-            var server = new Server();
+            var provider = new AppConfigProvider(ConfigurationManager.AppSettings);
+            var factory = new ConfigurationFactory(provider);
+            var server = new Server(factory.Create<ServerConfiguration>());
             server.Listen();
-        }
-
-        private static void DoWork()
-        {
-            using (var manager = new DataTransferManager(IPAddress.Any, 4242))
-            {
-                Console.WriteLine("Press Enter to start server ...");
-                Console.ReadKey();
-
-                var small = SmallTestObject.Create();
-                var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
-
-                while (true)
-                {
-//                    manager.RecvData<BigTestObject>(ref remote, OnBigRecved);
-                    manager.RecvData<SmallTestObject>(ref remote, OnSmallRecved);
-                    LogManager.Debug("Remote {0}", remote);
-//                    manager.SendData(remote, small, PacketType.SmallData);
-//                    manager.RecvData<FileData>(OnFileRecved);
-                }
-                Console.WriteLine("======================== Data ============================");
-                Console.ReadKey();
-            }
-        }
-
-        private static void OnSmallRecved<T>(T item)
-        {
-            var data = item as SmallTestObject;
-            if (data != null)
-                LogManager.Info(data.Message);
-            else
-                LogManager.Error("Object not transfered");
-        }
-
-        private static void OnBigRecved<T>(T item)
-        {
-            var data = item as BigTestObject;
-            if (data != null)
-                LogManager.Info(data.Message);
-            else
-                LogManager.Error("Object not transfered");
-        }
-
-        private static void OnFileRecved<T>(T item)
-        {
-            var data = item as FileData;
-            if (data != null)
-                LogManager.Info("File transfered");
-            else
-                LogManager.Error("File not transfered");
         }
     }
 }
