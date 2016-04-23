@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -26,6 +27,18 @@ namespace Tanks2DOnline.Core.Providers.Implementations
             return _collection.AllKeys.Contains(key) ? _collection[key] : null;
         }
 
-        public void Init(object collection) { }
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            foreach (var key in _collection.Keys)
+            {
+                var keyS = key.ToString();
+                yield return new KeyValuePair<string, object>(keyS, _collection[keyS]);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

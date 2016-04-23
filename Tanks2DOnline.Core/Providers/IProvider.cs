@@ -1,8 +1,9 @@
-﻿namespace Tanks2DOnline.Core.Providers
+﻿using System.Collections.Generic;
+
+namespace Tanks2DOnline.Core.Providers
 {
-    public interface IProvider<in TKey, out TValue>
+    public interface IProvider<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         TValue Get(TKey key);
-        void Init(object collection);
     }
 }

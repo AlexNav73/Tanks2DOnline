@@ -45,8 +45,8 @@
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\Implementations\ProcessSmallDataAction.cs" />
     <Compile Include="Actions\Implementations\RegisterUserAction.cs" />
-    <Compile Include="Configuration\ConfigurationFactory.cs" />
     <Compile Include="Configuration\Creators\ServerConfigCreator.cs" />
+    <Compile Include="Configuration\Providers\ConfigurationProvider.cs" />
     <Compile Include="Configuration\ServerConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

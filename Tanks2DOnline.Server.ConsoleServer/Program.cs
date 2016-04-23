@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Data;
+using Tanks2DOnline.Core.Factory;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.DataTransfer;
@@ -16,6 +17,7 @@ using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Providers.Implementations;
 using Tanks2DOnline.Core.Serialization;
 using Tanks2DOnline.Server.ConsoleServer.Configuration;
+using Tanks2DOnline.Server.ConsoleServer.Configuration.Providers;
 
 namespace Tanks2DOnline.Server.ConsoleServer
 {
@@ -23,10 +25,13 @@ namespace Tanks2DOnline.Server.ConsoleServer
     {
         static void Main(string[] args)
         {
-            var provider = new AppConfigProvider(ConfigurationManager.AppSettings);
-            var factory = new ConfigurationFactory(provider);
-            var server = new Server(factory.Create<ServerConfiguration>());
-            server.Listen();
+            var paramsProvider = new AppConfigProvider(ConfigurationManager.AppSettings);
+            var configProvider = new ConfigurationProvider();
+
+            var factory = new ConfigurationFactory(paramsProvider, configProvider);
+
+            using(var server = new Server(factory.Create<ServerConfiguration>()))
+                server.Listen();
         }
     }
 }

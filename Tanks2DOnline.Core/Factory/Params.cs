@@ -11,6 +11,9 @@ namespace Tanks2DOnline.Core.Factory
     public sealed class Params : Flyweight<string, object>
     {
         public const string Port = "Port";
+        public const string ServerIP = "ServerIP";
+        public const string ServerPort = "ServerPort";
+        public const string ServerRegistrationTimeout = "ServerRegistrationTimeout";
 
         public Params(IProvider<string, object> provider)
         {
@@ -22,6 +25,9 @@ namespace Tanks2DOnline.Core.Factory
         protected override void LoadValues(IProvider<string, object> provider)
         {
             this[Port] = provider.Get(Port);
+            this[ServerIP] = provider.Get(ServerIP);
+            this[ServerPort] = provider.Get(ServerPort);
+            this[ServerRegistrationTimeout] = provider.Get(ServerRegistrationTimeout);
         }
 
         public TValue GetValue<TValue>(string key)
