@@ -5,9 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Tanks2DOnline.Client.ConsoleClient.Actions;
-using Tanks2DOnline.Client.ConsoleClient.Actions.Implementations;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
+using Tanks2DOnline.Client.ConsoleClient.Handles;
 using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
@@ -20,53 +19,83 @@ namespace Tanks2DOnline.Client.ConsoleClient
         private readonly DataTransferManager _manager;
         private readonly ClientConfiguration _config;
         private readonly EndPoint _serverSocket;
-        private readonly BlockingCollection<SerializableObjectBase> _queue = new BlockingCollection<SerializableObjectBase>();
-
-        //public delegate void OnStateReceived(T state);
-        //public delegate void OnDataReceived<T>(T data);
-        //public event OnStateReceived<T> OnState<T>; 
-
-        private readonly Dictionary<PacketType, IAction> _actions = new Dictionary<PacketType, IAction>()
-        {
-            {PacketType.Registration, new RegistrationRequestAction()}
-        };
+        private readonly BlockingCollection<SerializableObjectBase> _sendingQueue = new BlockingCollection<SerializableObjectBase>();
+        private readonly BlockingCollection<SerializableObjectBase> _receivingQueue = new BlockingCollection<SerializableObjectBase>();
+        private readonly List<IHandle> _handles; 
 
         public bool IsConnected { get; set; }
 
-        public Client(ClientConfiguration config)
+        public Client(ClientConfiguration config, IEnumerable<IHandle> handles)
         {
-            _manager = new DataTransferManager(IPAddress.Loopback, config.Port);
+            _manager = new DataTransferManager(IPAddress.Any, config.Port);
             IsConnected = false;
             _config = config;
             _serverSocket = new IPEndPoint(IPAddress.Parse(config.ServerIP), config.ServerPort);
+            _handles = handles.ToList();
         }
 
-        public void Start(string userName)
+        public void Start(string userName, Action work)
         {
+//            var packet = new Packet() { Data = Encoding.ASCII.GetBytes(userName) };
+//            _manager.SendData(_serverSocket, packet, PacketType.Registration);
+//            return;
+
             Task.Factory.StartNew(() =>
             {
                 var packet = new Packet() {Data = Encoding.ASCII.GetBytes(userName)};
                 _manager.SendData(_serverSocket, packet, PacketType.Registration);
+
+                var remote = (EndPoint) new IPEndPoint(IPAddress.Any, 0);
+                _manager.RecvData<Packet>(ref remote, p => IsConnected = p.Type == PacketType.Registration);
             }).Wait(new TimeSpan(0, 0, 0, 0, _config.RegistrationTimeout));
+
             if (IsConnected)
             {
-                Task.Factory.StartNew(SendingLoop);
-                // TODO: Start receiving loop for small objects
-                // TODO: Start receiving loop for large objects
+                var task = Task.Factory.StartNew(SendingLoop);
+                Task.Factory.StartNew(ReceivingLoop);
+                Task.Factory.StartNew(ProcessingLoop);
+                work();
+                task.Wait();
             }
         }
 
         private void SendingLoop()
         {
-            foreach (var obj in _queue.GetConsumingEnumerable())
+            foreach (var obj in _sendingQueue.GetConsumingEnumerable())
             {
                 _manager.SendData(_serverSocket, obj, PacketType.SmallData);
             }
         }
 
+        private void ReceivingLoop()
+        {
+            var remote = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
+            while (true)
+            {
+                // TODO: I need to switch type depends of packet type
+                //       SerializableObjectBase can't be used here
+                _manager.RecvData<SerializableObjectBase>(ref remote, OnReceived);
+            }
+        }
+
+        // TODO: Replase this method with some concrete type of argument
+        private void OnReceived(SerializableObjectBase obj)
+        {
+            _receivingQueue.Add(obj);
+        }
+
+        private void ProcessingLoop()
+        {
+            foreach (var obj in _receivingQueue.GetConsumingEnumerable())
+            {
+                for (int i = 0; i < _handles.Count; i++)
+                    _handles[i].Process(obj);
+            }
+        }
+
         public void SendObject<T>(T obj) where T : SerializableObjectBase
         {
-            _queue.Add(obj);
+            _sendingQueue.Add(obj);
         }
 
         public void Dispose()

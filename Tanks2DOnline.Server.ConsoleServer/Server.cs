@@ -56,6 +56,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 {
                     _users.Add(name, remote);
                     LogManager.Info("User {0} was registered with address {1}", name, remote);
+                    _manager.SendData(remote, new Packet(), PacketType.Registration);
                 }
             }
         }

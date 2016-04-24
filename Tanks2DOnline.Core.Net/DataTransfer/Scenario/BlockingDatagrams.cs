@@ -19,7 +19,9 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 
         public void Send<T>(EndPoint remote, T obj, PacketType type) where T : SerializableObjectBase
         {
-            SendPacket(obj as Packet.Packet, remote);
+            var packet = obj as Packet.Packet;
+            packet.Type = type;
+            SendPacket(packet, remote);
         }
 
         public void Recv<T>(ref EndPoint remote, Action<T> callback) where T : SerializableObjectBase
