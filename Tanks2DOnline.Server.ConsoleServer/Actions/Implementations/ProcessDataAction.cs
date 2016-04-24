@@ -7,7 +7,7 @@ using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Server.ConsoleServer.Actions.Implementations
 {
-    public class ProcessSmallDataAction : IAction
+    public class ProcessDataAction : IAction
     {
         public void Process(Server serverState, Packet packet)
         {

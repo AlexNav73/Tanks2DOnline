@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Client.ConsoleClient.Handles;
+using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.Packet;
+using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Client.ConsoleClient
@@ -21,25 +23,22 @@ namespace Tanks2DOnline.Client.ConsoleClient
         private readonly EndPoint _serverSocket;
         private readonly BlockingCollection<SerializableObjectBase> _sendingQueue = new BlockingCollection<SerializableObjectBase>();
         private readonly BlockingCollection<SerializableObjectBase> _receivingQueue = new BlockingCollection<SerializableObjectBase>();
-        private readonly List<IHandle> _handles; 
+        private readonly Dictionary<DataType, List<IHandle>> _handles;
+        private DataType _currentDataFlowType = DataType.Small;
 
         public bool IsConnected { get; set; }
 
-        public Client(ClientConfiguration config, IEnumerable<IHandle> handles)
+        public Client(ClientConfiguration config, Dictionary<DataType, IEnumerable<IHandle>> handles)
         {
             _manager = new DataTransferManager(IPAddress.Any, config.Port);
             IsConnected = false;
             _config = config;
             _serverSocket = new IPEndPoint(IPAddress.Parse(config.ServerIP), config.ServerPort);
-            _handles = handles.ToList();
+            _handles = handles.ToDictionary(p => p.Key, p => p.Value.ToList());
         }
 
         public void Start(string userName, Action work)
         {
-//            var packet = new Packet() { Data = Encoding.ASCII.GetBytes(userName) };
-//            _manager.SendData(_serverSocket, packet, PacketType.Registration);
-//            return;
-
             Task.Factory.StartNew(() =>
             {
                 var packet = new Packet() {Data = Encoding.ASCII.GetBytes(userName)};
@@ -63,7 +62,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
         {
             foreach (var obj in _sendingQueue.GetConsumingEnumerable())
             {
-                _manager.SendData(_serverSocket, obj, PacketType.SmallData);
+                _manager.SendData(_serverSocket, obj, PacketType.Data);
             }
         }
 
@@ -72,24 +71,35 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var remote = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
-                // TODO: I need to switch type depends of packet type
-                //       SerializableObjectBase can't be used here
-                _manager.RecvData<SerializableObjectBase>(ref remote, OnReceived);
+                switch (_currentDataFlowType)
+                {
+                    case DataType.Small:
+                        _manager.RecvData<SmallTestObject>(ref remote, obj =>
+                        {
+                            _receivingQueue.Add(obj);
+                            if (obj.GetDataType() == DataType.Big)
+                                _currentDataFlowType = DataType.Big;
+                        });
+                        break;
+                    case DataType.Big:
+                        _manager.RecvData<BigTestObject>(ref remote, obj =>
+                        {
+                            _receivingQueue.Add(obj);
+                            if (obj.GetDataType() == DataType.Small)
+                                _currentDataFlowType = DataType.Small;
+                        });
+                        break;
+                }
             }
-        }
-
-        // TODO: Replase this method with some concrete type of argument
-        private void OnReceived(SerializableObjectBase obj)
-        {
-            _receivingQueue.Add(obj);
         }
 
         private void ProcessingLoop()
         {
             foreach (var obj in _receivingQueue.GetConsumingEnumerable())
             {
+                var handles = _handles[obj.GetDataType()];
                 for (int i = 0; i < _handles.Count; i++)
-                    _handles[i].Process(obj);
+                    handles[i].Process(obj);
             }
         }
 

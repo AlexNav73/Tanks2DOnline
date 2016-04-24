@@ -58,6 +58,7 @@
     <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
     <Compile Include="Serialization\Attributes\SizableAttribute.cs" />
     <Compile Include="Serialization\DataSize.cs" />
+    <Compile Include="Serialization\DataType.cs" />
     <Compile Include="Serialization\ObjectState.cs" />
     <Compile Include="Serialization\SerializationObjectBase.cs" />
   </ItemGroup>

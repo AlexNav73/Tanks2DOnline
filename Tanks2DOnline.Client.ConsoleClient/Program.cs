@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Client.ConsoleClient.Configuration.Providers;
+using Tanks2DOnline.Client.ConsoleClient.Handles;
 using Tanks2DOnline.Client.ConsoleClient.Handles.Implementations;
 using Tanks2DOnline.Core.Data;
 using Tanks2DOnline.Core.Factory;
@@ -34,7 +35,10 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var configFactory = new ConfigurationFactory(paramsProvider, configProvider);
             var clientConfig = configFactory.Create<ClientConfiguration>();
             clientConfig.Port = rand.Next()%1000 + 25000;
-            var client = new Client(clientConfig, new[] {new SmallObjectProcessHandle()});
+            var client = new Client(clientConfig, new Dictionary<DataType, IEnumerable<IHandle>>()
+            {
+                { DataType.Small,  new[] { new SmallObjectProcessHandle() }}
+            });
 
             client.Start(Console.ReadLine(), () =>
             {
@@ -45,39 +49,6 @@ namespace Tanks2DOnline.Client.ConsoleClient
                     client.SendObject(small);
                 }
             });
-        }
-
-        private void DoWork()
-        {
-            var rand = new Random();
-            using (var manager = new DataTransferManager(IPAddress.Loopback, rand.Next() % 1000 + 25000))
-            {
-                var small = SmallTestObject.Create();
-                var packet = new Packet() {Type = PacketType.Registration, Data = Encoding.ASCII.GetBytes(Console.ReadLine())};
-                
-                var serverSocket = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
-                var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
-
-                manager.SendData(serverSocket, packet, PacketType.Registration);
-                var task = Task.Factory.StartNew(() =>
-                {
-                    while (true)
-                    {
-                        small.Message = Console.ReadKey().KeyChar + "";
-                        Console.WriteLine();
-                        manager.SendData(serverSocket, small, PacketType.SmallData);
-                    }
-                });
-                Task.Factory.StartNew(() =>
-                {
-                    while (true)
-                    {
-                        manager.RecvData(ref remote, (SmallTestObject o) => LogManager.Info(o.Message));
-                    }
-                });
-
-                task.Wait();
-            }
         }
     }
 }

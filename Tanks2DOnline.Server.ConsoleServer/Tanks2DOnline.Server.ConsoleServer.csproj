@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\IAction.cs" />
-    <Compile Include="Actions\Implementations\ProcessSmallDataAction.cs" />
+    <Compile Include="Actions\Implementations\ProcessDataAction.cs" />
     <Compile Include="Actions\Implementations\RegisterUserAction.cs" />
     <Compile Include="Configuration\Creators\ServerConfigCreator.cs" />
     <Compile Include="Configuration\Providers\ConfigurationProvider.cs" />

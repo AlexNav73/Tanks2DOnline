@@ -37,7 +37,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 
             Task.Factory.StartNew(() =>
             {
-                callback(packet.Type == PacketType.SmallData
+                callback(packet.Type == PacketType.Data
                     ? DataHelper.ExtractData<T>(packet)
                     : null);
             });

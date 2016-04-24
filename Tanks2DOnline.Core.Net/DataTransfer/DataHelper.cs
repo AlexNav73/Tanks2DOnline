@@ -10,7 +10,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 {
     public static class DataHelper
     {
-        private const long UdpPacketMaxSize = 25535;
+        private const long UdpPacketMaxSize = SerializableObjectBase.UdpPacketMaxSize;
 
         public static IEnumerable<Packet.Packet> SplitToPackets<T>(T item, PacketType type) where T : SerializableObjectBase
         {

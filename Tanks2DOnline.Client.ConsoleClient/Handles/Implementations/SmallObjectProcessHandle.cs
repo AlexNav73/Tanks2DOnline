@@ -13,7 +13,7 @@ namespace Tanks2DOnline.Client.ConsoleClient.Handles.Implementations
     {
         protected override void Process(SmallTestObject obj)
         {
-            LogManager.Info(obj.Message);
+            LogManager.Info("SmallTestObject: {0}", obj.Message);
         }
 
         protected override bool CanProcess(object obj)

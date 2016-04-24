@@ -23,7 +23,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
         private readonly Dictionary<PacketType, IAction> _actions = new Dictionary<PacketType, IAction>()
         {
             {PacketType.Registration, new RegisterUserAction()},
-            {PacketType.SmallData, new ProcessSmallDataAction()}
+            {PacketType.Data, new ProcessDataAction()}
         };
 
         private readonly DataTransferManager _manager;
@@ -58,6 +58,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                     LogManager.Info("User {0} was registered with address {1}", name, remote);
                     _manager.SendData(remote, new Packet(), PacketType.Registration);
                 }
+                else LogManager.Info("User {0} has logged on already", name);
             }
         }
 

@@ -2,8 +2,7 @@
 {
     public enum PacketType
     {
-        SmallData,
-        LargeData,
+        Data,
         Registration,
         PacketAcceptRequest
     }
