@@ -37,39 +37,23 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
         public void SendData<T>(EndPoint remote, T data, PacketType type) where T : SerializableObjectBase
         {
-            try
-            {
-                var attr = typeof(T).GetCustomAttribute<SizableAttribute>();
-                var size = attr != null ? attr.Size : DataSize.Small;
+            var attr = typeof(T).GetCustomAttribute<SizableAttribute>();
+            var size = attr != null ? attr.Size : DataSize.Small;
 
-                if (_protocols.ContainsKey(size))
-                {
-                    _protocols[size].Send(remote, data, type);
-                }
-            }
-            catch (Exception e)
+            if (_protocols.ContainsKey(size))
             {
-                LogManager.Error("DataTransferManager Send: {0}", e.Message);
-                throw;
+                _protocols[size].Send(remote, data, type);
             }
         }
 
         public void RecvData(Type objType, ref EndPoint remote, Action<object> callback)
         {
-            try
-            {
-                var attr = objType.GetCustomAttribute<SizableAttribute>();
-                var size = attr != null ? attr.Size : DataSize.Small;
+            var attr = objType.GetCustomAttribute<SizableAttribute>();
+            var size = attr != null ? attr.Size : DataSize.Small;
 
-                if (_protocols.ContainsKey(size))
-                {
-                    _protocols[size].Recv(objType, ref remote, callback);
-                }
-            }
-            catch (Exception e)
+            if (_protocols.ContainsKey(size))
             {
-                LogManager.Error("DataTransferManager Recv: {0}", e.Message);
-//                throw;
+                _protocols[size].Recv(objType, ref remote, callback);
             }
         }
 

@@ -1,9 +1,10 @@
 ﻿namespace Tanks2DOnline.Core.Net.Packet
 {
-    public enum PacketType
+    public enum PacketType : byte
     {
         Data,
-        Registration,
+        LogOn,
+        LogOff,
         PacketAcceptRequest
     }
 }

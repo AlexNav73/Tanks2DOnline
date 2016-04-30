@@ -22,39 +22,23 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 
         public Packet.Packet RecvPacket(ref EndPoint point)
         {
-            try
-            {
-                Packet.Packet packet = null;
+            Packet.Packet packet = null;
 
-                lock (_mutex)
+            lock (_mutex)
+            {
+                var recv = _socket.ReceiveFrom(_buffer, ref point);
+                if (recv != 0)
                 {
-                    var recv = _socket.ReceiveFrom(_buffer, ref point);
-                    if (recv != 0)
-                    {
-                        packet = Packet.Packet.FromBytes(_buffer, recv);
-                    }
+                    packet = Packet.Packet.FromBytes(_buffer, recv);
                 }
+            }
 
-                return packet;
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error("UdpSocket: {0}\n\nStack Trace: {1}", ex.Message, ex.StackTrace);
-                throw;
-            }
+            return packet;
         }
 
         public int SendPacket(Packet.Packet packet, EndPoint dest)
         {
-            try
-            {
-                return _socket.SendTo(packet.Serialize(), dest);
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error("UdpSocket: {0}\n\nStack Trace: {1}", ex.Message, ex.StackTrace);
-                throw;
-            }
+            return _socket.SendTo(packet.Serialize(), dest);
         }
 
         #region IDisposable

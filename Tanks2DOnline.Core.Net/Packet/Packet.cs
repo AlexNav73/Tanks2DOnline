@@ -41,7 +41,7 @@ namespace Tanks2DOnline.Core.Net.Packet
 
         protected override void AfterDeserialization()
         {
-            if (Type == PacketType.Registration && Data != null)
+            if (Type == PacketType.LogOn && Data != null)
             {
                 UserName = Encoding.ASCII.GetString(Data);
             }

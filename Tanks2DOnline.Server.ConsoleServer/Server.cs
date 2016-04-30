@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
@@ -19,10 +20,9 @@ namespace Tanks2DOnline.Server.ConsoleServer
     {
         private readonly BlockingCollection<Packet> _queue = new BlockingCollection<Packet>();
         private readonly Dictionary<string, EndPoint> _users = new Dictionary<string, EndPoint>();
-
         private readonly Dictionary<PacketType, IAction> _actions = new Dictionary<PacketType, IAction>()
         {
-            {PacketType.Registration, new RegisterUserAction()},
+            {PacketType.LogOn, new RegisterUserAction()},
             {PacketType.Data, new ProcessDataAction()}
         };
 
@@ -45,7 +45,14 @@ namespace Tanks2DOnline.Server.ConsoleServer
             var packetType = typeof (Packet);
             while (true)
             {
-                _manager.RecvData(packetType, ref remote, p => _queue.Add(p as Packet));
+                try
+                {
+                    _manager.RecvData(packetType, ref remote, p => _queue.Add(p as Packet));
+                }
+                catch (SocketException e)
+                {
+                    LogManager.Info("User has quit, but not log off.");
+                }
             }
         }
 
@@ -57,7 +64,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 {
                     _users.Add(name, remote);
                     LogManager.Info("User {0} was registered with address {1}", name, remote);
-                    _manager.SendData(remote, new Packet(), PacketType.Registration);
+                    _manager.SendData(remote, new Packet(), PacketType.LogOn);
                 }
                 else LogManager.Info("User {0} has logged on already", name);
             }
@@ -74,7 +81,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
         public void SendReply(EndPoint remote, Packet packet, PacketType type)
         {
             _manager.SendData(remote, packet, type);
-            LogManager.Debug("Reply to user {0} sended", _users.FirstOrDefault(u => u.Value == remote).Key);
+            LogManager.Debug("Reply to user {0} sended", _users.FirstOrDefault(u => u.Value.Equals(remote)).Key);
         }
 
         private void ProcessCollection()

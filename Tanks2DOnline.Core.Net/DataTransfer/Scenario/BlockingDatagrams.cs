@@ -14,7 +14,6 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 {
     public class BlockingDatagrams : SimplePasketTransfer, IDataTransferer
     {
-        private readonly char[] _separator = {':'};
         public BlockingDatagrams(Socket socket) : base(socket) { }
 
         public void Send<T>(EndPoint remote, T obj, PacketType type) where T : SerializableObjectBase
@@ -27,8 +26,8 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
         public void Recv(Type objTpe, ref EndPoint remote, Action<object> callback)
         {
             var packet = RecvPacket(ref remote);
-            var parts = remote.ToString().Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-            packet.Address = new IPEndPoint(IPAddress.Parse(parts[0]), int.Parse(parts[1]));
+            var endPoint = ((IPEndPoint) remote);
+            packet.Address = new IPEndPoint(endPoint.Address, endPoint.Port);
             callback(packet);
         }
     }

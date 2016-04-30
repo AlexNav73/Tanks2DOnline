@@ -47,19 +47,18 @@ namespace Tanks2DOnline.Client.ConsoleClient
             Task.Factory.StartNew(() =>
             {
                 var packet = new Packet() {Data = Encoding.ASCII.GetBytes(userName)};
-                _manager.SendData(_serverSocket, packet, PacketType.Registration);
+                _manager.SendData(_serverSocket, packet, PacketType.LogOn);
 
                 var remote = (EndPoint) new IPEndPoint(IPAddress.Any, 0);
-                _manager.RecvData(typeof(Packet), ref remote, p => IsConnected = ((Packet)p).Type == PacketType.Registration);
+                _manager.RecvData(typeof(Packet), ref remote, p => IsConnected = ((Packet)p).Type == PacketType.LogOn);
             }).Wait(new TimeSpan(0, 0, 0, 0, _config.RegistrationTimeout));
 
             if (IsConnected)
             {
-                var task = Task.Factory.StartNew(SendingLoop);
+                Task.Factory.StartNew(SendingLoop);
                 Task.Factory.StartNew(ReceivingLoop);
                 Task.Factory.StartNew(ProcessingLoop);
                 work();
-                task.Wait();
             }
         }
 

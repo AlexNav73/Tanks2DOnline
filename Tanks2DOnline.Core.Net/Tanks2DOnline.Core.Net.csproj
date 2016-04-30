@@ -43,7 +43,6 @@
     <Compile Include="DataTransfer\Interfaces\IDataSender.cs" />
     <Compile Include="DataTransfer\Interfaces\IDataTransferer.cs" />
     <Compile Include="DataTransfer\Scenario\BlockingDatagrams.cs" />
-    <Compile Include="Extensions\EndPointExt.cs" />
     <Compile Include="TestObjects\BigTestObject.cs" />
     <Compile Include="Packet\Packet.cs" />
     <Compile Include="Packet\PacketType.cs" />

@@ -12,7 +12,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions.Implementations
     {
         public void Process(Server serverState, Packet packet)
         {
-            if (packet.Type == PacketType.Registration)
+            if (packet.Type == PacketType.LogOn)
             {
                 serverState.RegisterUser(packet.UserName, packet.Address);
             }

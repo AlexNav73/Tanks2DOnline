@@ -45,7 +45,11 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 var small = SmallTestObject.Create();
                 while (true)
                 {
-                    small.Message = Console.ReadKey().KeyChar.ToString();
+                    var key = Console.ReadKey();
+                    if (key.Key == ConsoleKey.Enter)
+                        break;
+
+                    small.Message = key.KeyChar.ToString();
                     client.SendObject(small);
                 }
             });
