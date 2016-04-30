@@ -42,9 +42,10 @@ namespace Tanks2DOnline.Server.ConsoleServer
         public void Listen()
         {
             var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
+            var packetType = typeof (Packet);
             while (true)
             {
-                _manager.RecvData<Packet>(ref remote, p => _queue.Add(p));
+                _manager.RecvData(packetType, ref remote, p => _queue.Add(p as Packet));
             }
         }
 

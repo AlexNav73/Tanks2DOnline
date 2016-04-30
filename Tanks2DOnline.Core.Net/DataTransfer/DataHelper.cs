@@ -35,7 +35,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             }
         }
 
-        public static T ExtractData<T>(List<Packet.Packet> packets) where T : SerializableObjectBase
+        public static object ExtractData(Type objType, List<Packet.Packet> packets)
         {
             packets.Sort();
             packets = packets.Distinct().ToList();
@@ -53,14 +53,14 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
                 Array.Copy(packets[i].Data, 0, data, i * UdpPacketMaxSize, dataLength);
             }
 
-            var res = Activator.CreateInstance<T>();
+            var res = Activator.CreateInstance(objType) as SerializableObjectBase;
             res.Desirialize(data, data.Length);
             return res;
         }
 
-        public static T ExtractData<T>(Packet.Packet packet) where T : SerializableObjectBase
+        public static object ExtractData(Type objType, Packet.Packet packet)
         {
-            var res = Activator.CreateInstance<T>();
+            var res = Activator.CreateInstance(objType) as SerializableObjectBase;
             res.Desirialize(packet.Data, packet.Data.Length);
             return res;
         }

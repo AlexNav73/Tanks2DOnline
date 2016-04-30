@@ -29,7 +29,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
             });
         }
 
-        public void Recv<T>(ref EndPoint remote, Action<T> callback) where T : SerializableObjectBase
+        public void Recv(Type objType, ref EndPoint remote, Action<object> callback)
         {
             var first = Recv(ref remote);
             var packets = new List<Packet.Packet>(first.Count);
@@ -39,7 +39,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
 
             Task.Factory.StartNew(() =>
             {
-                callback(DataHelper.ExtractData<T>(packets));
+                callback(DataHelper.ExtractData(objType, packets));
             });
         }
 

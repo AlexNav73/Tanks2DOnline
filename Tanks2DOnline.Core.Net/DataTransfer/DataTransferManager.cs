@@ -54,16 +54,16 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
             }
         }
 
-        public void RecvData<T>(ref EndPoint remote, Action<T> callback) where T : SerializableObjectBase
+        public void RecvData(Type objType, ref EndPoint remote, Action<object> callback)
         {
             try
             {
-                var attr = typeof(T).GetCustomAttribute<SizableAttribute>();
+                var attr = objType.GetCustomAttribute<SizableAttribute>();
                 var size = attr != null ? attr.Size : DataSize.Small;
 
                 if (_protocols.ContainsKey(size))
                 {
-                    _protocols[size].Recv(ref remote, callback);
+                    _protocols[size].Recv(objType, ref remote, callback);
                 }
             }
             catch (Exception e)

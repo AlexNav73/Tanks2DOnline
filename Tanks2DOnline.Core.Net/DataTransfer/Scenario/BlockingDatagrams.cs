@@ -24,12 +24,12 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Scenario
             SendPacket(packet, remote);
         }
 
-        public void Recv<T>(ref EndPoint remote, Action<T> callback) where T : SerializableObjectBase
+        public void Recv(Type objTpe, ref EndPoint remote, Action<object> callback)
         {
             var packet = RecvPacket(ref remote);
             var parts = remote.ToString().Split(_separator, StringSplitOptions.RemoveEmptyEntries);
             packet.Address = new IPEndPoint(IPAddress.Parse(parts[0]), int.Parse(parts[1]));
-            callback(packet as T);
+            callback(packet);
         }
     }
 }

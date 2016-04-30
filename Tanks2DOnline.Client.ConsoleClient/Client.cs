@@ -24,6 +24,11 @@ namespace Tanks2DOnline.Client.ConsoleClient
         private readonly BlockingCollection<SerializableObjectBase> _sendingQueue = new BlockingCollection<SerializableObjectBase>();
         private readonly BlockingCollection<SerializableObjectBase> _receivingQueue = new BlockingCollection<SerializableObjectBase>();
         private readonly Dictionary<DataType, List<IHandle>> _handles;
+        private readonly Dictionary<DataType, Type> _maps = new Dictionary<DataType, Type>()
+        {
+            {DataType.Small, typeof(SmallTestObject)},
+            {DataType.Big, typeof(BigTestObject)}
+        };
         private DataType _currentDataFlowType = DataType.Small;
 
         public bool IsConnected { get; set; }
@@ -45,7 +50,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 _manager.SendData(_serverSocket, packet, PacketType.Registration);
 
                 var remote = (EndPoint) new IPEndPoint(IPAddress.Any, 0);
-                _manager.RecvData<Packet>(ref remote, p => IsConnected = p.Type == PacketType.Registration);
+                _manager.RecvData(typeof(Packet), ref remote, p => IsConnected = ((Packet)p).Type == PacketType.Registration);
             }).Wait(new TimeSpan(0, 0, 0, 0, _config.RegistrationTimeout));
 
             if (IsConnected)
@@ -71,25 +76,12 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var remote = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
-                switch (_currentDataFlowType)
+                _manager.RecvData(_maps[_currentDataFlowType], ref remote, o =>
                 {
-                    case DataType.Small:
-                        _manager.RecvData<SmallTestObject>(ref remote, obj =>
-                        {
-                            _receivingQueue.Add(obj);
-                            if (obj.GetDataType() == DataType.Big)
-                                _currentDataFlowType = DataType.Big;
-                        });
-                        break;
-                    case DataType.Big:
-                        _manager.RecvData<BigTestObject>(ref remote, obj =>
-                        {
-                            _receivingQueue.Add(obj);
-                            if (obj.GetDataType() == DataType.Small)
-                                _currentDataFlowType = DataType.Small;
-                        });
-                        break;
-                }
+                    var obj = o as SerializableObjectBase;
+                    _receivingQueue.Add(obj);
+                    _currentDataFlowType = obj.GetDataType();
+                });
             }
         }
 

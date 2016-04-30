@@ -6,6 +6,6 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Interfaces
 {
     public interface IDataReceiver
     {
-        void Recv<T>(ref EndPoint remote, Action<T> callback) where T : SerializableObjectBase;
+        void Recv(Type objType, ref EndPoint remote, Action<object> callback);
     }
 }
