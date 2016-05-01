@@ -19,7 +19,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
     public class Server : IDisposable
     {
         private readonly BlockingCollection<Packet> _queue = new BlockingCollection<Packet>();
-        private readonly Dictionary<string, EndPoint> _users = new Dictionary<string, EndPoint>();
+        private readonly UserMapCollection _users = new UserMapCollection();
         private readonly Dictionary<PacketType, IAction> _actions = new Dictionary<PacketType, IAction>()
         {
             {PacketType.LogOn, new RegisterUserAction()},
@@ -56,32 +56,28 @@ namespace Tanks2DOnline.Server.ConsoleServer
             }
         }
 
-        public void RegisterUser(string name, EndPoint remote)
+        public void RegisterUser(string name, IPEndPoint remote)
         {
             lock (_users)
             {
-                if (!_users.ContainsKey(name))
-                {
-                    _users.Add(name, remote);
-                    LogManager.Info("User {0} was registered with address {1}", name, remote);
-                    _manager.SendData(remote, new Packet(), PacketType.LogOn);
-                }
-                else LogManager.Info("User {0} has logged on already", name);
+                _users.Add(name, remote);
+                LogManager.Info("User {0} was registered with address {1}", name, remote);
+                _manager.SendData(remote, new Packet(), PacketType.LogOn);
             }
         }
 
-        public List<KeyValuePair<string, EndPoint>> GetUsersExcept(EndPoint address)
+        public List<IPEndPoint> GetUsersExcept(IPEndPoint address)
         {
             lock (_users)
             {
-                return _users.Where(u => !u.Value.Equals(address)).ToList();
+                return _users.GetAllExcept(address);
             }
         }
 
-        public void SendReply(EndPoint remote, Packet packet, PacketType type)
+        public void SendReply(IPEndPoint remote, Packet packet, PacketType type)
         {
             _manager.SendData(remote, packet, type);
-            LogManager.Debug("Reply to user {0} sended", _users.FirstOrDefault(u => u.Value.Equals(remote)).Key);
+            LogManager.Debug("Reply to user {0} sended", _users.Get(remote));
         }
 
         private void ProcessCollection()
