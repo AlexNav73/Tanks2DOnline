@@ -9,7 +9,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Configuration.Creators
         {
             return new ServerConfiguration()
             {
-                Port = prms.GetValue<int>(Params.Port)
+                Port = prms.GetValue<int>(ServerParams.Port)
             };
         }
     }

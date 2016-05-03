@@ -9,23 +9,18 @@ namespace Tanks2DOnline.Core.Factory
     {
         private readonly Params _prms = null;
 
-        public ConfigurationFactory(IProvider<string, object> paramsProvider, IProvider<Type, ICreator> configProvider)
+        public ConfigurationFactory(Params prms, IProvider<Type, ICreator> configProvider)
         {
-            _prms = new Params(paramsProvider);
-            LoadValues(configProvider);
+            _prms = prms;
+            foreach (var pair in configProvider)
+            {
+                this[pair.Key] = pair.Value;
+            }
         }
 
         public T Create<T>()
         {
             return (T)this[typeof (T)].Create(_prms);
-        }
-
-        protected override void LoadValues(IProvider<Type, ICreator> provider)
-        {
-            foreach (var pair in provider)
-            {
-                this[pair.Key] = pair.Value;
-            }
         }
     }
 }

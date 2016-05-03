@@ -32,7 +32,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
 
             var paramsProvider = new AppConfigProvider(ConfigurationManager.AppSettings);
             var configProvider = new ConfigurationProvider();
-            var configFactory = new ConfigurationFactory(paramsProvider, configProvider);
+            var configFactory = new ConfigurationFactory(new ClientParams(paramsProvider), configProvider);
             var clientConfig = configFactory.Create<ClientConfiguration>();
             clientConfig.Port = rand.Next()%1000 + 25000;
             var client = new Client(clientConfig, new Dictionary<DataType, IEnumerable<IHandle>>()

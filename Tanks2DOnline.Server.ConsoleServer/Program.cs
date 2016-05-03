@@ -28,7 +28,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             var paramsProvider = new AppConfigProvider(ConfigurationManager.AppSettings);
             var configProvider = new ConfigurationProvider();
 
-            var factory = new ConfigurationFactory(paramsProvider, configProvider);
+            var factory = new ConfigurationFactory(new ServerParams(paramsProvider), configProvider);
 
             using(var server = new Server(factory.Create<ServerConfiguration>()))
                 server.Listen();

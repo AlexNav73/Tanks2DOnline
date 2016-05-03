@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="ClientParams.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\Creators\ClientConfigurationCreator.cs" />
     <Compile Include="Configuration\Providers\ConfigurationProvider.cs" />

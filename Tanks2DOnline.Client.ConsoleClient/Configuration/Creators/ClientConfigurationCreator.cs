@@ -14,10 +14,10 @@ namespace Tanks2DOnline.Client.ConsoleClient.Configuration.Creators
         {
             return new ClientConfiguration()
             {
-                Port = prms.GetValue<int>(Params.Port),
-                RegistrationTimeout = prms.GetValue<int>(Params.ServerRegistrationTimeout),
-                ServerIP = prms.GetValue<string>(Params.ServerIP),
-                ServerPort = prms.GetValue<int>(Params.ServerPort)
+                Port = prms.GetValue<int>(ClientParams.Port),
+                RegistrationTimeout = prms.GetValue<int>(ClientParams.ServerRegistrationTimeout),
+                ServerIP = prms.GetValue<string>(ClientParams.ServerIP),
+                ServerPort = prms.GetValue<int>(ClientParams.ServerPort)
             };
         }
     }

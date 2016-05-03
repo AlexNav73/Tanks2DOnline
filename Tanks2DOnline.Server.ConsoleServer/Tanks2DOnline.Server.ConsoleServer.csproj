@@ -48,6 +48,7 @@
     <Compile Include="Configuration\Creators\ServerConfigCreator.cs" />
     <Compile Include="Configuration\Providers\ConfigurationProvider.cs" />
     <Compile Include="Configuration\ServerConfiguration.cs" />
+    <Compile Include="Configuration\ServerParams.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />

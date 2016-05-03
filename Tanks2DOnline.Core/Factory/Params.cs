@@ -8,26 +8,19 @@ using Tanks2DOnline.Core.Providers;
 
 namespace Tanks2DOnline.Core.Factory
 {
-    public sealed class Params : Flyweight<string, object>
+    public abstract class Params : Flyweight<string, object>
     {
-        public const string Port = "Port";
-        public const string ServerIP = "ServerIP";
-        public const string ServerPort = "ServerPort";
-        public const string ServerRegistrationTimeout = "ServerRegistrationTimeout";
+        protected IProvider<string, object> Provider;
 
-        public Params(IProvider<string, object> provider)
+        protected void LoadValue(string key)
         {
-            Argument.IsNull(provider, "provider");
-
-            LoadValues(provider);
+            this[key] = Provider.Get(key);
         }
 
-        protected override void LoadValues(IProvider<string, object> provider)
+        protected Params(IProvider<string, object> provider)
         {
-            this[Port] = provider.Get(Port);
-            this[ServerIP] = provider.Get(ServerIP);
-            this[ServerPort] = provider.Get(ServerPort);
-            this[ServerRegistrationTimeout] = provider.Get(ServerRegistrationTimeout);
+            Argument.IsNull(provider, "provider");
+            Provider = provider;
         }
 
         public TValue GetValue<TValue>(string key)

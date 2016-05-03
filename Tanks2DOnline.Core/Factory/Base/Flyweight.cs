@@ -13,8 +13,6 @@ namespace Tanks2DOnline.Core.Factory.Base
             set { Add(key, value); }
         }
 
-        protected abstract void LoadValues(IProvider<TKey, TValue> provider);
-
         protected virtual TValue GetValue(TKey key)
         {
             return _maps.ContainsKey(key) ? _maps[key] : default(TValue);
