@@ -10,6 +10,6 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
 {
     public interface IAction
     {
-        void Process(Server serverState, Packet packet);
+        void Process(ServerState serverState, Packet packet);
     }
 }

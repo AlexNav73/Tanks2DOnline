@@ -61,15 +61,18 @@ namespace Tanks2DOnline.Core.Collections.Base
             linkedObject.Data = dataObject;
             linkedObject.Link = linkItem;
 
-            if (Root.Right == null)
-                Root.Right = dataObject;
-            else
-                Add((DataObject)Root.Right, dataObject);
+            lock (Root)
+            {
+                if (Root.Right == null)
+                    Root.Right = dataObject;
+                else
+                    Add((DataObject)Root.Right, dataObject);
 
-            if (Root.Left == null)
-                Root.Left = linkedObject;
-            else
-                Add((LinkedObject)Root.Left, linkedObject);
+                if (Root.Left == null)
+                    Root.Left = linkedObject;
+                else
+                    Add((LinkedObject)Root.Left, linkedObject);
+            }
         }
 
         private void Add(LinkedObject root, LinkedObject newNode)
@@ -117,14 +120,20 @@ namespace Tanks2DOnline.Core.Collections.Base
 
         public TLink Get(TObject item)
         {
-            var tmp = (DataObject)FindNode(Root.Right, item);
-            return ((LinkedObject) tmp.Link).Link;
+            lock (Root)
+            {
+                var tmp = (DataObject)FindNode(Root.Right, item);
+                return ((LinkedObject)tmp.Link).Link;
+            }
         }
 
         public TObject Get(TLink item)
         {
-            var tmp = (LinkedObject) FindNode(Root.Left, item);
-            return ((DataObject) tmp.Data).Data;
+            lock (Root)
+            {
+                var tmp = (LinkedObject)FindNode(Root.Left, item);
+                return ((DataObject)tmp.Data).Data;
+            }
         }
     }
 }
