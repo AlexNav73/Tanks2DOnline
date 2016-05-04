@@ -10,6 +10,6 @@ namespace Tanks2DOnline.Server.ConsoleServer
     public class ServerState
     {
         public UserMapCollection Users { get; set; }
-        public DataTransferManager DataTransferManager { get; set; }
+        public UdpClient Client { get; set; }
     }
 }

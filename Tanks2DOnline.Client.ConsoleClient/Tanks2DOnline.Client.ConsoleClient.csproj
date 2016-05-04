@@ -43,10 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="ClientParams.cs" />
+    <Compile Include="Configuration\ClientParams.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\Creators\ClientConfigurationCreator.cs" />
     <Compile Include="Configuration\Providers\ConfigurationProvider.cs" />
+    <Compile Include="Handles\ClientActions\ConsumingHandler.cs" />
     <Compile Include="Handles\IHandle.cs" />
     <Compile Include="Handles\Base\OnReceivedHandle.cs" />
     <Compile Include="Handles\Implementations\SmallObjectProcessHandle.cs" />

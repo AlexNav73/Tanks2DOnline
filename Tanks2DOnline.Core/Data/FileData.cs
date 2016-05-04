@@ -10,7 +10,6 @@ using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Data
 {
-    [Sizable(DataSize.Big)]
     public class FileData : SerializableObjectBase
     {
         [Mark] public byte[] Data { get; set; }

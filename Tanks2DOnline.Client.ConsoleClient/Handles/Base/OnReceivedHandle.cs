@@ -7,7 +7,7 @@ namespace Tanks2DOnline.Client.ConsoleClient.Handles.Base
         protected abstract void Process(TEntity obj);
         protected abstract bool CanProcess(object obj);
 
-        public void Process<T>(T obj) where T : SerializableObjectBase
+        public void Process(object obj)
         {
             if (CanProcess(obj))
                 Process(obj as TEntity);

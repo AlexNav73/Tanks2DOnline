@@ -57,8 +57,6 @@
     <Compile Include="Providers\Implementations\AppConfigProvider.cs" />
     <Compile Include="Providers\IProvider.cs" />
     <Compile Include="Serialization\Attributes\MarkAttibute.cs" />
-    <Compile Include="Serialization\Attributes\SizableAttribute.cs" />
-    <Compile Include="Serialization\DataSize.cs" />
     <Compile Include="Serialization\DataType.cs" />
     <Compile Include="Serialization\ObjectState.cs" />
     <Compile Include="Serialization\SerializationObjectBase.cs" />

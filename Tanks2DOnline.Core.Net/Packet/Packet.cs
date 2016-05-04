@@ -6,12 +6,12 @@ using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Net.Packet
 {
-    [Sizable(DataSize.Packet)]
     public class Packet : SerializableObjectBase
     {
         [Mark] public int Id { get; set; }
         [Mark] public int Count { get; set; }
         [Mark] public PacketType Type { get; set; }
+        [Mark] public DataType DataType { get; set; }
         [Mark] public byte[] Data { get; set; }
 
         public string UserName { get; set; }

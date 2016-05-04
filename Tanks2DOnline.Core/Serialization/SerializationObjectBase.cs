@@ -19,11 +19,9 @@ namespace Tanks2DOnline.Core.Serialization
     public abstract class SerializableObjectBase
     {
         private readonly Type _self = typeof (SerializableObjectBase);
-        protected DataType DataType = DataType.Small;
         public const long UdpPacketMaxSize = 25535;
 
-        public DataType GetDataType() { return DataType; }
-        public void SetDataType(DataType type) { DataType = type; }
+        public abstract DataType GetDataType();
 
         public virtual byte[] Serialize()
         {

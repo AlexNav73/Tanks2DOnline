@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tanks2DOnline.Core.Factory;
+﻿using Tanks2DOnline.Core.Factory;
 using Tanks2DOnline.Core.Providers;
 
-namespace Tanks2DOnline.Client.ConsoleClient
+namespace Tanks2DOnline.Client.ConsoleClient.Configuration
 {
     public class ClientParams : Params
     {

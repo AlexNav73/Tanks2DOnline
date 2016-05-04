@@ -11,21 +11,21 @@ using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
-    public abstract class PacketTransferWithApproval : SimplePasketTransfer
+    public abstract class PacketTransferWithApproval
     {
         private readonly TimeSpan _timeout = new TimeSpan(0, 0, 0, 0, 50);
         private const int RetryCount = 10;
 
-        protected PacketTransferWithApproval(Socket socket) : base(socket)
+        protected PacketTransferWithApproval(Socket socket)
         {
         }
 
-        public override void Send(Packet.Packet packet, EndPoint remote)
+        public void Send(Packet.Packet packet, EndPoint remote)
         {
             int i = RetryCount;
             while (i-- > 0)
             {
-                base.Send(packet, remote);
+//                base.Send(packet, remote);
 
                 var task = Task.Factory.StartNew(() =>
                 {
@@ -43,14 +43,15 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
             }
         }
 
-        public override Packet.Packet Recv(ref EndPoint remote)
+        public Packet.Packet Recv(ref EndPoint remote)
         {
-            var packet = base.Recv(ref remote);
-            LogManager.Debug("Recv: Packet with id {0} and type {1} received", packet.Id, packet.Type);
-            var responce = new Packet.Packet(packet.Id, 0, PacketType.PacketAcceptRequest) {UserName = "Server"};
-            base.Send(responce, remote);
-            LogManager.Debug("Recv: Packet approval sended");
-            return packet;
+//            var packet = base.Recv(ref remote);
+//            LogManager.Debug("Recv: Packet with id {0} and type {1} received", packet.Id, packet.Type);
+//            var responce = new Packet.Packet(packet.Id, 0, PacketType.PacketAcceptRequest) {UserName = "Server"};
+//            base.Send(responce, remote);
+//            LogManager.Debug("Recv: Packet approval sended");
+//            return packet;
+            return null;
         }
     }
 }

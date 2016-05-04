@@ -13,6 +13,7 @@ using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Server.ConsoleServer.Actions;
 using Tanks2DOnline.Server.ConsoleServer.Actions.Implementations;
 using Tanks2DOnline.Server.ConsoleServer.Configuration;
+using UdpClient = Tanks2DOnline.Core.Net.DataTransfer.UdpClient;
 
 namespace Tanks2DOnline.Server.ConsoleServer
 {
@@ -30,9 +31,12 @@ namespace Tanks2DOnline.Server.ConsoleServer
 
         public Server(ServerConfiguration config, int tasksCount = 10)
         {
+            var udpClient = new UdpClient();
+            udpClient.Bind(IPAddress.Any, config.Port);
+
             _state = new ServerState
             {
-                DataTransferManager = new DataTransferManager(IPAddress.Any, config.Port),
+                Client = udpClient,
                 Users = new UserMapCollection()
             };
 
@@ -50,7 +54,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             {
                 try
                 {
-                    _state.DataTransferManager.RecvData(packetType, ref remote, p => _queue.Add(p as Packet));
+                    _state.Client.RecvData(packetType, ref remote, p => _queue.Add(p as Packet));
                 }
                 catch (SocketException e)
                 {
@@ -73,7 +77,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             if (!_isDisposed)
             {
                 _isDisposed = true;
-                _state.DataTransferManager.Dispose();
+                _state.Client.Dispose();
             }
         }
     }

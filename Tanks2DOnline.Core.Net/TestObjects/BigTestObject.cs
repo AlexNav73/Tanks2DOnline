@@ -3,7 +3,6 @@ using Tanks2DOnline.Core.Serialization.Attributes;
 
 namespace Tanks2DOnline.Core.Net.TestObjects
 {
-    [Sizable(DataSize.Big)]
     public class BigTestObject : SerializableObjectBase
     {
         [Mark] public byte[] Bytes { get; set; }

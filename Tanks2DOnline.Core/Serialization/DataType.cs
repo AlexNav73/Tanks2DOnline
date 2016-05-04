@@ -2,7 +2,6 @@
 {
     public enum DataType
     {
-        Small,
-        Big
+        State,
     }
 }
