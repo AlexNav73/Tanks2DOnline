@@ -17,7 +17,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions.Implementations
             {
                 serverState.Users.Add(packet.UserName, packet.Address);
                 LogManager.Info("User {0} was registered with address {1}", packet.UserName, packet.Address);
-                serverState.DataTransferManager.SendData(packet.Address, new Packet(), PacketType.LogOn);
+                serverState.Client.Send(PacketFactory.CreateLogOnPacket(packet.UserName), packet.Address);
             }
         }
     }

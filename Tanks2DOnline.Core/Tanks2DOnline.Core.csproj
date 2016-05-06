@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="Argument.cs" />
     <Compile Include="Collections\Base\FastSearchCollection.cs" />
-    <Compile Include="Data\FileData.cs" />
     <Compile Include="Extensions\EnumerableExtension.cs" />
     <Compile Include="Factory\Base\Flyweight.cs" />
     <Compile Include="Factory\ConfigurationFactory.cs" />

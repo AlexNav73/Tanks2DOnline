@@ -49,12 +49,11 @@ namespace Tanks2DOnline.Server.ConsoleServer
         public void Listen()
         {
             var remote = (EndPoint)new IPEndPoint(IPAddress.Loopback, 4242);
-            var packetType = typeof (Packet);
             while (true)
             {
                 try
                 {
-                    _state.Client.RecvData(packetType, ref remote, p => _queue.Add(p as Packet));
+                    _state.Client.Recv(ref remote);
                 }
                 catch (SocketException e)
                 {

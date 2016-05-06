@@ -1,26 +1,17 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
-using Tanks2DOnline.Core.Net.Handle;
-using Tanks2DOnline.Core.Serialization;
+using Tanks2DOnline.Core.Net.Handle.Interfaces;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer
 {
     public class UdpClient : UdpSocket
     {
-        private readonly HandleStorage _handles = new HandleStorage();
+        private readonly IPacketHandle _mainHandler;
 
-        public UdpClient(IDictionary<DataType, IPacketHandle> handles)
+        public UdpClient(IPacketHandle handle)
         {
-            foreach (var packetHandle in handles)
-                _handles.AddHandle(packetHandle.Key, packetHandle.Value);
-
+            _mainHandler = handle;
             Init(new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp));
         }
 
@@ -31,8 +22,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
         public void Recv(ref EndPoint remote)
         {
-            var packet = RecvPacket(ref remote);
-            _handles[packet.DataType].Process(packet);
+            _mainHandler.Process(RecvPacket(ref remote));
         }
 
         public void Send(Packet.Packet packet, EndPoint remote)

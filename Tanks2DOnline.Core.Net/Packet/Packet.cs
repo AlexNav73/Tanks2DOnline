@@ -33,6 +33,11 @@ namespace Tanks2DOnline.Core.Net.Packet
             return packet;
         }
 
+        public override DataType GetDataType()
+        {
+            return DataType;
+        }
+
         protected override void AfterDeserialization()
         {
             if (Type == PacketType.LogOn && Data != null)

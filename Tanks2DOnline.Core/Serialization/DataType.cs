@@ -2,6 +2,8 @@
 {
     public enum DataType
     {
+        Packet,
         State,
+        FileBatch
     }
 }

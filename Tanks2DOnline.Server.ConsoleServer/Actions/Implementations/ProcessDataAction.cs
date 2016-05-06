@@ -15,7 +15,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions.Implementations
             var users = serverState.Users.GetAllExcept(packet.Address);
             for (int i = 0; i < users.Count; i++)
             {
-                serverState.DataTransferManager.SendData(users[i], packet, packet.Type);
+                serverState.Client.Send(packet, users[i]);
                 LogManager.Debug("Reply to user {0} sended", serverState.Users.Get(users[i]));
             }
         }

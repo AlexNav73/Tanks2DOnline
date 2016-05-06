@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.Handle;
+using Tanks2DOnline.Core.Net.Handle.Interfaces;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Serialization;
@@ -14,14 +15,14 @@ namespace Tanks2DOnline.Client.ConsoleClient.Handles.ClientActions
 {
     public class ConsumingHandler : IPacketHandle
     {
-        private readonly Dictionary<DataType, IHandle> _handles;
+        private readonly HandleStorage _handles;
         private readonly BlockingCollection<Packet> _receivingQueue = new BlockingCollection<Packet>();
         private readonly Dictionary<DataType, Type> _maps = new Dictionary<DataType, Type>()
         {
             {DataType.State, typeof(SmallTestObject)}
         }; 
 
-        public ConsumingHandler(Dictionary<DataType, IHandle> handles)
+        public ConsumingHandler(HandleStorage handles)
         {
             _handles = handles;
             Task.Factory.StartNew(ProcessingLoop);

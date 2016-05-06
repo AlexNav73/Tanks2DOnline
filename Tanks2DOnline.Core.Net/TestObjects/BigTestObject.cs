@@ -22,5 +22,10 @@ namespace Tanks2DOnline.Core.Net.TestObjects
 
             Message = "Recived";
         }
+
+        public override DataType GetDataType()
+        {
+            return DataType.FileBatch;
+        }
     }
 }

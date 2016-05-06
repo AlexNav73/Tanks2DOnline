@@ -23,5 +23,10 @@ namespace Tanks2DOnline.Core.Net.TestObjects
                 Message = "Hi, bitch!"
             };
         }
+
+        public override DataType GetDataType()
+        {
+            return DataType.State;
+        }
     }
 }
