@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.DataTransfer;
+using Tanks2DOnline.Core.Net.Handle.Builder;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Server.ConsoleServer.Actions;
-using Tanks2DOnline.Server.ConsoleServer.Actions.Implementations;
 using Tanks2DOnline.Server.ConsoleServer.Configuration;
 using UdpClient = Tanks2DOnline.Core.Net.DataTransfer.UdpClient;
 
@@ -19,31 +19,13 @@ namespace Tanks2DOnline.Server.ConsoleServer
 {
     public class Server : IDisposable
     {
-        private readonly BlockingCollection<Packet> _queue = new BlockingCollection<Packet>();
-        private readonly ServerState _state = null;
-        private readonly Dictionary<PacketType, IAction> _actions = new Dictionary<PacketType, IAction>()
-        {
-            {PacketType.LogOn, new RegisterUserAction()},
-            {PacketType.Data, new ProcessDataAction()}
-        };
-
         private bool _isDisposed = false;
+        private readonly UdpClient _udpClient;
 
-        public Server(ServerConfiguration config, int tasksCount = 10)
+        public Server(ServerConfiguration config, PacketManagerBuilder builder)
         {
-            var udpClient = new UdpClient();
-            udpClient.Bind(IPAddress.Any, config.Port);
-
-            _state = new ServerState
-            {
-                Client = udpClient,
-                Users = new UserMapCollection()
-            };
-
-            for (int i = 0; i < tasksCount; i++)
-            {
-                Task.Factory.StartNew(ProcessCollection);
-            }
+            _udpClient = new UdpClient(builder);
+            _udpClient.Bind(IPAddress.Any, config.Port);
         }
 
         public void Listen()
@@ -53,7 +35,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             {
                 try
                 {
-                    _state.Client.Recv(ref remote);
+                    _udpClient.Recv(ref remote);
                 }
                 catch (SocketException e)
                 {
@@ -62,21 +44,12 @@ namespace Tanks2DOnline.Server.ConsoleServer
             }
         }
 
-        private void ProcessCollection()
-        {
-            foreach (var packet in _queue.GetConsumingEnumerable())
-            {
-                if (_actions.ContainsKey(packet.Type))
-                    _actions[packet.Type].Process(_state, packet);
-            }
-        }
-
         public void Dispose()
         {
             if (!_isDisposed)
             {
                 _isDisposed = true;
-                _state.Client.Dispose();
+                _udpClient.Dispose();
             }
         }
     }

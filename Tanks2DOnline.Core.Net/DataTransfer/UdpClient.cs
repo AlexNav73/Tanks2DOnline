@@ -1,17 +1,18 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
+using Tanks2DOnline.Core.Net.Handle.Builder;
 using Tanks2DOnline.Core.Net.Handle.Interfaces;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer
 {
     public class UdpClient : UdpSocket
     {
-        private readonly IPacketHandle _mainHandler;
+        private readonly PacketManager _manager;
 
-        public UdpClient(IPacketHandle handle)
+        public UdpClient(PacketManagerBuilder builder)
         {
-            _mainHandler = handle;
+            _manager = builder.Build(this);
             Init(new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp));
         }
 
@@ -22,7 +23,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
         public void Recv(ref EndPoint remote)
         {
-            _mainHandler.Process(RecvPacket(ref remote));
+            _manager.Manage(RecvPacket(ref remote));
         }
 
         public void Send(Packet.Packet packet, EndPoint remote)

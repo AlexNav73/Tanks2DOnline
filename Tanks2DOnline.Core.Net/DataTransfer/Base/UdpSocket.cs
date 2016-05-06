@@ -28,6 +28,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
                 if (recv != 0)
                 {
                     packet = Packet.Packet.FromBytes(_buffer, recv);
+                    packet.Address = (IPEndPoint)point;
                 }
             }
 

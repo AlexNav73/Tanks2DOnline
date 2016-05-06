@@ -47,10 +47,9 @@
     <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\Creators\ClientConfigurationCreator.cs" />
     <Compile Include="Configuration\Providers\ConfigurationProvider.cs" />
-    <Compile Include="Handles\ClientActions\ConsumingHandler.cs" />
-    <Compile Include="Handles\IHandle.cs" />
-    <Compile Include="Handles\Base\OnReceivedHandle.cs" />
-    <Compile Include="Handles\Implementations\SmallObjectProcessHandle.cs" />
+    <Compile Include="Actions\DataTypeParallelAction.cs" />
+    <Compile Include="Actions\LogOnAction.cs" />
+    <Compile Include="Handles\SmallObjectProcessHandle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

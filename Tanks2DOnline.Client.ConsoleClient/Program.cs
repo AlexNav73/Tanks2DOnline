@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using Tanks2DOnline.Client.ConsoleClient.Actions;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Client.ConsoleClient.Configuration.Providers;
 using Tanks2DOnline.Client.ConsoleClient.Handles;
-using Tanks2DOnline.Client.ConsoleClient.Handles.Implementations;
 using Tanks2DOnline.Core.Factory;
+using Tanks2DOnline.Core.Net.Handle.Builder;
+using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Providers.Implementations;
 using Tanks2DOnline.Core.Serialization;
@@ -23,10 +25,14 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var configFactory = new ConfigurationFactory(new ClientParams(paramsProvider), configProvider);
             var clientConfig = configFactory.Create<ClientConfiguration>();
             clientConfig.Port = rand.Next()%1000 + 25000;
-            var client = new Client(clientConfig, new Dictionary<DataType, IEnumerable<IHandle>>()
-            {
-                { DataType.Small,  new[] { new SmallObjectProcessHandle() }}
-            });
+
+            var builder = new PacketManagerBuilder();
+
+            builder.AddAction(PacketType.Data, new DataTypeParallelAction())
+                .AddHandle(DataType.State, new SmallObjectProcessHandle());
+            builder.AddAction(PacketType.LogOn, new LogOnAction());
+
+            var client = new Client(clientConfig, builder);
 
             client.Start(Console.ReadLine(), () =>
             {

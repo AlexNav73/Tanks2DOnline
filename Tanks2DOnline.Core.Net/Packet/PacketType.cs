@@ -5,6 +5,7 @@
         Data,
         LogOn,
         LogOff,
+        Register,
         PacketAcceptRequest
     }
 }

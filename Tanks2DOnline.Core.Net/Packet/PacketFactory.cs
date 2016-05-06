@@ -31,5 +31,13 @@ namespace Tanks2DOnline.Core.Net.Packet
                 DataType = obj.GetDataType()
             };
         }
+
+        public static Packet RegisterAccept()
+        {
+            return new Packet()
+            {
+                Type = PacketType.LogOn
+            };
+        }
     }
 }

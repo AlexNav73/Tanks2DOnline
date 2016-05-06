@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
-using Tanks2DOnline.Client.ConsoleClient.Handles;
-using Tanks2DOnline.Client.ConsoleClient.Handles.ClientActions;
-using Tanks2DOnline.Core.Net;
 using Tanks2DOnline.Core.Net.DataTransfer;
-using Tanks2DOnline.Core.Net.Handle;
+using Tanks2DOnline.Core.Net.Handle.Builder;
 using Tanks2DOnline.Core.Net.Packet;
-using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Client.ConsoleClient
@@ -29,17 +22,9 @@ namespace Tanks2DOnline.Client.ConsoleClient
 
         public bool IsConnected { get; set; }
 
-        public Client(ClientConfiguration config, Dictionary<DataType, IHandle> handles)
+        public Client(ClientConfiguration config, PacketManagerBuilder builder)
         {
-            var handle = new ConsumingHandler(handles);
-
-            // Needs to register every DataType to one handle (ConsumingHandler)
-            // because he process all data in separete thread
-            _udpClient = new UdpClient(new Dictionary<DataType, IPacketHandle>()
-            {
-                {DataType.State, handle}
-            });
-
+            _udpClient = new UdpClient(builder);
             _udpClient.Bind(IPAddress.Any, config.Port);
 
             IsConnected = false;
