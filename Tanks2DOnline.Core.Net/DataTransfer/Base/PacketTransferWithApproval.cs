@@ -11,6 +11,7 @@ using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 {
+    [Obsolete("This class is deprecated, don't use it any more")]
     public abstract class PacketTransferWithApproval
     {
         private readonly TimeSpan _timeout = new TimeSpan(0, 0, 0, 0, 50);

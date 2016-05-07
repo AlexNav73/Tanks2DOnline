@@ -23,5 +23,10 @@ namespace Tanks2DOnline.Core.Factory.Base
             if (!_maps.ContainsKey(key))
                 _maps.Add(key, value);
         }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return _maps.GetEnumerator();
+        }
     }
 }

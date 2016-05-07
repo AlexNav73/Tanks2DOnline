@@ -2,9 +2,10 @@
 using System.Collections.Concurrent;
 using System.Net;
 using System.Threading.Tasks;
+using Tanks2DOnline.Client.ConsoleClient.Actions;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Core.Net.DataTransfer;
-using Tanks2DOnline.Core.Net.Handle.Builder;
+using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
 
@@ -20,14 +21,15 @@ namespace Tanks2DOnline.Client.ConsoleClient
 
         private readonly BlockingCollection<SerializableObjectBase> _sendingQueue = new BlockingCollection<SerializableObjectBase>();
 
-        public bool IsConnected { get; set; }
+        private readonly LogOnAction _logOnAction;
 
         public Client(ClientConfiguration config, PacketManagerBuilder builder)
         {
+            _logOnAction = new LogOnAction();
+            builder.AddAction(PacketType.LogOn, _logOnAction);
             _udpClient = new UdpClient(builder);
             _udpClient.Bind(IPAddress.Any, config.Port);
 
-            IsConnected = false;
             _config = config;
             _serverSocket = new IPEndPoint(IPAddress.Parse(config.ServerIP), config.ServerPort);
         }
@@ -42,7 +44,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 _udpClient.Recv(ref remote);
             }).Wait(new TimeSpan(0, 0, 0, 0, _config.RegistrationTimeout));
 
-            if (IsConnected)
+            if (_logOnAction.IsConnected)
             {
                 Task.Factory.StartNew(SendingLoop);
                 Task.Factory.StartNew(ReceivingLoop);

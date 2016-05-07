@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.DataTransfer;
-using Tanks2DOnline.Core.Net.Handle.Builder;
-using Tanks2DOnline.Core.Net.Packet;
-using Tanks2DOnline.Core.Net.TestObjects;
-using Tanks2DOnline.Server.ConsoleServer.Actions;
+using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Server.ConsoleServer.Configuration;
 using UdpClient = Tanks2DOnline.Core.Net.DataTransfer.UdpClient;
 

@@ -37,10 +37,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Base
 
         public int SendPacket(Packet.Packet packet, EndPoint dest)
         {
-            lock (_mutex)
-            {
-                return Socket.SendTo(packet.Serialize(), dest);
-            }
+            return Socket.SendTo(packet.Serialize(), dest);
         }
 
         #region IDisposable

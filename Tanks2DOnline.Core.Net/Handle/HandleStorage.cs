@@ -9,14 +9,14 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.Handle
 {
-    public class HandleStorage : Flyweight<DataType, IMsgHandler>
+    public class HandleStorage : Flyweight<DataType, IHandler>
     {
-        public new IMsgHandler this[DataType key]
+        public new IHandler this[DataType key]
         {
             get { return GetValue(key); }
         }
 
-        public HandleStorage AddHandle(DataType key, IMsgHandler handler)
+        public HandleStorage AddHandle(DataType key, IHandler handler)
         {
             Add(key, handler);
             return this;

@@ -6,7 +6,7 @@ using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Client.ConsoleClient.Configuration.Providers;
 using Tanks2DOnline.Client.ConsoleClient.Handles;
 using Tanks2DOnline.Core.Factory;
-using Tanks2DOnline.Core.Net.Handle.Builder;
+using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Providers.Implementations;
@@ -30,7 +30,6 @@ namespace Tanks2DOnline.Client.ConsoleClient
 
             builder.AddAction(PacketType.Data, new DataTypeParallelAction())
                 .AddHandle(DataType.State, new SmallObjectProcessHandle());
-            builder.AddAction(PacketType.LogOn, new LogOnAction());
 
             var client = new Client(clientConfig, builder);
 

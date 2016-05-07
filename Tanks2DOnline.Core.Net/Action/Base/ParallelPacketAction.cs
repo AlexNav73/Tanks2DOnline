@@ -18,7 +18,8 @@ namespace Tanks2DOnline.Core.Net.Action.Base
         {
             foreach (var packet in ReceivingQueue.GetConsumingEnumerable())
             {
-                HandleAsync(packet);
+                if (IsSupported(packet.Type))
+                    HandleAsync(packet);
             }
         }
 

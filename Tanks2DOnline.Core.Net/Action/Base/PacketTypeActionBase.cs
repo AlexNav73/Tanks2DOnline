@@ -24,7 +24,7 @@ namespace Tanks2DOnline.Core.Net.Action.Base
             Handles = new HandleStorage();
         }
 
-        public HandleStorage AddHandle(DataType type, IMsgHandler handler)
+        public HandleStorage AddHandle(DataType type, IHandler handler)
         {
             Handles.AddHandle(type, handler);
             return Handles;

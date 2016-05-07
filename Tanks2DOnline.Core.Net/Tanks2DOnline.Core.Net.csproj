@@ -42,12 +42,12 @@
     <Compile Include="DataTransfer\PacketManager.cs" />
     <Compile Include="DataTransfer\UdpClient.cs" />
     <Compile Include="Handle\Base\OnReceiveHandler.cs" />
-    <Compile Include="Handle\Base\ParallelPacketHandler.cs" />
-    <Compile Include="Handle\Builder\PacketManagerBuilder.cs" />
+    <Compile Include="Action\Base\ParallelPacketAction.cs" />
+    <Compile Include="DataTransfer\Builder\PacketManagerBuilder.cs" />
     <Compile Include="Handle\HandleStorage.cs" />
-    <Compile Include="Handle\Interfaces\IMsgHandler.cs" />
-    <Compile Include="Handle\Interfaces\IPacketHandle.cs" />
-    <Compile Include="Handle\Base\PacketTypeHandlerBase.cs" />
+    <Compile Include="Handle\Interfaces\IHandler.cs" />
+    <Compile Include="Action\Interface\IPacketAction.cs" />
+    <Compile Include="Action\Base\PacketTypeActionBase.cs" />
     <Compile Include="Packet\PacketFactory.cs" />
     <Compile Include="TestObjects\BigTestObject.cs" />
     <Compile Include="Packet\Packet.cs" />

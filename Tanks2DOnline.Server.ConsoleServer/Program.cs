@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 using Tanks2DOnline.Core.Factory;
-using Tanks2DOnline.Core.Net.Handle.Builder;
+using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Providers.Implementations;
 using Tanks2DOnline.Server.ConsoleServer.Actions;
@@ -19,7 +19,9 @@ namespace Tanks2DOnline.Server.ConsoleServer
             var factory = new ConfigurationFactory(new ServerParams(paramsProvider), configProvider);
             var builder = new PacketManagerBuilder();
 
-            builder.AddAction(PacketType.LogOn, new RegisterPacketAction());
+            var users = new UserMapCollection();
+            builder.AddAction(PacketType.LogOn, new RegisterPacketAction(users));
+            builder.AddAction(PacketType.Data, new DataPacketAction(users));
 
             using(var server = new Server(factory.Create<ServerConfiguration>(), builder))
                 server.Listen();

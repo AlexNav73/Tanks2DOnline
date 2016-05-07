@@ -8,7 +8,7 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.Handle.Base
 {
-    public abstract class OnReceiveHandler<T> : IMsgHandler where T: SerializableObjectBase
+    public abstract class OnReceiveHandler<T> : IHandler where T: SerializableObjectBase
     {
         public abstract void Process(T obj);
 

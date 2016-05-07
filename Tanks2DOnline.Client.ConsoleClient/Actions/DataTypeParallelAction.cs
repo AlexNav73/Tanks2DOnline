@@ -23,7 +23,9 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
 
         protected override void HandleAsync(Packet packet)
         {
-            Handles[packet.DataType].Process(DataHelper.ExtractData(_maps[packet.DataType], packet));
+            var type = packet.DataType;
+            if (Handles[type] != null)
+                Handles[type].Process(DataHelper.ExtractData(_maps[type], packet));
         }
     }
 }

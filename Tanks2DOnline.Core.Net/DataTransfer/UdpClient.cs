@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
-using Tanks2DOnline.Core.Net.Handle.Builder;
+using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Core.Net.Handle.Interfaces;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer
