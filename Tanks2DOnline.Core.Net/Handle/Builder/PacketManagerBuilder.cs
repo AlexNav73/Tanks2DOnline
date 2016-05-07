@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.DataTransfer;
-using Tanks2DOnline.Core.Net.Handle.Base;
 using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Core.Net.Handle.Builder
 {
     public class PacketManagerBuilder
     {
-        private readonly Dictionary<PacketType, PacketTypeHandlerBase> _actions;
+        private readonly Dictionary<PacketType, PacketTypeActionBase> _actions;
 
         public PacketManagerBuilder()
         {
-            _actions = new Dictionary<PacketType, PacketTypeHandlerBase>();
+            _actions = new Dictionary<PacketType, PacketTypeActionBase>();
         }
 
-        public PacketTypeHandlerBase AddAction(PacketType type, PacketTypeHandlerBase action)
+        public PacketTypeActionBase AddAction(PacketType type, PacketTypeActionBase action)
         {
             if (_actions.ContainsKey(type))
                 return _actions[type];

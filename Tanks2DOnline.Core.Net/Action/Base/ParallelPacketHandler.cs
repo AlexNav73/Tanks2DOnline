@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Tanks2DOnline.Core.Net.DataTransfer;
-using Tanks2DOnline.Core.Net.Packet;
-using Tanks2DOnline.Core.Net.TestObjects;
-using Tanks2DOnline.Core.Serialization;
 
-namespace Tanks2DOnline.Core.Net.Handle.Base
+namespace Tanks2DOnline.Core.Net.Action.Base
 {
-    public abstract class ParallelPacketHandler : PacketTypeHandlerBase
+    public abstract class ParallelPacketAction : PacketTypeActionBase
     {
         private static readonly BlockingCollection<Packet.Packet> ReceivingQueue = new BlockingCollection<Packet.Packet>();
 
-        protected ParallelPacketHandler()
+        protected ParallelPacketAction()
         {
             Task.Factory.StartNew(ProcessingLoop);
         }

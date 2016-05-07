@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.Handle.Base;
 using Tanks2DOnline.Core.Net.Packet;
@@ -8,7 +9,7 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Client.ConsoleClient.Actions
 {
-    public class DataTypeParallelAction : ParallelPacketHandler
+    public class DataTypeParallelAction : ParallelPacketAction
     {
         private readonly Dictionary<DataType, Type> _maps = new Dictionary<DataType, Type>()
         {

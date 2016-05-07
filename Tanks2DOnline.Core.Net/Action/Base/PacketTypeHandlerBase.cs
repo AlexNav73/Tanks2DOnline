@@ -1,11 +1,12 @@
 ﻿using Tanks2DOnline.Core.Net.DataTransfer;
+using Tanks2DOnline.Core.Net.Handle;
 using Tanks2DOnline.Core.Net.Handle.Interfaces;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
 
-namespace Tanks2DOnline.Core.Net.Handle.Base
+namespace Tanks2DOnline.Core.Net.Action.Base
 {
-    public abstract class PacketTypeHandlerBase
+    public abstract class PacketTypeActionBase
     {
         protected abstract bool IsSupported(PacketType type);
         protected abstract void Handle(Packet.Packet packet);
@@ -18,7 +19,7 @@ namespace Tanks2DOnline.Core.Net.Handle.Base
             Client = client;
         }
 
-        protected PacketTypeHandlerBase()
+        protected PacketTypeActionBase()
         {
             Handles = new HandleStorage();
         }

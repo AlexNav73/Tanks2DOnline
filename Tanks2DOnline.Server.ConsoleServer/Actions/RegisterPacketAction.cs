@@ -1,10 +1,11 @@
 ﻿using Tanks2DOnline.Core.Logging;
+using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.Handle.Base;
 using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Server.ConsoleServer.Actions
 {
-    public class RegisterPacketAction : PacketTypeHandlerBase
+    public class RegisterPacketAction : PacketTypeActionBase
     {
         protected override bool IsSupported(PacketType type)
         {
