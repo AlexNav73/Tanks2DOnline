@@ -2,7 +2,8 @@
 {
     public enum PacketType : byte
     {
-        Data,
+        State,
+        BigDataBatch,
         LogOn,
         LogOff,
         Register,

@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net.DataTransfer;
 
-namespace Tanks2DOnline.Server.ConsoleServer
+namespace Tanks2DOnline.Client.ConsoleClient
 {
-    public class ServerState : IUdpClientState
+    public class ClientState : IUdpClientState
     {
-        public UserMapCollection Users { get; set; }
         public UdpClient Client { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
             for (int i = 0; i < countOfPackets; i++)
             {
-                var packet = new Packet.Packet(i, (int)countOfPackets, type);
+                var packet = new Packet.Packet(i, (int)countOfPackets, type) { DataType = DataType.BigData };
 
                 var currentBatchSize = (double)(dataSize - (i * UdpPacketMaxSize)) / UdpPacketMaxSize;
                 var batchSize = currentBatchSize >= 1
@@ -37,8 +37,9 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
         public static object ExtractData(Type objType, List<Packet.Packet> packets)
         {
-            packets.Sort();
-            packets = packets.Distinct().ToList();
+            var cmp = new PacketComparer();
+            packets.Sort(cmp);
+            packets = packets.Distinct(cmp).ToList();
 
             int total = packets.First().Count;
 

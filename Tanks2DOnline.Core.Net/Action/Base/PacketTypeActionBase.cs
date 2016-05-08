@@ -8,15 +8,15 @@ namespace Tanks2DOnline.Core.Net.Action.Base
 {
     public abstract class PacketTypeActionBase
     {
-        protected abstract bool IsSupported(PacketType type);
+        protected abstract bool IsSupported(Packet.Packet packet);
         protected abstract void Handle(Packet.Packet packet);
 
         protected readonly HandleStorage Handles;
-        protected UdpClient Client;
+        protected IUdpClientState State;
 
-        public void SetClient(UdpClient client)
+        public void SetClient(IUdpClientState state)
         {
-            Client = client;
+            State = state;
         }
 
         protected PacketTypeActionBase()
@@ -32,7 +32,7 @@ namespace Tanks2DOnline.Core.Net.Action.Base
 
         public void Process(Packet.Packet packet)
         {
-            if (IsSupported(packet.Type))
+            if (IsSupported(packet))
                 Handle(packet);
         }
     }

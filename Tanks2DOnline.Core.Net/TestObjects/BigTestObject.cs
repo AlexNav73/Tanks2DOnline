@@ -20,12 +20,12 @@ namespace Tanks2DOnline.Core.Net.TestObjects
                 Bytes[i] = (byte) (j);
             }
 
-            Message = "Recived";
+            Message = "Hi, Bitch!!!!!";
         }
 
         public override DataType GetDataType()
         {
-            return DataType.FileBatch;
+            return DataType.BigData;
         }
     }
 }

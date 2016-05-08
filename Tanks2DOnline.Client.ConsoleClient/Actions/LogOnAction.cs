@@ -9,9 +9,9 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
     {
         public bool IsConnected { get; set; }
 
-        protected override bool IsSupported(PacketType type)
+        protected override bool IsSupported(Packet packet)
         {
-            return type == PacketType.LogOn;
+            return packet.Type == PacketType.LogOn;
         }
 
         protected override void Handle(Packet packet)

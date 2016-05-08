@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.Packet
@@ -27,16 +28,21 @@ namespace Tanks2DOnline.Core.Net.Packet
             return new Packet()
             {
                 Data = data,
-                Type = PacketType.Data,
+                Type = PacketType.State,
                 DataType = obj.GetDataType()
             };
         }
 
-        public static Packet RegisterAccept()
+        public static List<Packet> WrapBigObject<T>(T obj) where T : SerializableObjectBase
+        {
+            return DataHelper.SplitToPackets(obj, PacketType.State).ToList();
+        }
+
+        public static Packet TypedPacket(PacketType type)
         {
             return new Packet()
             {
-                Type = PacketType.LogOn
+                Type = type
             };
         }
     }

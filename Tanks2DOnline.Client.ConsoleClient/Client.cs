@@ -4,6 +4,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Tanks2DOnline.Client.ConsoleClient.Actions;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
+using Tanks2DOnline.Client.ConsoleClient.Handles;
+using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.DataTransfer;
 using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Core.Net.Packet;
@@ -21,17 +23,34 @@ namespace Tanks2DOnline.Client.ConsoleClient
 
         private readonly BlockingCollection<SerializableObjectBase> _sendingQueue = new BlockingCollection<SerializableObjectBase>();
 
-        private readonly LogOnAction _logOnAction;
+        private LogOnAction _logOnAction;
 
-        public Client(ClientConfiguration config, PacketManagerBuilder builder)
+        public Client(ClientConfiguration config)
         {
-            _logOnAction = new LogOnAction();
-            builder.AddAction(PacketType.LogOn, _logOnAction);
-            _udpClient = new UdpClient(builder);
+            _udpClient = new UdpClient(CreateBuilder(), CreateClientState());
             _udpClient.Bind(IPAddress.Any, config.Port);
 
             _config = config;
             _serverSocket = new IPEndPoint(IPAddress.Parse(config.ServerIP), config.ServerPort);
+        }
+
+        private PacketManagerBuilder CreateBuilder()
+        {
+            _logOnAction = new LogOnAction();
+            var builder = new PacketManagerBuilder();
+
+            builder.AddAction(PacketType.State, new DataTypeParallelAction())
+                .AddHandle(DataType.State, new SmallObjectProcessHandle());
+            builder.AddAction(PacketType.LogOn, _logOnAction);
+            builder.AddAction(PacketType.BigDataBatch, new BigDataParallelAction())
+                .AddHandle(DataType.BigData, new BigObjectProcessHandle());
+
+            return builder;
+        }
+
+        private ClientState CreateClientState()
+        {
+            return new ClientState();
         }
 
         public void Start(string userName, Action work)
@@ -50,6 +69,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 Task.Factory.StartNew(ReceivingLoop);
                 work();
             }
+            else LogManager.Info("Connection failed.");
         }
 
         private void SendingLoop()
@@ -82,5 +102,8 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 _udpClient.Dispose();
             }
         }
+
+        ~Client() { this.Dispose(); }
+
     }
 }

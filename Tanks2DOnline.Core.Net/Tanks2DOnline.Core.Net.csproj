@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTransfer\IUdpClientState.cs" />
     <Compile Include="DataTransfer\PacketManager.cs" />
     <Compile Include="DataTransfer\UdpClient.cs" />
     <Compile Include="Handle\Base\OnReceiveHandler.cs" />
@@ -52,7 +53,6 @@
     <Compile Include="TestObjects\BigTestObject.cs" />
     <Compile Include="Packet\Packet.cs" />
     <Compile Include="Packet\PacketType.cs" />
-    <Compile Include="DataTransfer\Base\PacketTransferWithApproval.cs" />
     <Compile Include="DataTransfer\DataHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataTransfer\Base\UdpSocket.cs" />

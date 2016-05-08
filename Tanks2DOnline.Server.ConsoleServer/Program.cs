@@ -17,13 +17,8 @@ namespace Tanks2DOnline.Server.ConsoleServer
             var configProvider = new ConfigurationProvider();
 
             var factory = new ConfigurationFactory(new ServerParams(paramsProvider), configProvider);
-            var builder = new PacketManagerBuilder();
 
-            var users = new UserMapCollection();
-            builder.AddAction(PacketType.LogOn, new RegisterPacketAction(users));
-            builder.AddAction(PacketType.Data, new DataPacketAction(users));
-
-            using(var server = new Server(factory.Create<ServerConfiguration>(), builder))
+            using(var server = new Server(factory.Create<ServerConfiguration>()))
                 server.Listen();
         }
     }

@@ -13,10 +13,10 @@ namespace Tanks2DOnline.Core.Net.DataTransfer.Builder
             return _manager.AddAction(type, action);
         }
 
-        public PacketManager Build(UdpClient client)
+        public PacketManager Build(IUdpClientState state)
         {
             foreach (var action in _manager)
-                action.Value.SetClient(client);
+                action.Value.SetClient(state);
             return _manager;
         }
     }

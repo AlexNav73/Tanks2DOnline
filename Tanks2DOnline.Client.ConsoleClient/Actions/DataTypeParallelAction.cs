@@ -16,9 +16,9 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
             {DataType.State, typeof(SmallTestObject)}
         }; 
 
-        protected override bool IsSupported(PacketType type)
+        protected override bool IsSupported(Packet packet)
         {
-            return type == PacketType.Data;
+            return packet.Type == PacketType.State;
         }
 
         protected override void HandleAsync(Packet packet)

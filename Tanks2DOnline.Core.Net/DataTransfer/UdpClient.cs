@@ -10,9 +10,11 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
     {
         private readonly PacketManager _manager;
 
-        public UdpClient(PacketManagerBuilder builder)
+        public UdpClient(PacketManagerBuilder builder, IUdpClientState state)
         {
-            _manager = builder.Build(this);
+            state.Client = this;
+            _manager = builder.Build(state);
+
             Init(new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp));
         }
 

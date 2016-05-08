@@ -4,6 +4,6 @@
     {
         Packet,
         State,
-        FileBatch
+        BigData
     }
 }

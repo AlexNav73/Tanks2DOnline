@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text;
 using Tanks2DOnline.Core.Serialization;
 using Tanks2DOnline.Core.Serialization.Attributes;
@@ -44,6 +46,26 @@ namespace Tanks2DOnline.Core.Net.Packet
             {
                 UserName = Encoding.ASCII.GetString(Data);
             }
+        }
+    }
+
+    public class PacketComparer : IComparer<Packet>, IEqualityComparer<Packet>
+    {
+        public int Compare(Packet x, Packet y)
+        {
+            return x.Id.CompareTo(y.Id);
+        }
+
+        public bool Equals(Packet x, Packet y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(Packet obj)
+        {
+            return obj.Address != null
+                ? obj.Address.GetHashCode()
+                : obj.UserName != null ? obj.UserName.GetHashCode() : obj.Data.GetHashCode();
         }
     }
 }

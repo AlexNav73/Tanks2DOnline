@@ -42,13 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\BigDataParallelAction.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="ClientState.cs" />
     <Compile Include="Configuration\ClientParams.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\Creators\ClientConfigurationCreator.cs" />
     <Compile Include="Configuration\Providers\ConfigurationProvider.cs" />
     <Compile Include="Actions\DataTypeParallelAction.cs" />
     <Compile Include="Actions\LogOnAction.cs" />
+    <Compile Include="Handles\BigObjectProcessHandle.cs" />
     <Compile Include="Handles\SmallObjectProcessHandle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Collections.Base;
@@ -28,6 +29,13 @@ namespace Tanks2DOnline.Server.ConsoleServer
             return result;
         }
 
+        public List<IPEndPoint> GetAll()
+        {
+            var result = new List<IPEndPoint>();
+            GetAll(result, (LinkedObject)Root.Left);
+            return result;
+        }
+
         private void GetAllExcept(List<IPEndPoint> result, LinkedObject root, IPEndPoint remote)
         {
             if (root != null)
@@ -35,6 +43,16 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 if (!root.Equals(remote)) result.Add(root.Link);
                 GetAllExcept(result, (LinkedObject)root.Left, remote);
                 GetAllExcept(result, (LinkedObject)root.Right, remote);
+            }
+        }
+
+        private void GetAll(List<IPEndPoint> result, LinkedObject root)
+        {
+            if (root != null)
+            {
+                result.Add(root.Link);
+                GetAll(result, (LinkedObject)root.Left);
+                GetAll(result, (LinkedObject)root.Right);
             }
         }
     }
