@@ -4,11 +4,11 @@ using Tanks2DOnline.Core.Net.TestObjects;
 
 namespace Tanks2DOnline.Client.ConsoleClient.Handles
 {
-    public class SmallObjectProcessHandle : OnReceiveHandler<SmallTestObject>
+    public class SmallObjectProcessHandle : HandlerBase<SmallTestObject>
     {
         public override void Process(SmallTestObject obj)
         {
-            LogManager.Info("SmallTestObject: {0}", obj.Message);
+            LogManager.Warn("SmallTestObject: {0}", obj.Message);
         }
     }
 }

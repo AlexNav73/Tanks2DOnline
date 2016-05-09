@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.Action.Base;
-using Tanks2DOnline.Core.Net.DataTransfer;
+using Tanks2DOnline.Core.Net.Helpers;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Client.ConsoleClient.Actions
 {
-    public class BigDataParallelAction : ParallelPacketAction
+    public class BigDataParallelAction : ParallelActionBase
     {
         private readonly List<Packet> _buffer = new List<Packet>(); 
         private readonly HashSet<int> _uniqIds = new HashSet<int>(); 

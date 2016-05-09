@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using NLog.LayoutRenderers;
 
 namespace Tanks2DOnline.Core.Logging
 {
@@ -57,6 +58,20 @@ namespace Tanks2DOnline.Core.Logging
             Argument.IsNull(text, "text");
 
             _logger.Info(text);
+        }
+
+        public static void Warn(string text)
+        {
+            Argument.IsNull(text, "text");
+
+            _logger.Warn(text);
+        }
+
+        public static void Warn(string templ, params object[] args)
+        {
+            Argument.IsNull(templ, "template");
+
+            Warn(string.Format(templ, args));
         }
     }
 }

@@ -5,7 +5,7 @@ using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Client.ConsoleClient.Actions
 {
-    public class LogOnAction : PacketTypeActionBase
+    public class LogOnAction : ActionBase
     {
         public bool IsConnected { get; set; }
 

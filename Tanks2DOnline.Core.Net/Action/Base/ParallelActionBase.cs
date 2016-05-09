@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace Tanks2DOnline.Core.Net.Action.Base
 {
-    public abstract class ParallelPacketAction : PacketTypeActionBase
+    public abstract class ParallelActionBase : ActionBase
     {
         private static readonly BlockingCollection<Packet.Packet> ReceivingQueue = new BlockingCollection<Packet.Packet>();
 
-        protected ParallelPacketAction()
+        protected ParallelActionBase()
         {
             Task.Factory.StartNew(ProcessingLoop);
         }

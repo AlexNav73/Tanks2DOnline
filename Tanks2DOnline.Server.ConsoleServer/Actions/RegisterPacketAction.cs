@@ -6,7 +6,7 @@ using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Server.ConsoleServer.Actions
 {
-    public class RegisterPacketAction : PacketTypeActionBase
+    public class RegisterPacketAction : ActionBase
     {
         private ServerState _state;
         private readonly ConcurrentQueue<IPEndPoint> _queue;

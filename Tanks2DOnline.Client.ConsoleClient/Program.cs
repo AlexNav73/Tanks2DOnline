@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using Tanks2DOnline.Client.ConsoleClient.Actions;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Client.ConsoleClient.Configuration.Providers;
-using Tanks2DOnline.Client.ConsoleClient.Handles;
 using Tanks2DOnline.Core.Factory;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.DataTransfer.Builder;
-using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Core.Providers.Implementations;
-using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Client.ConsoleClient
 {

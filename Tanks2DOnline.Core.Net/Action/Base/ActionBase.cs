@@ -6,12 +6,12 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Core.Net.Action.Base
 {
-    public abstract class PacketTypeActionBase
+    public abstract class ActionBase
     {
         protected abstract bool IsSupported(Packet.Packet packet);
         protected abstract void Handle(Packet.Packet packet);
 
-        protected readonly HandleStorage Handles;
+        protected readonly HandleManager Handles;
         protected IUdpClientState State;
 
         public void SetClient(IUdpClientState state)
@@ -19,12 +19,12 @@ namespace Tanks2DOnline.Core.Net.Action.Base
             State = state;
         }
 
-        protected PacketTypeActionBase()
+        protected ActionBase()
         {
-            Handles = new HandleStorage();
+            Handles = new HandleManager();
         }
 
-        public HandleStorage AddHandle(DataType type, IHandler handler)
+        public HandleManager AddHandle(DataType type, IHandler handler)
         {
             Handles.AddHandle(type, handler);
             return Handles;

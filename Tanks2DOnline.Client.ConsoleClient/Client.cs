@@ -6,8 +6,8 @@ using Tanks2DOnline.Client.ConsoleClient.Actions;
 using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Client.ConsoleClient.Handles;
 using Tanks2DOnline.Core.Logging;
+using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.DataTransfer;
-using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
 
@@ -34,10 +34,10 @@ namespace Tanks2DOnline.Client.ConsoleClient
             _serverSocket = new IPEndPoint(IPAddress.Parse(config.ServerIP), config.ServerPort);
         }
 
-        private PacketManagerBuilder CreateBuilder()
+        private ActionManagerBuilder CreateBuilder()
         {
             _logOnAction = new LogOnAction();
-            var builder = new PacketManagerBuilder();
+            var builder = new ActionManagerBuilder();
 
             builder.AddAction(PacketType.State, new DataTypeParallelAction())
                 .AddHandle(DataType.State, new SmallObjectProcessHandle());

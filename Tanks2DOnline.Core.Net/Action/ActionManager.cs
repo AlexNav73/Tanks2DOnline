@@ -2,11 +2,11 @@
 using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.Packet;
 
-namespace Tanks2DOnline.Core.Net.DataTransfer
+namespace Tanks2DOnline.Core.Net.Action
 {
-    public class PacketManager : Flyweight<PacketType, PacketTypeActionBase>
+    public class ActionManager : Flyweight<PacketType, ActionBase>
     {
-        public PacketTypeActionBase AddAction(PacketType type, PacketTypeActionBase action)
+        public ActionBase AddAction(PacketType type, ActionBase action)
         {
             Add(type, action);
             return action;

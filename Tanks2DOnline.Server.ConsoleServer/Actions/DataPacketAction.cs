@@ -11,7 +11,7 @@ using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Server.ConsoleServer.Actions
 {
-    public class DataPacketAction : ParallelPacketAction
+    public class DataPacketAction : ParallelActionBase
     {
         private ServerState _state;
 

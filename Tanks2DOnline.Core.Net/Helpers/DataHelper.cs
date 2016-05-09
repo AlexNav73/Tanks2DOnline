@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
 
-namespace Tanks2DOnline.Core.Net.DataTransfer
+namespace Tanks2DOnline.Core.Net.Helpers
 {
     public static class DataHelper
     {

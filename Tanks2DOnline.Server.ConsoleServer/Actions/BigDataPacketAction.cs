@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Net;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.Packet;
-using Tanks2DOnline.Core.Serialization;
 
 namespace Tanks2DOnline.Server.ConsoleServer.Actions
 {
-    public class BigDataPacketAction : PacketTypeActionBase
+    public class BigDataPacketAction : ActionBase
     {
         private readonly ConcurrentQueue<IPEndPoint> _queue;
 
@@ -29,7 +22,6 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
 
         protected override void Handle(Packet packet)
         {
-            LogManager.Info("Received Accept responce from: {0}", packet.Address);
             _queue.Enqueue(packet.Address);
         }
     }

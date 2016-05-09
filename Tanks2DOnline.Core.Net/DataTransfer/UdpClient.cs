@@ -1,16 +1,16 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using Tanks2DOnline.Core.Net.Action;
+using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.DataTransfer.Base;
-using Tanks2DOnline.Core.Net.DataTransfer.Builder;
-using Tanks2DOnline.Core.Net.Handle.Interfaces;
 
 namespace Tanks2DOnline.Core.Net.DataTransfer
 {
     public class UdpClient : UdpSocket
     {
-        private readonly PacketManager _manager;
+        private readonly ActionManager _manager;
 
-        public UdpClient(PacketManagerBuilder builder, IUdpClientState state)
+        public UdpClient(ActionManagerBuilder builder, IUdpClientState state)
         {
             state.Client = this;
             _manager = builder.Build(state);

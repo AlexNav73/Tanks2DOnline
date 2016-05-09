@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Logging;
-using Tanks2DOnline.Core.Net.DataTransfer.Builder;
+using Tanks2DOnline.Core.Net.Action.Base;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
 using Tanks2DOnline.Server.ConsoleServer.Actions;
@@ -33,9 +33,9 @@ namespace Tanks2DOnline.Server.ConsoleServer
             _udpClient.Bind(IPAddress.Any, config.Port);
         }
 
-        private PacketManagerBuilder CreateBuilder(ConcurrentQueue<IPEndPoint> queue)
+        private ActionManagerBuilder CreateBuilder(ConcurrentQueue<IPEndPoint> queue)
         {
-            var builder = new PacketManagerBuilder();
+            var builder = new ActionManagerBuilder();
 
             builder.AddAction(PacketType.LogOn, new RegisterPacketAction(queue));
             builder.AddAction(PacketType.State, new DataPacketAction());
@@ -74,7 +74,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
 
             while (true)
             {
-                Thread.Sleep(10000);
+//                Thread.Sleep(10000);
                 LogManager.Info("Start sending big data ...");
                 _sender.Send(new BigTestObject(), _users.GetAll());
                 LogManager.Info("Big object sended");
