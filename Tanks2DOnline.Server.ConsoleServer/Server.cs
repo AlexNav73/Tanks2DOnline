@@ -74,7 +74,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
 
             while (true)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
                 LogManager.Info("Start sending big data ...");
                 _sender.Send(new BigTestObject(), _users.GetAll());
                 LogManager.Info("Big object sended");

@@ -29,12 +29,12 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
 
         protected override void HandleAsync(Packet packet)
         {
-            if (_uniqIds.Contains(packet.Id)) return;
+            if (_uniqIds.Contains(packet.Id + 1)) return;
 
             LogManager.Info("BigData packet received. Id: {0}", packet.Id);
 
             _buffer.Add(packet);
-            _uniqIds.Add(packet.Id);
+            _uniqIds.Add(packet.Id + 1);
 
             State.Client.Send(PacketFactory.TypedPacket(PacketType.PacketAcceptRequest), packet.Address);
             if (_buffer.Count == packet.Count)

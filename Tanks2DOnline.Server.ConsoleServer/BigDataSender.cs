@@ -46,12 +46,13 @@ namespace Tanks2DOnline.Server.ConsoleServer
             recipients.Select((v, i) => new { User = v, Index = i % _threadCount })
                 .GroupBy(v => v.Index)
                 .Select(g => g.Select(v => v.User).ToList())
-                .ForEach(v => CreateSendGroup(packets, v));
+                .Select(v => CreateSendGroup(packets, v))
+                .ForEach(t => t.Wait());
         }
 
-        private void CreateSendGroup(List<Packet> packets, List<IPEndPoint> users)
+        private Task CreateSendGroup(List<Packet> packets, List<IPEndPoint> users)
         {
-            ThreadPool.QueueUserWorkItem(SendWork, new ThreadState()
+            return Task.Factory.StartNew(SendWork, new ThreadState()
             {
                 Packets = packets, 
                 Users = users,
@@ -67,12 +68,15 @@ namespace Tanks2DOnline.Server.ConsoleServer
             var users = state.Users;
             var client = state.Client;
 
-            var cursors = users.Select(u => new UserSendState() {Cursor = 0, User = u}).ToList();
+            var cursors = users.Select(u => new UserSendState() { Cursor = 0, User = u }).ToList();
             var cursorsCount = cursors.Count;
+            IPEndPoint user;
+
+            while (_userWichRecvedData.Count > 0)
+                _userWichRecvedData.TryDequeue(out user);
 
             while (cursorsCount > 0)
             {
-                IPEndPoint user;
                 if (_userWichRecvedData.TryDequeue(out user))
                     cursorsCount += MoveCursor(cursors, user, packets.Count);
 
@@ -80,30 +84,25 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 {
                     var packet = packets[cursors[i].Cursor];
                     client.Send(packet, cursors[i].User);
-                    LogManager.Info("Packet with Id: {0} sended", packet.Id);
+                    LogManager.Info("Packet with Id: {0} sended to User: {1}", packet.Id, cursors[i].User);
                 }
             }
         }
 
         private int MoveCursor(List<UserSendState> cursors, IPEndPoint user, int messageLength)
         {
-            var userIndex = -1;
             for (int i = 0; i < cursors.Count; i++)
             {
                 if (cursors[i].User.Equals(user))
                 {
-                    userIndex = i;
-                    break;
+                    cursors[i].Cursor += 1;
+                    var sendCompleted = cursors[i].Cursor == messageLength;
+                    if (sendCompleted) cursors.RemoveAt(i);
+
+                    return sendCompleted ? -1 : 0;
                 }
             }
-            if (userIndex != -1)
-            {
-                cursors[userIndex].Cursor += 1;
-                var sendCompleted = cursors[userIndex].Cursor == messageLength;
-                if (sendCompleted) cursors.RemoveAt(userIndex);
-
-                return sendCompleted ? -1 : 0;
-            }
+            LogManager.Info("User with address {0} join delivering", user);
             cursors.Add(new UserSendState() { Cursor = 0, User = user });
             return 1;
         }

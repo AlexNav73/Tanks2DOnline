@@ -6,6 +6,7 @@ using Tanks2DOnline.Client.ConsoleClient.Configuration;
 using Tanks2DOnline.Client.ConsoleClient.Configuration.Providers;
 using Tanks2DOnline.Client.ConsoleClient.Handles;
 using Tanks2DOnline.Core.Factory;
+using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.DataTransfer.Builder;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Net.TestObjects;
@@ -26,6 +27,8 @@ namespace Tanks2DOnline.Client.ConsoleClient
 
             var clientConfig = configFactory.Create<ClientConfiguration>();
             clientConfig.Port = rand.Next()%1000 + 25000;
+
+            LogManager.Info("Address is : 127.0.0.1:{0}", clientConfig.Port);
 
             var client = new Client(clientConfig);
 

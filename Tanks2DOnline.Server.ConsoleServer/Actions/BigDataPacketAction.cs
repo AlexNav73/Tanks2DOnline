@@ -29,6 +29,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
 
         protected override void Handle(Packet packet)
         {
+            LogManager.Info("Received Accept responce from: {0}", packet.Address);
             _queue.Enqueue(packet.Address);
         }
     }

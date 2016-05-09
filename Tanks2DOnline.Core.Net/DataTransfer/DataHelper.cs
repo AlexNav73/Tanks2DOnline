@@ -37,11 +37,8 @@ namespace Tanks2DOnline.Core.Net.DataTransfer
 
         public static object ExtractData(Type objType, List<Packet.Packet> packets)
         {
-            var cmp = new PacketComparer();
-            packets.Sort(cmp);
-            packets = packets.Distinct(cmp).ToList();
-
-            int total = packets.First().Count;
+            packets.Sort(new PacketComparer());
+            int total = packets[0].Count;
 
             if (total != packets.Count) return null;
             if (!ValidatePacketSeq(packets)) return null;
