@@ -89,22 +89,24 @@ namespace Tanks2DOnline.Core.Collections.Base
                     Add((LinkedObject)root.Left, newNode);
                 else root.Left = newNode;
             }
+            else throw new InvalidOperationException(string.Format("Object {0} already exists", newNode.Link));
         }
 
         private void Add(DataObject root, DataObject newNode)
         {
-            if (Cmp(root.Data, newNode.Data) <= 0)
+            if (Cmp(root.Data, newNode.Data) < 0)
             {
                 if (root.Right != null)
                     Add((DataObject)root.Right, newNode);
                 else root.Right = newNode;
             }
-            else
+            else if (Cmp(root.Data, newNode.Data) > 0)
             {
                 if (root.Left != null)
                     Add((DataObject)root.Left, newNode);
                 else root.Left = newNode;
             }
+            else throw new InvalidOperationException(string.Format("Object {0} already exists", newNode.Data));
         }
 
         private Node FindNode(Node root, object item)

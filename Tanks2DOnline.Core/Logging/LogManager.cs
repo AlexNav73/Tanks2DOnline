@@ -46,6 +46,14 @@ namespace Tanks2DOnline.Core.Logging
             Error(string.Format(templ, args));
         }
 
+        public static void Error(Exception e, string templ, params object[] args)
+        {
+            Argument.IsNull(e, "e");
+            Argument.IsNull(templ, "template");
+            
+            _logger.Error(e, templ, args);
+        }
+
         public static void Info(string templ, params object[] args)
         {
             Argument.IsNull(templ, "template");

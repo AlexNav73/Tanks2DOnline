@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.Packet;
 using Tanks2DOnline.Core.Serialization;
 
@@ -34,11 +35,18 @@ namespace Tanks2DOnline.Core.Net.Helpers
 
         public static object ExtractData(Type objType, List<Packet.Packet> packets)
         {
-            packets.Sort(new PacketComparer());
             int total = packets[0].Count;
 
-            if (total != packets.Count) return null;
-            if (!ValidatePacketSeq(packets)) return null;
+            if (total != packets.Count)
+            {
+                LogManager.Warn("Can't extract data from packets, because not all packets recieved");
+                return null;
+            }
+            if (!ValidatePacketSeq(packets))
+            {
+                LogManager.Warn("Packet sequance is not valid");
+                return null;
+            }
 
             byte[] data = new byte[total * UdpPacketMaxSize];
 

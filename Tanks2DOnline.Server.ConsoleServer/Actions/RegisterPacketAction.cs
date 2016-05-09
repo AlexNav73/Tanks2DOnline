@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Net;
 using Tanks2DOnline.Core.Logging;
 using Tanks2DOnline.Core.Net.Action.Base;
@@ -27,10 +28,17 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
 
             LogManager.Info("User {0} with address {1} has logged on", packet.UserName, packet.Address);
 
-            _state.Users.Add(packet.UserName, packet.Address);
-            _queue.Enqueue(packet.Address);
+            try
+            {
+                _state.Users.Add(packet.UserName, packet.Address);
+                _queue.Enqueue(packet.Address);
 
-            State.Client.Send(PacketFactory.TypedPacket(PacketType.LogOn), packet.Address);
+                State.Client.Send(PacketFactory.TypedPacket(PacketType.LogOn), packet.Address);
+            }
+            catch (Exception e)
+            {
+                LogManager.Error(e, "Error occured in register handler: '{0}'", e.Message);
+            }
         }
     }
 }
