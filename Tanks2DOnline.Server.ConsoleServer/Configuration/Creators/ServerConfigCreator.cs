@@ -9,7 +9,8 @@ namespace Tanks2DOnline.Server.ConsoleServer.Configuration.Creators
         {
             return new ServerConfiguration()
             {
-                Port = prms.GetValue<int>(ServerParams.Port)
+                Port = prms.GetValue<int>(ServerParams.Port),
+                SendBigDataDelay = prms.GetValue<int>(ServerParams.SendBigDataDelay)
             };
         }
     }

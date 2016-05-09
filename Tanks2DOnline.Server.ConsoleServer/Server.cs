@@ -17,20 +17,22 @@ namespace Tanks2DOnline.Server.ConsoleServer
     public class Server : IDisposable
     {
         private bool _isDisposed = false;
+        private readonly int _sendBigDataDelay;
+
         private readonly UdpClient _udpClient;
         private readonly BigDataSender _sender;
         private readonly UserMapCollection _users;
-        private readonly ConcurrentQueue<IPEndPoint> _queue; 
+        private readonly ConcurrentQueue<IPEndPoint> _queue;
 
         public Server(ServerConfiguration config)
         {
+            _sendBigDataDelay = config.SendBigDataDelay;
             _users = new UserMapCollection();
             _queue = new ConcurrentQueue<IPEndPoint>();
             _udpClient = new UdpClient(CreateBuilder(_queue), CreateServerState());
+            _udpClient.Bind(IPAddress.Any, config.Port);
 
             _sender = new BigDataSender(_udpClient, _queue);
-
-            _udpClient.Bind(IPAddress.Any, config.Port);
         }
 
         private ActionManagerBuilder CreateBuilder(ConcurrentQueue<IPEndPoint> queue)
@@ -74,7 +76,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
 
             while (true)
             {
-//                Thread.Sleep(10000);
+                Thread.Sleep(_sendBigDataDelay);
                 LogManager.Info("Start sending big data ...");
                 _sender.Send(new BigTestObject(), _users.GetAll());
                 LogManager.Info("Big object sended");

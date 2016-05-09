@@ -11,10 +11,12 @@ namespace Tanks2DOnline.Server.ConsoleServer.Configuration
     public class ServerParams : Params
     {
         public const string Port = "Port";
+        public const string SendBigDataDelay = "SendBigDataDelay";
 
         public ServerParams(IProvider<string, object> provider) : base(provider)
         {
             LoadValue(Port);
+            LoadValue(SendBigDataDelay);
         }
     }
 }

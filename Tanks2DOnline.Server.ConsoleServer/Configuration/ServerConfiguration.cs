@@ -9,5 +9,6 @@ namespace Tanks2DOnline.Server.ConsoleServer.Configuration
     public class ServerConfiguration
     {
         public int Port { get; set; }
+        public int SendBigDataDelay { get; set; }
     }
 }
