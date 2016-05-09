@@ -6,7 +6,7 @@ namespace Tanks2DOnline.Core.Net.TestObjects
     public class BigTestObject : SerializableObjectBase
     {
         [Mark] public byte[] Bytes { get; set; }
-        public string Message { get; set; }
+        [Mark] public string Message { get; set; }
 
         public BigTestObject()
         {
@@ -20,7 +20,12 @@ namespace Tanks2DOnline.Core.Net.TestObjects
                 Bytes[i] = (byte) (j);
             }
 
-            Message = "Hi, Bitch!!!!!";
+            Message = "Hello";
+        }
+
+        protected override void BeforeSerialization()
+        {
+            Message = "Before serialization message";
         }
 
         public override DataType GetDataType()
