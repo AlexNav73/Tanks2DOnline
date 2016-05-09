@@ -11,12 +11,12 @@ namespace Tanks2DOnline.Core.Net.Packet
 {
     public static class PacketFactory
     {
-        public static Packet CreateLogOnPacket(string userName)
+        public static Packet CreateRegistrationPacket(string userName)
         {
             return new Packet()
             {
                 Data = Encoding.ASCII.GetBytes(userName),
-                Type = PacketType.LogOn
+                Type = PacketType.Registration
             };
         }
 
@@ -36,7 +36,7 @@ namespace Tanks2DOnline.Core.Net.Packet
 
         public static List<Packet> WrapBigObject<T>(T obj) where T : SerializableObjectBase
         {
-            return DataHelper.SplitToPackets(obj, PacketType.State).ToList();
+            return DataHelper.SplitToPackets(obj, PacketType.BigDataBatch).ToList();
         }
 
         public static Packet TypedPacket(PacketType type)

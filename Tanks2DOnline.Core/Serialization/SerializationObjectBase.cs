@@ -1,16 +1,8 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-
 using Tanks2DOnline.Core.Extensions;
 using Tanks2DOnline.Core.Serialization.Attributes;
 

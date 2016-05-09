@@ -34,7 +34,7 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
             _buffer.Add(packet);
             _uniqIds.Add(packet.Id + 1);
 
-            State.Client.Send(PacketFactory.TypedPacket(PacketType.PacketAcceptRequest), packet.Address);
+            State.Client.Send(PacketFactory.TypedPacket(PacketType.PacketAcceptResponse), packet.Address);
             if (_buffer.Count == packet.Count)
             {
                 Handles[packet.DataType].Process(DataHelper.ExtractData(_map[packet.DataType], _buffer));

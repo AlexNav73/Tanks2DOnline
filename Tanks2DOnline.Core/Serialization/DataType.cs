@@ -2,7 +2,6 @@
 {
     public enum DataType
     {
-        Packet,
         State,
         BigData
     }

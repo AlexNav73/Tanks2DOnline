@@ -17,7 +17,7 @@ namespace Tanks2DOnline.Core.Net.Helpers
 
             for (int i = 0; i < countOfPackets; i++)
             {
-                var packet = new Packet.Packet(i, (int)countOfPackets, type) { DataType = DataType.BigData };
+                var packet = new Packet.Packet(i, (int)countOfPackets, type) { DataType = item.GetDataType() };
 
                 var currentBatchSize = (double)(dataSize - (i * UdpPacketMaxSize)) / UdpPacketMaxSize;
                 var batchSize = currentBatchSize >= 1

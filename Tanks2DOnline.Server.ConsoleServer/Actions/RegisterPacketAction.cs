@@ -18,7 +18,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
 
         protected override bool IsSupported(Packet packet)
         {
-            return packet.Type == PacketType.LogOn;
+            return packet.Type == PacketType.Registration;
         }
 
         protected override void Handle(Packet packet)

@@ -39,9 +39,9 @@ namespace Tanks2DOnline.Server.ConsoleServer
         {
             var builder = new ActionManagerBuilder();
 
-            builder.AddAction(PacketType.LogOn, new RegisterPacketAction(queue));
+            builder.AddAction(PacketType.Registration, new RegisterPacketAction(queue));
             builder.AddAction(PacketType.State, new DataPacketAction());
-            builder.AddAction(PacketType.PacketAcceptRequest, new BigDataPacketAction(queue));
+            builder.AddAction(PacketType.PacketAcceptResponse, new BigDataPacketAction(queue));
 
             return builder;
         }

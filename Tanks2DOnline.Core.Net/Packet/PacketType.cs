@@ -5,8 +5,7 @@
         State,
         BigDataBatch,
         LogOn,
-        LogOff,
-        Register,
-        PacketAcceptRequest
+        Registration,
+        PacketAcceptResponse
     }
 }

@@ -17,7 +17,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
 
         protected override bool IsSupported(Packet packet)
         {
-            return packet.Type == PacketType.State && packet.DataType != DataType.BigData;
+            return packet.Type == PacketType.State;
         }
 
         protected override void HandleAsync(Packet packet)

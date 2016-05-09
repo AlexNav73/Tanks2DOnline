@@ -39,9 +39,9 @@ namespace Tanks2DOnline.Client.ConsoleClient
             _logOnAction = new LogOnAction();
             var builder = new ActionManagerBuilder();
 
+            builder.AddAction(PacketType.LogOn, _logOnAction);
             builder.AddAction(PacketType.State, new DataTypeParallelAction())
                 .AddHandle(DataType.State, new SmallObjectProcessHandle());
-            builder.AddAction(PacketType.LogOn, _logOnAction);
             builder.AddAction(PacketType.BigDataBatch, new BigDataParallelAction())
                 .AddHandle(DataType.BigData, new BigObjectProcessHandle());
 
@@ -57,7 +57,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
         {
             Task.Factory.StartNew(() =>
             {
-                _udpClient.Send(PacketFactory.CreateLogOnPacket(userName), _serverSocket);
+                _udpClient.Send(PacketFactory.CreateRegistrationPacket(userName), _serverSocket);
 
                 var remote = (EndPoint) new IPEndPoint(IPAddress.Any, 0);
                 _udpClient.Recv(ref remote);
