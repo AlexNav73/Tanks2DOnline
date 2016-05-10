@@ -6,7 +6,7 @@ using Tanks2DOnline.Core.Net.Packet;
 
 namespace Tanks2DOnline.Server.ConsoleServer.Actions
 {
-    public class BigDataPacketAction : ActionBase
+    public class BigDataPacketAction : ParallelActionBase
     {
         private readonly ConcurrentQueue<IPEndPoint> _queue;
 
@@ -20,7 +20,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
             return packet.Type == PacketType.PacketAcceptResponse;
         }
 
-        protected override void Handle(Packet packet)
+        protected override void HandleAsync(Packet packet)
         {
             _queue.Enqueue(packet.Address);
         }

@@ -1,7 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Tanks2DOnline.Core.Extensions;
 using Tanks2DOnline.Core.Logging;
@@ -40,10 +42,11 @@ namespace Tanks2DOnline.Server.ConsoleServer
         public void Send<T>(T obj, List<IPEndPoint> recipients) where T : SerializableObjectBase
         {
             var packets = DataHelper.SplitToPackets(obj, PacketType.BigDataBatch).ToList();
-            recipients.Select((v, i) => new { User = v, Index = i % _threadCount })
+
+            recipients.Select((v, i) => new { User = v, Index = i / _threadCount })
                 .GroupBy(v => v.Index)
                 .Select(g => g.Select(v => v.User).ToList())
-                .Select(v => CreateSendGroup(packets, v))
+                .Select(p => CreateSendGroup(packets, p))
                 .ForEach(t => t.Wait());
         }
 
@@ -60,12 +63,9 @@ namespace Tanks2DOnline.Server.ConsoleServer
         private void SendWork(object s)
         {
             var state = (ThreadState) s;
-
             var packets = state.Packets;
-            var users = state.Users;
-            var client = state.Client;
 
-            var cursors = users.Select(u => new UserSendState() { Cursor = 0, User = u }).ToList();
+            var cursors = state.Users.Select(u => new UserSendState() { Cursor = 0, User = u }).ToList();
             var cursorsCount = cursors.Count;
             IPEndPoint user;
 
@@ -74,14 +74,15 @@ namespace Tanks2DOnline.Server.ConsoleServer
 
             while (cursorsCount > 0)
             {
-                if (_userWichRecvedData.TryDequeue(out user))
+                while (_userWichRecvedData.TryDequeue(out user))
                     cursorsCount += MoveCursor(cursors, user, packets.Count);
 
                 for (int i = 0; i < cursors.Count; i++)
                 {
                     var packet = packets[cursors[i].Cursor];
-                    client.Send(packet, cursors[i].User);
-                    LogManager.Info("Packet with Id: {0} sended to User: {1}", packet.Id, cursors[i].User);
+                    state.Client.Send(packet, cursors[i].User);
+                    LogManager.Debug("Packet with Id: {0} sended to User: {1}", packet.Id, cursors[i].User);
+//                    Thread.Sleep(100);
                 }
             }
         }

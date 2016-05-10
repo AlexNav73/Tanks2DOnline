@@ -40,7 +40,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var builder = new ActionManagerBuilder();
 
             builder.AddAction(PacketType.LogOn, _logOnAction);
-            builder.AddAction(PacketType.State, new DataTypeParallelAction())
+            builder.AddAction(PacketType.State, new StateParallelAction())
                 .AddHandle(DataType.State, new SmallObjectProcessHandle());
             builder.AddAction(PacketType.BigDataBatch, new BigDataParallelAction())
                 .AddHandle(DataType.BigData, new BigObjectProcessHandle());
@@ -69,7 +69,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
                 Task.Factory.StartNew(ReceivingLoop);
                 work();
             }
-            else LogManager.Info("Connection failed.");
+            else LogManager.Error("Connection failed.");
         }
 
         private void SendingLoop()
@@ -85,7 +85,14 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var remote = (EndPoint)new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
-                _udpClient.Recv(ref remote);
+                try
+                {
+                    _udpClient.Recv(ref remote);
+                }
+                catch (Exception e)
+                {
+                    LogManager.Error(e, "Error occured while receiving data: {0}", e.Message);
+                }
             }
         }
 

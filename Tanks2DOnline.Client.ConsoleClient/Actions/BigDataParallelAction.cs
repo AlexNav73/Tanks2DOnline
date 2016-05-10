@@ -25,16 +25,16 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
 
         protected override void HandleAsync(Packet packet)
         {
+//            LogManager.Debug("BigData packet received. Id: {0}", packet.Id);
+            State.Client.Send(PacketFactory.TypedPacket(PacketType.PacketAcceptResponse), packet.Address);
+
             if (_uniqIds.Contains(packet.Id + 1)) return; // + 1 needs, because clean HasSet contains default values of int
                                                           // and packet id starts from 0. This means, empty HashSet always
                                                           // contains packet id 0, this is not good.
 
-//            LogManager.Info("BigData packet received. Id: {0}", packet.Id);
-
             _buffer.Add(packet);
             _uniqIds.Add(packet.Id + 1);
 
-            State.Client.Send(PacketFactory.TypedPacket(PacketType.PacketAcceptResponse), packet.Address);
             if (_buffer.Count == packet.Count)
             {
                 Handles[packet.DataType].Process(DataHelper.ExtractData(_map[packet.DataType], _buffer));

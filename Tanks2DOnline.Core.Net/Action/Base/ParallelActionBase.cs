@@ -20,6 +20,7 @@ namespace Tanks2DOnline.Core.Net.Action.Base
             {
                 if (IsSupported(packet))
                     HandleAsync(packet);
+                else ReceivingQueue.Add(packet);
             }
         }
 

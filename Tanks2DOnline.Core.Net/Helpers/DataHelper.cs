@@ -9,6 +9,7 @@ namespace Tanks2DOnline.Core.Net.Helpers
     public static class DataHelper
     {
         private const long UdpPacketMaxSize = SerializableObjectBase.UdpPacketMaxSize;
+        private static readonly PacketComparer _comparer = new PacketComparer();
 
         public static IEnumerable<Packet.Packet> SplitToPackets<T>(T item, PacketType type) where T : SerializableObjectBase
         {
@@ -36,6 +37,7 @@ namespace Tanks2DOnline.Core.Net.Helpers
         public static object ExtractData(Type objType, List<Packet.Packet> packets)
         {
             int total = packets[0].Count;
+            packets.Sort(_comparer);
 
             if (total != packets.Count)
             {

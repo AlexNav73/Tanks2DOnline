@@ -8,7 +8,7 @@ namespace Tanks2DOnline.Client.ConsoleClient.Handles
     {
         public override void Process(SmallTestObject obj)
         {
-            LogManager.Warn("SmallTestObject: {0}", obj.Message);
+            LogManager.Info("SmallTestObject: {0}", obj.Message);
         }
     }
 }

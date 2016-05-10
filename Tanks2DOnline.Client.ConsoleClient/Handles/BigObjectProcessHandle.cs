@@ -8,7 +8,7 @@ namespace Tanks2DOnline.Client.ConsoleClient.Handles
     {
         public override void Process(BigTestObject obj)
         {
-            LogManager.Warn("BigData received. {0}", obj.Message);
+            LogManager.Info("BigData received. {0}", obj.Message);
         }
     }
 }

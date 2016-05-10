@@ -22,7 +22,7 @@ namespace Tanks2DOnline.Client.ConsoleClient
             var clientConfig = configFactory.Create<ClientConfiguration>();
             clientConfig.Port = rand.Next()%1000 + 25000;
 
-            LogManager.Info("Address is : 127.0.0.1:{0}", clientConfig.Port);
+            LogManager.Debug("Address is : 127.0.0.1:{0}", clientConfig.Port);
 
             var client = new Client(clientConfig);
 

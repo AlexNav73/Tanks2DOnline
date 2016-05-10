@@ -26,7 +26,7 @@ namespace Tanks2DOnline.Server.ConsoleServer.Actions
 
             foreach (var endPoint in _state.Users.GetAllExcept(packet.Address))
             {
-                LogManager.Info("Packet from {0} redirected to {1}", packet.UserName, endPoint);
+                LogManager.Debug("Packet from {0} redirected to {1}", packet.UserName, endPoint);
                 _state.Client.Send(packet, endPoint);
             }
         }
