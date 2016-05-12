@@ -50,16 +50,17 @@ namespace Tanks2DOnline.Core.Collections.Base
         protected abstract int Cmp(TObject lhs, TObject rhs);
         protected abstract int Cmp(TLink lhs, TLink rhs);
 
-        public void Add(TObject item, TLink linkItem)
+        public virtual void Add(TObject item, TLink linkItem)
         {
-            var dataObject = new DataObject();
-            var linkedObject = new LinkedObject();
+            var dataObject = new DataObject() {Data = item};
+            var linkedObject = new LinkedObject() {Link = linkItem};
+            Add(dataObject, linkedObject);
+        }
 
-            dataObject.Data = item;
+        protected virtual void Add(DataObject dataObject, LinkedObject linkedObject)
+        {
             dataObject.Link = linkedObject;
-
             linkedObject.Data = dataObject;
-            linkedObject.Link = linkItem;
 
             lock (Root)
             {
@@ -135,6 +136,22 @@ namespace Tanks2DOnline.Core.Collections.Base
             {
                 var tmp = (LinkedObject)FindNode(Root.Left, item);
                 return ((DataObject)tmp.Data).Data;
+            }
+        }
+
+        protected DataObject GetData(TObject item)
+        {
+            lock (Root)
+            {
+                return (DataObject)FindNode(Root.Right, item);
+            }
+        }
+
+        protected LinkedObject GetLink(TLink item)
+        {
+            lock (Root)
+            {
+                return (LinkedObject)FindNode(Root.Left, item);
             }
         }
     }

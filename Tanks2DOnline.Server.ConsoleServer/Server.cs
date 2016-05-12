@@ -31,7 +31,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             _queue = new ConcurrentQueue<IPEndPoint>();
             _udpClient = new UdpClient(CreateBuilder(_queue), CreateServerState());
 
-            _sender = new BigDataSender(_udpClient, _queue);
+            _sender = new BigDataSender(_udpClient, _users, _queue);
             _udpClient.Bind(IPAddress.Any, config.Port);
         }
 
@@ -64,7 +64,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 }
                 catch (SocketException e)
                 {
-                    LogManager.Warn("User has quit, but not log off.");
+                    LogManager.Warn("User disconnected");
                 }
             }
         }
