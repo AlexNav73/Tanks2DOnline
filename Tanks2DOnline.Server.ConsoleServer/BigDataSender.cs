@@ -41,7 +41,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             UserMapCollection users,
             ConcurrentQueue<IPEndPoint> acceptanceQueue, 
             int threadCount = 5,
-            int maxRetryCount = 5)
+            int maxRetryCount = 20)
         {
             _threadCount = threadCount;
             _sender = sender;
@@ -95,7 +95,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                     var packet = packets[cursors[i].Cursor];
                     state.Client.Send(packet, cursors[i].User);
                     LogManager.Debug("Packet with Id: {0} sended to User: {1}", packet.Id, cursors[i].User);
-                    Thread.Sleep(100);
+//                    Thread.Sleep(1);
                 }
             }
         }
@@ -109,6 +109,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                     if (cursors[i].SendRetryCount > _maxRetryCount)
                     {
                         _users.DeleteUser(cursors[i].User);
+                        LogManager.Info("User was removed from delivering");
                         cursors.RemoveAt(i);
                         cursorsCount -= 1;
                         continue;
@@ -128,6 +129,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 {
                     cursors[i].Cursor += 1;
                     cursors[i].ResponseAccepted = true;
+                    cursors[i].SendRetryCount = 0;
                     var sendCompleted = cursors[i].Cursor == messageLength;
                     if (sendCompleted) cursors.RemoveAt(i);
 

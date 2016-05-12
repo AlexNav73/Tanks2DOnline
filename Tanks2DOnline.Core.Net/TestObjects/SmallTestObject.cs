@@ -19,8 +19,7 @@ namespace Tanks2DOnline.Core.Net.TestObjects
             return new SmallTestObject()
             {
                 Id = 6,
-                Double = 13.5,
-                Message = "Hi, bitch!"
+                Double = 13.5
             };
         }
 
