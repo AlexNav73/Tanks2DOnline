@@ -41,7 +41,7 @@ namespace Tanks2DOnline.Server.ConsoleServer
             UserMapCollection users,
             ConcurrentQueue<IPEndPoint> acceptanceQueue, 
             int threadCount = 5,
-            int maxRetryCount = 20)
+            int maxRetryCount = 50)
         {
             _threadCount = threadCount;
             _sender = sender;
@@ -94,8 +94,10 @@ namespace Tanks2DOnline.Server.ConsoleServer
                 {
                     var packet = packets[cursors[i].Cursor];
                     state.Client.Send(packet, cursors[i].User);
+#if (DEBUG)
                     LogManager.Debug("Packet with Id: {0} sended to User: {1}", packet.Id, cursors[i].User);
-//                    Thread.Sleep(1);
+                    Thread.Sleep(100);
+#endif
                 }
             }
         }

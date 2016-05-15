@@ -52,6 +52,7 @@
     <Compile Include="Actions\DataTypeParallelAction.cs" />
     <Compile Include="Actions\LogOnAction.cs" />
     <Compile Include="Handles\BigObjectProcessHandle.cs" />
+    <Compile Include="Handles\FileHandler.cs" />
     <Compile Include="Handles\SmallObjectProcessHandle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

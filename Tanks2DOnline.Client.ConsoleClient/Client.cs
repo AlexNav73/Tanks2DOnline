@@ -43,7 +43,8 @@ namespace Tanks2DOnline.Client.ConsoleClient
             builder.AddAction(PacketType.State, new StateParallelAction())
                 .AddHandle(DataType.State, new SmallObjectProcessHandle());
             builder.AddAction(PacketType.BigDataBatch, new BigDataParallelAction())
-                .AddHandle(DataType.BigData, new BigObjectProcessHandle());
+                .AddHandle(DataType.BigData, new BigObjectProcessHandle())
+                .AddHandle(DataType.Texture, new FileHandler());
 
             return builder;
         }

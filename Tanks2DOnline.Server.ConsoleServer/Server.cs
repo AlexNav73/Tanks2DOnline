@@ -72,13 +72,15 @@ namespace Tanks2DOnline.Server.ConsoleServer
         private void SendData()
         {
             IPEndPoint user;
-            while (!_queue.TryPeek(out user)) Thread.Sleep(10000);
+            while (!_queue.TryPeek(out user)) Thread.Sleep(1000);
+
+            var texture = new Texture("123.jpg");
 
             while (true)
             {
                 Thread.Sleep(_sendBigDataDelay);
                 LogManager.Info("Start sending big data ...");
-                _sender.Send(new BigTestObject(), _users.GetAll());
+                _sender.Send(texture, _users.GetAll());
                 LogManager.Info("Big object sended");
             }
         }

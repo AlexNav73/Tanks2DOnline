@@ -15,7 +15,8 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
         private readonly HashSet<int> _uniqIds = new HashSet<int>(); 
         private readonly Dictionary<DataType, Type> _map = new Dictionary<DataType, Type>()
         {
-            {DataType.BigData, typeof(BigTestObject)}
+            {DataType.BigData, typeof(BigTestObject)},
+            {DataType.Texture, typeof(Texture)}
         }; 
 
         protected override bool IsSupported(Packet packet)
@@ -25,7 +26,7 @@ namespace Tanks2DOnline.Client.ConsoleClient.Actions
 
         protected override void HandleAsync(Packet packet)
         {
-//            LogManager.Debug("BigData packet received. Id: {0}", packet.Id);
+            LogManager.Debug("BigData packet received. Id: {0}", packet.Id);
             State.Client.Send(PacketFactory.TypedPacket(PacketType.PacketAcceptResponse), packet.Address);
 
             if (_uniqIds.Contains(packet.Id + 1)) return; // + 1 needs, because clean HasSet contains default values of int
